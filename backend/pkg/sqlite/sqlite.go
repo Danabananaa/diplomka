@@ -1,15 +1,15 @@
 package sqlite
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 
-	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func Connect(path string) (*sqlx.DB, error) {
-	db, err := sqlx.Open("sqlite3", path)
+func Connect(path string) (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", path)
 	if err != nil {
 		return nil, err
 	}
