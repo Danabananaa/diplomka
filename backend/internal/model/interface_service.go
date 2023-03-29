@@ -6,3 +6,5 @@ type AuthSerivice interface {
 	LogIn()
 	Refresh()
 }
+
+type Analysis interface{}
