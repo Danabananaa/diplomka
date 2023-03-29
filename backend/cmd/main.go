@@ -2,11 +2,18 @@ package main
 
 import (
 	"log"
+	"net/http"
+	"time"
 
+	"diplomka/internal/handlers"
+	"diplomka/internal/repository"
+	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
+
+	"github.com/gorilla/mux"
 )
 
-// const port = "8080"
+const port = "8080"
 
 func main() {
 	db, err := sqlite.Connect("./test.db")
@@ -15,33 +22,26 @@ func main() {
 	}
 	defer db.Close()
 
-	// m, err := migrate.New()
+	uRepo := repository.NewUserRepo(db)
+	sRepo := repository.NewSessionRepo(db)
 
-	// err = database.RunMigrateScripts(db)
-	// if err != nil {
-	// 	log.Fatalf("Run migration error: %v", err)
-	// }
+	authS := service.NewAuthService(uRepo, sRepo)
 
-	// uRepo := repository.NewUserRepo(db)
-	// sRepo := repository.NewSessionRepo(db)
+	authH := handlers.NewAuthHandlers(authS)
 
-	// authS := service.NewAuthService(uRepo, sRepo)
+	r := mux.NewRouter()
 
-	// authH := handlers.NewAuthHandlers(authS)
+	r.HandleFunc("/login", authH.LogIn).Methods(http.MethodPost)
 
-	// r := mux.NewRouter()
+	server := http.Server{
+		Addr:         ":" + port,
+		Handler:      r,
+		WriteTimeout: 5 * time.Second,
+		ReadTimeout:  5 * time.Second,
+	}
 
-	// r.HandleFunc("/login", authH.LogIn).Methods(http.MethodPost)
+	log.Printf("Starting listener on http://localhost:%s", port)
 
-	// server := http.Server{
-	// 	Addr:         ":" + port,
-	// 	Handler:      r,
-	// 	WriteTimeout: 5 * time.Second,
-	// 	ReadTimeout:  5 * time.Second,
-	// }
-
-	// log.Printf("Starting listener on http://localhost:%s", port)
-
-	// err = server.ListenAndServe()
-	// log.Fatalf("Server error: %v", err)
+	err = server.ListenAndServe()
+	log.Fatalf("Server error: %v", err)
 }
