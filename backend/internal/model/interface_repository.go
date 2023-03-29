@@ -1,27 +1,13 @@
 package model
 
-type UserRepo interface{
-	ID int,
-	Name string,
+type UserRepo interface{}
 
-}
+type SessionRepo interface{}
 
-type SessionRepo interface{
+type SpendingRepo interface{}
 
-}
+type IncomeRepo interface{}
 
-type SpendingRepo interface{
+type SpendingTypeRepo interface{}
 
-}
-
-type IncomeRepo interface{
-
-}
-
-type SpendingTypeRepo interface{
-
-}
-
-type IncomeTypeRepo interface{
-
-}
+type IncomeTypeRepo interface{}
