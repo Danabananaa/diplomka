@@ -1,14 +1,13 @@
 package main
 
 import (
-	"log"
-	"net/http"
-	"time"
-
 	"diplomka/internal/handlers"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
+	"log"
+	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -30,13 +29,14 @@ func main() {
 	sRepo := repository.NewSessionRepo(db)
 
 	authS := service.NewAuthService(uRepo, sRepo)
-
+	midleH := handlers.NewMiddleware(authS)
 	authH := handlers.NewAuthHandlers(authS)
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/login", authH.LogIn).Methods(http.MethodPost)
 	r.HandleFunc("/signup", authH.SignUp).Methods(http.MethodPost)
+	r.HandleFunc("/login", authH.LogIn).Methods(http.MethodPost)
+	r.Use(midleH.PanicRecover, midleH.RequireAuthentication)
 
 	server := http.Server{
 		Addr:         ":" + port,

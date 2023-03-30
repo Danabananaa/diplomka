@@ -9,6 +9,7 @@ type UserRepo interface {
 
 type SessionRepo interface {
 	AddSession(ctx context.Context, session Session) error
+	IsSessionExist(ctx context.Context, session Session) (bool, error)
 }
 
 type SpendingRepo interface{}

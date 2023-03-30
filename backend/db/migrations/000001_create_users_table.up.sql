@@ -8,7 +8,7 @@ CREATE TABLE users(
 
 CREATE TABLE IF NOT EXISTS sessions(
   token primary key,
-  userid INTEGER NOT NULL,
+  userid INTEGER NOT NULL unique,
   FOREIGN key(userid) REFERENCES users(id) 
 );
 

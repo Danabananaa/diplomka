@@ -4,10 +4,12 @@ import (
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
 func (a *Auth) LogIn(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(345)
 	user := model.User{}
 
 	err := json.NewDecoder(r.Body).Decode(&user)

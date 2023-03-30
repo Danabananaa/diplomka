@@ -6,7 +6,7 @@ type AuthSerivice interface {
 	SignUp(context.Context, User) error
 	LogOut()
 	LogIn(ctx context.Context, email, password string) (string, error)
-	Refresh()
+	Refresh(ctr context.Context, token string) (string, error)
 }
 
 type Analysis interface{}
