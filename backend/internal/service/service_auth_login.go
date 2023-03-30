@@ -41,7 +41,7 @@ func (a *Auth) LogIn(ctx context.Context, email, password string) (string, error
 func generateJWT(name string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(10 * time.Minute)
+	claims["exp"] = time.Now().Add(1 * time.Hour)
 	claims["authorized"] = true
 	claims["user"] = name
 	tokenString, err := token.SignedString(sampleSecretKey)
