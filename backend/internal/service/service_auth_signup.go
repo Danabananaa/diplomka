@@ -2,9 +2,8 @@ package service
 
 import (
 	"context"
-	"fmt"
-
 	"diplomka/internal/model"
+	"fmt"
 )
 
 func (a *Auth) SignUp(ctx context.Context, user model.User) error {

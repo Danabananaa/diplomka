@@ -4,9 +4,12 @@ import "context"
 
 type UserRepo interface {
 	AddUser(context.Context, User) (*User, error)
+	GetUserforAuth(ctx context.Context, email, password string) (*User, error)
 }
 
-type SessionRepo interface{}
+type SessionRepo interface {
+	AddSession(ctx context.Context, session Session) error
+}
 
 type SpendingRepo interface{}
 

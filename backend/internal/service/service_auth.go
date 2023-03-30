@@ -7,7 +7,7 @@ type Auth struct {
 	model.SessionRepo
 }
 
-func NewAuthService(ur model.UserRepo, sr model.SessionRepo) model.AuthSerivice {
+func NewAuthService(ur model.UserRepo, sr model.SessionRepo) *Auth {
 	return &Auth{
 		UserRepo:    ur,
 		SessionRepo: sr,
