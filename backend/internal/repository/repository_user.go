@@ -3,9 +3,10 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"diplomka/internal/model"
 	"errors"
 	"fmt"
+
+	"diplomka/internal/model"
 
 	"github.com/jmoiron/sqlx"
 )

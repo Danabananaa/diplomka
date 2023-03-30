@@ -1,7 +1,9 @@
 package model
 
+import "context"
+
 type AuthSerivice interface {
-	SignUp()
+	SignUp(context.Context, User) error
 	LogOut()
 	LogIn()
 	Refresh()

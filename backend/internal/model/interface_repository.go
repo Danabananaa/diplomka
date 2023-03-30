@@ -1,6 +1,10 @@
 package model
 
-type UserRepo interface{}
+import "context"
+
+type UserRepo interface {
+	AddUser(context.Context, User) (*User, error)
+}
 
 type SessionRepo interface{}
 

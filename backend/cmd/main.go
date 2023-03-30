@@ -11,17 +11,21 @@ import (
 	"diplomka/pkg/sqlite"
 
 	"github.com/gorilla/mux"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 const port = "8080"
 
 func main() {
-	db, err := sqlite.Connect("./test.db")
+	db, err := sqlite.Connect("./db/data.db")
 	if err != nil {
 		log.Fatalf("db connect: %v", err)
 	}
-	defer db.Close()
 
+	defer db.Close()
+	if err := db.Ping(); err != nil {
+		log.Fatalln(err)
+	}
 	uRepo := repository.NewUserRepo(db)
 	sRepo := repository.NewSessionRepo(db)
 
@@ -32,6 +36,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/login", authH.LogIn).Methods(http.MethodPost)
+	r.HandleFunc("/signup", authH.SignUp).Methods(http.MethodPost)
 
 	server := http.Server{
 		Addr:         ":" + port,
