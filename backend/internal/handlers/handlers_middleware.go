@@ -28,13 +28,13 @@ func (m *Middleware) PanicRecover(next http.Handler) http.Handler {
 	})
 }
 
-func (m *Middleware) RequireAuthentication(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		token := r.Header.Get("Authorization")
-		_, err := m.AuthSerivice.Refresh(r.Context(), token)
-		if err != nil {
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			return
-		}
-	})
-}
+// func (m *Middleware) RequireAuthentication(next http.Handler) http.Handler {
+// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		token := r.Header.Get("Authorization")
+// 		_, err := m.AuthSerivice.Refresh(r.Context(), token)
+// 		if err != nil {
+// 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+// 			return
+// 		}
+// 	})
+// }

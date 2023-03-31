@@ -35,7 +35,7 @@ func main() {
 
 	r.HandleFunc("/signup", authH.SignUp).Methods(http.MethodPost)
 	r.HandleFunc("/login", authH.LogIn).Methods(http.MethodPost)
-	r.Use(midleH.PanicRecover, midleH.RequireAuthentication)
+	r.Use(midleH.PanicRecover)
 
 	server := http.Server{
 		Addr:         ":" + port,
