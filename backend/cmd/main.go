@@ -43,6 +43,8 @@ func main() {
 
 	r.HandleFunc("/signup", authHandlers.SignUp).Methods(http.MethodPost)
 	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
+
+	// для проверки
 	r.Handle("/", middlewareHandlers.RequireAuthentication(http.HandlerFunc(index))).Methods(http.MethodGet)
 	// r.HandleFunc("/spending/type", sH.AllSpendingTypes).Methods(http.MethodGet)
 

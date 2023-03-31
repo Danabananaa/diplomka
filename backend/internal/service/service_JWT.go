@@ -52,33 +52,19 @@ func (j *jwtService) Verification(signedToken string) error {
 }
 
 func keyFunc(token *jwt.Token) (interface{}, error) {
-	fmt.Printf("token.Claims: %v\n", token.Claims)
-	fmt.Printf("token.Header: %v\n", token.Header)
-	fmt.Printf("token.Method: %v\n", token.Method)
-	fmt.Printf("token.Raw: %v\n", token.Raw)
-	fmt.Printf("token.Signature: %v\n", token.Signature)
-	fmt.Printf("token.Valid: %v\n", token.Valid)
+	// fmt.Printf("token.Claims: %v\n", token.Claims)
+	// fmt.Printf("token.Header: %v\n", token.Header)
+	// fmt.Printf("token.Method: %v\n", token.Method)
+	// fmt.Printf("token.Raw: %v\n", token.Raw)
+	// fmt.Printf("token.Signature: %v\n", token.Signature)
+	// fmt.Printf("token.Valid: %v\n", token.Valid)
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 		return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 	}
 
+	// проверка токена будет писаться здесь
+	// проверка на время и другие значения
+	// посмотри какие значения находятся в токене
+
 	return sampleSecretKey, nil
 }
-
-// func GenerateJWT(email, role string) (string, error) {
-// 	mySigningKey := []byte(secretkey)
-// 	token := jwt.New(jwt.SigningMethodHS256)
-// 	claims := token.Claims.(jwt.MapClaims)
-
-// 	claims["authorized"] = true
-// 	claims["email"] = email
-// 	claims["role"] = role
-// 	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
-
-// 	tokenString, err := token.SignedString(mySigningKey)
-// 	if err != nil {
-// 		fmt.Errorf("Something Went Wrong: %s", err.Error())
-// 		return "", err
-// 	}
-// 	return tokenString, nil
-// }
