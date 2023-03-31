@@ -1,28 +1,34 @@
 package handlers
 
 import (
+	"encoding/json"
+	"net/http"
+
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
-	"encoding/json"
-	"fmt"
-	"net/http"
 )
 
-func (a *Auth) LogIn(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(345)
-	user := model.User{}
+func (a *auth) LogIn(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	auth := model.Authentication{}
 
-	err := json.NewDecoder(r.Body).Decode(&user)
+	err := json.NewDecoder(r.Body).Decode(&auth)
 	if err != nil {
 		log.Printf("json decode: %v", err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	token, err := a.AuthSerivice.LogIn(r.Context(), user.Email, user.Password)
+
+	token, err := a.AuthSerivice.LogIn(r.Context(), auth)
 	if err != nil {
 		log.Printf("login service: %v", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Add("Authorization", token)
+
+	err = json.NewEncoder(w).Encode(token)
+	if err != nil {
+		log.Println("encode: %v", err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	}
 }

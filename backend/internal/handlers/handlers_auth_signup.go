@@ -8,7 +8,7 @@ import (
 	"diplomka/pkg/log"
 )
 
-func (a *Auth) SignUp(w http.ResponseWriter, r *http.Request) {
+func (a *auth) SignUp(w http.ResponseWriter, r *http.Request) {
 	// w.Header().Set("Content-Type", "application/json")
 	user := model.User{}
 

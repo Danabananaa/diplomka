@@ -3,9 +3,10 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"diplomka/internal/model"
 	"errors"
 	"fmt"
+
+	"diplomka/internal/model"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -54,10 +55,10 @@ func (u *user) GetUser(ctx context.Context, id int) (*model.User, error) {
 	return x, nil
 }
 
-func (u *user) GetUserforAuth(ctx context.Context, email, password string) (*model.User, error) {
+func (u *user) GetUserforAuth(ctx context.Context, auth model.Authentication) (*model.User, error) {
 	x := model.User{}
 	query := `select * from users where email=? and password=?`
-	row := u.DB.QueryRowContext(ctx, query, email, password)
+	row := u.DB.QueryRowContext(ctx, query, auth.Email, auth.Password)
 	if err := row.Err(); err != nil {
 		return nil, fmt.Errorf("error was ocured during executing method QueryRowContext: %v", err)
 	}

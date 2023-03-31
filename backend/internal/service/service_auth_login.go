@@ -4,24 +4,18 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/golang-jwt/jwt/v5"
+	"diplomka/internal/model"
 )
 
-var sampleSecretKey = []byte("SecretYouShouldHide")
-
-type Claims struct {
-	Username string `json:"username"`
-	jwt.RegisteredClaims
-}
-
-func (a *Auth) LogIn(ctx context.Context, email, password string) (string, error) {
-	user, err := a.UserRepo.GetUserforAuth(ctx, email, password)
+func (a *auth) LogIn(ctx context.Context, auth model.Authentication) (*model.Token, error) {
+	user, err := a.UserRepo.GetUserforAuth(ctx, auth)
 	if err != nil {
-		return "", fmt.Errorf("Error was ocured from UserRepo GetUserforAuth: %v", err)
+		return nil, fmt.Errorf("error was ocured from UserRepo GetUserforAuth: %v", err)
 	}
-	token, err := GenerateJWT(user.ID)
+
+	token, err := a.JWTService.GenerateJWT(ctx, user.ID)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	return token, nil

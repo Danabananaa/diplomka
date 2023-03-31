@@ -1,21 +1,23 @@
 package handlers
 
 import (
-	"diplomka/internal/model"
 	"net/http"
+
+	"diplomka/internal/model"
+	"diplomka/pkg/log"
 )
 
-type Middleware struct {
+type middleware struct {
 	model.AuthSerivice
 }
 
-func NewMiddleware(a model.AuthSerivice) *Middleware {
-	return &Middleware{
+func NewMiddleware(a model.AuthSerivice) model.Middleware {
+	return &middleware{
 		AuthSerivice: a,
 	}
 }
 
-func (m *Middleware) PanicRecover(next http.Handler) http.Handler {
+func (m *middleware) PanicRecover(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
@@ -28,13 +30,21 @@ func (m *Middleware) PanicRecover(next http.Handler) http.Handler {
 	})
 }
 
-// func (m *Middleware) RequireAuthentication(next http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 		token := r.Header.Get("Authorization")
-// 		_, err := m.AuthSerivice.Refresh(r.Context(), token)
-// 		if err != nil {
-// 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-// 			return
-// 		}
-// 	})
-// }
+func (m *middleware) RequireAuthentication(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		token, ok := r.Header["Authorization"]
+		if !ok {
+			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+			return
+		}
+
+		err := m.Verification(token[0])
+		if err != nil {
+			log.Println(err)
+			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}

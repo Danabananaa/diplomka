@@ -2,12 +2,12 @@ package handlers
 
 import "diplomka/internal/model"
 
-type Auth struct {
+type auth struct {
 	model.AuthSerivice
 }
 
-func NewAuthHandlers(a model.AuthSerivice) model.AuthHandlers {
-	return &Auth{
+func NewAuthHandlers(a model.AuthSerivice) *auth {
+	return &auth{
 		AuthSerivice: a,
 	}
 }

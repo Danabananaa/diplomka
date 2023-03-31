@@ -2,5 +2,5 @@ package handlers
 
 import "net/http"
 
-func (a *Auth) LogOut(w http.ResponseWriter, r *http.Request) {
+func (a *auth) LogOut(w http.ResponseWriter, r *http.Request) {
 }

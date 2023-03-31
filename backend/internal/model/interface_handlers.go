@@ -12,3 +12,8 @@ type AuthHandlers interface {
 	// SigUp User registration
 	SignUp(http.ResponseWriter, *http.Request)
 }
+
+type Middleware interface {
+	PanicRecover(next http.Handler) http.Handler
+	RequireAuthentication(next http.Handler) http.Handler
+}

@@ -1,6 +1,6 @@
 package model
 
-type Incometype struct {
+type IncomeType struct {
 	ID         int64
 	IncomeType string
 }

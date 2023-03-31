@@ -1,13 +1,15 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"net/http"
+	"time"
+
 	"diplomka/internal/handlers"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
-	"log"
-	"net/http"
-	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -25,23 +27,26 @@ func main() {
 	if err := db.Ping(); err != nil {
 		log.Fatalln(err)
 	}
-	uRepo := repository.NewUserRepo(db)
-	sRepo := repository.NewSpendingRepo(db)
+	userRepo := repository.NewUserRepo(db)
+	// spendingRepo := repository.NewSpendingRepo(db)
 
-	authS := service.NewAuthService(uRepo)
-	sS := service.NewSpendingService(sRepo)
+	jwtService := service.NewJWTService()
 
-	midleH := handlers.NewMiddleware(authS)
-	authH := handlers.NewAuthHandlers(authS)
-	sH := handlers.NewSpendingHandlers(sS)
+	authService := service.NewAuthService(userRepo, jwtService)
+	// spendingService := service.NewSpendingService(spendingRepo)
+
+	middlewareHandlers := handlers.NewMiddleware(authService)
+	authHandlers := handlers.NewAuthHandlers(authService)
+	// sH := handlers.NewSpendingHandlers(spendingService)
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/signup", authH.SignUp).Methods(http.MethodPost)
-	r.HandleFunc("/login", authH.LogIn).Methods(http.MethodPost)
-	r.HandleFunc("/spending/type", sH.AllSpendingTypes).Methods(http.MethodGet)
+	r.HandleFunc("/signup", authHandlers.SignUp).Methods(http.MethodPost)
+	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
+	r.Handle("/", middlewareHandlers.RequireAuthentication(http.HandlerFunc(index))).Methods(http.MethodGet)
+	// r.HandleFunc("/spending/type", sH.AllSpendingTypes).Methods(http.MethodGet)
 
-	r.Use(midleH.PanicRecover)
+	r.Use(middlewareHandlers.PanicRecover)
 
 	server := http.Server{
 		Addr:         ":" + port,
@@ -54,4 +59,8 @@ func main() {
 
 	err = server.ListenAndServe()
 	log.Fatalf("Server error: %v", err)
+}
+
+func index(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "work")
 }

@@ -4,15 +4,17 @@ import "context"
 
 type UserRepo interface {
 	AddUser(context.Context, User) (*User, error)
-	GetUserforAuth(ctx context.Context, email, password string) (*User, error)
+	GetUserforAuth(ctx context.Context, auth Authentication) (*User, error)
 }
 
-type SpendingRepo interface {
-	GetSpendingType(ctx context.Context) ([]*SpendingType, error)
-}
+type SpendingRepo interface{}
 
 type IncomeRepo interface{}
 
-type SpendingTypeRepo interface{}
+type SpendingTypeRepo interface {
+	GetSpendingType(ctx context.Context) ([]*SpendingType, error)
+}
 
-type IncomeTypeRepo interface{}
+type IncomeTypeRepo interface {
+	GetIncomeType(ctx context.Context) ([]*SpendingType, error)
+}

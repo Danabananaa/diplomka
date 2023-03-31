@@ -4,6 +4,6 @@ import (
 	"context"
 )
 
-func (a *Auth) Refresh(ctx context.Context, token string) (string, error) {
+func (a *auth) Refresh(ctx context.Context, token string) (string, error) {
 	return "", nil
 }
