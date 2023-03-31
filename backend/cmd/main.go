@@ -26,9 +26,8 @@ func main() {
 		log.Fatalln(err)
 	}
 	uRepo := repository.NewUserRepo(db)
-	sRepo := repository.NewSessionRepo(db)
 
-	authS := service.NewAuthService(uRepo, sRepo)
+	authS := service.NewAuthService(uRepo)
 	midleH := handlers.NewMiddleware(authS)
 	authH := handlers.NewAuthHandlers(authS)
 

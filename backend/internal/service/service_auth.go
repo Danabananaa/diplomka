@@ -4,12 +4,10 @@ import "diplomka/internal/model"
 
 type Auth struct {
 	model.UserRepo
-	model.SessionRepo
 }
 
-func NewAuthService(ur model.UserRepo, sr model.SessionRepo) *Auth {
+func NewAuthService(ur model.UserRepo) *Auth {
 	return &Auth{
-		UserRepo:    ur,
-		SessionRepo: sr,
+		UserRepo: ur,
 	}
 }
