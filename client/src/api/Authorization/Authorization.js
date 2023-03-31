@@ -58,11 +58,11 @@ export const handleSignUp = async (e, mail, name, surname, password, setStatus, 
 }
 
 //SIGN IN
-export const handleLogin = async (e, username, password, dispatch, navigate, setStatus, setError) => {
+export const handleLogin = async (e, email, password, dispatch, navigate, setStatus, setError) => {
     e.preventDefault(); 
-    if (username && password){
+    if (email && password){
       try {
-        await fetch(`http://localhost:8080/api/auth/sign_in`, 
+        await fetch(`/login`, 
         {
             headers: {
                 'Accept': 'text/plain',
@@ -73,38 +73,16 @@ export const handleLogin = async (e, username, password, dispatch, navigate, set
             credentials: 'include',
     
             body: JSON.stringify({
-                Username: username,
+                email: email,
                 password: password
             }),
         }).then(async (r) => {
             if (!r.ok){
-                if (r.status === 400 || r.status === 409 || r.status === 401){
-                    setError(null);
-                    const responseBody = await r.text();
-                    if (responseBody){
-                        setStatus(responseBody);   
-                    } else {
-                        setStatus("Invalid data or user doesn't exist")
-                    }
-                } else {
-                    setStatus('')
-                    const error = new Error(r.statusText)
-                    error.status = r.status;
-                    throw error;
-                }
+                navigate(0);
             } else if (r.ok) {
                 setError(null);
                 setStatus('');
-                r.json().then(data => {
-                    if (data.Username){
-                        dispatch(loginSuccess({ username: data.Username }));
-                        navigate("/");
-                    } else {
-                        dispatch(logout());
-                        const error = new Error('Error getting the username from the server')
-                        navigate("/signin", {state: {error}})
-                    }
-                });
+                navigate('/')
             }
           }) 
       } catch (error) {
