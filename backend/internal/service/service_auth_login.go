@@ -15,11 +15,11 @@ type Claims struct {
 }
 
 func (a *Auth) LogIn(ctx context.Context, email, password string) (string, error) {
-	_, err := a.UserRepo.GetUserforAuth(ctx, email, password)
+	user, err := a.UserRepo.GetUserforAuth(ctx, email, password)
 	if err != nil {
 		return "", fmt.Errorf("Error was ocured from UserRepo GetUserforAuth: %v", err)
 	}
-	token, err := GenerateJWT()
+	token, err := GenerateJWT(user.ID)
 	if err != nil {
 		return "", err
 	}

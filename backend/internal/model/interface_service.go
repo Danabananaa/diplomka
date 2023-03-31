@@ -9,4 +9,6 @@ type AuthSerivice interface {
 	Refresh(ctr context.Context, token string) (string, error)
 }
 
-type Analysis interface{}
+type SpendingService interface {
+	GetAllSpendingRepo(ctx context.Context) ([]*SpendingType, error)
+}

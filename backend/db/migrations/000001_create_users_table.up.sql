@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS spending(
 
 CREATE TABLE IF NOT EXISTS spendingtype(
  	id INTEGER PRIMARY KEY AUTOINCREMENT,
- 	spendingtype VARCHAR(100) NOT NULL
+ 	spending_type VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS income(
@@ -39,5 +39,9 @@ CREATE TABLE IF NOT EXISTS income(
 
 CREATE TABLE incometype(
  	id INTEGER PRIMARY KEY AUTOINCREMENT,
- 	incometype VARCHAR(100) NOT NULL
+ 	income_type VARCHAR(100) NOT NULL
 );
+
+INSERT INTO spendingtype (spending_type) VALUES ("Здровье"),("Развлечение"),("Транспорт"),("Подарки"),("Еда"),("Спорт"),("Шоппинг"),("Кредиты"),("Связь"),("Ком.Услуги"),("Прочие");
+
+INSERT INTO incometype (income_type) VALUES ("Зарплата"),("Премия"),("Доп.Доходы");

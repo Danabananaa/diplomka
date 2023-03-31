@@ -7,7 +7,9 @@ type UserRepo interface {
 	GetUserforAuth(ctx context.Context, email, password string) (*User, error)
 }
 
-type SpendingRepo interface{}
+type SpendingRepo interface {
+	GetSpendingType(ctx context.Context) ([]*SpendingType, error)
+}
 
 type IncomeRepo interface{}
 

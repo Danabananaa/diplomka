@@ -26,15 +26,21 @@ func main() {
 		log.Fatalln(err)
 	}
 	uRepo := repository.NewUserRepo(db)
+	sRepo := repository.NewSpendingRepo(db)
 
 	authS := service.NewAuthService(uRepo)
+	sS := service.NewSpendingService(sRepo)
+
 	midleH := handlers.NewMiddleware(authS)
 	authH := handlers.NewAuthHandlers(authS)
+	sH := handlers.NewSpendingHandlers(sS)
 
 	r := mux.NewRouter()
 
 	r.HandleFunc("/signup", authH.SignUp).Methods(http.MethodPost)
 	r.HandleFunc("/login", authH.LogIn).Methods(http.MethodPost)
+	r.HandleFunc("/spending/type", sH.AllSpendingTypes).Methods(http.MethodGet)
+
 	r.Use(midleH.PanicRecover)
 
 	server := http.Server{

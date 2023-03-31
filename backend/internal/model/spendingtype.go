@@ -1,6 +1,6 @@
 package model
 
-type Spendingtype struct {
+type SpendingType struct {
 	ID           int64
 	SpendingType string
 }
