@@ -42,6 +42,6 @@ CREATE TABLE incometype(
  	income_type VARCHAR(100) NOT NULL
 );
 
-INSERT INTO spendingtype (spending_type) VALUES ("Здровье"),("Развлечение"),("Транспорт"),("Подарки"),("Еда"),("Спорт"),("Шоппинг"),("Кредиты"),("Связь"),("Ком.Услуги"),("Прочие");
+INSERT INTO spendingtype (spending_type) VALUES ("Денсаулық"),("Ойын-сауық"),("Транспорт"),("Сыйлықтар"),("Тамақ"),("Спорт"),("Шоппинг"),("Несие"),("Байланыс"),("Ком.Қызметтер"),("Басқа");
 
-INSERT INTO incometype (income_type) VALUES ("Зарплата"),("Премия"),("Доп.Доходы");
+INSERT INTO incometype (income_type) VALUES ("Айлық"),("Сыйақы"),("Қосымша табыс");
