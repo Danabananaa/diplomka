@@ -32,7 +32,7 @@ const RootLayout = () => {
             <Typography variant="body1" component="span" sx={{ marginRight: 1 }}>
               Username
             </Typography>
-            <Avatar alt="User Avatar" src="/path/to/avatar/image.jpg" />
+            <Avatar alt="User Avatar" />
           </Box>
         </Toolbar>
       </AppBar>
