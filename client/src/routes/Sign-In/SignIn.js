@@ -21,7 +21,7 @@ import { useLocation } from "react-router-dom";
 
 
 const Login = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [status, setStatus] = useState(null);
     const [error, setError] = useState(null);
@@ -83,7 +83,7 @@ const Login = () => {
           <Typography component="h1" variant="h5" sx={{color:'black', fontFamily:'Dosis', letterSpacing:'5px', fontWeight:'700'}}>
             Sign In
           </Typography>
-          <Box component="form" onSubmit={(e) => {handleLogin(e, username, password, dispatch, navigate, setStatus, setError)}} noValidate sx={{ mt: 6 }}>
+          <Box component="form" onSubmit={(e) => {handleLogin(e, email, password, dispatch, navigate, setStatus, setError)}} noValidate sx={{ mt: 6 }}>
             
             <TextField
               margin="normal"
@@ -92,8 +92,8 @@ const Login = () => {
               id="email"
               name="email"
               label="Email Address"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               
               autoFocus
             />
