@@ -1,6 +1,7 @@
 import {
   createBrowserRouter, 
   createRoutesFromElements,
+  redirect,
   Route, 
   RouterProvider,
 } from 'react-router-dom'  
@@ -13,6 +14,7 @@ import RootLayout from './layouts/RootLayout/RootLayout';
 // errorElement
 import { ErrorPage } from './routes/Error-Page/ErrorPage';
 import { PageNotFound } from './routes/Page-Not-Found/PageNotFound';
+import { homeLoader } from './api/loaders';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,8 +22,9 @@ const router = createBrowserRouter(
   <Route element={<RootLayout />} id="root" errorElement={<ErrorPage/>}>
       <Route path="/" >
           <Route index 
-            element={<HomePage />}
-          />              
+            loader={homeLoader}
+          />
+          <Route path="statistics" element={<HomePage/>}/>              
       </Route>
       <Route path="*" element={<PageNotFound/>} />
   </Route>
