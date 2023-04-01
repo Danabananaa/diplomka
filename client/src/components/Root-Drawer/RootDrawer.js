@@ -23,7 +23,7 @@ export const MainDrawer = ({path}) =>{
                   onClick={() => handleNav(text)}
                   sx={{
                     backgroundColor: (text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) && "primary.light",
-                    my: 1,
+                    // my: 1,
                     py: 2,
                     borderTopLeftRadius: 20,
                     borderBottomLeftRadius: 20,
@@ -48,7 +48,7 @@ export const MainDrawer = ({path}) =>{
                 onClick={() => handleNav(text)}
                 sx={{
                   backgroundColor: (text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) && "primary.light",
-                  marginY: 1,
+                  // marginY: 1,
                   py: 2,
                   borderTopLeftRadius: 20,
                   borderBottomLeftRadius: 20,
