@@ -5,16 +5,16 @@ import { createSlice } from '@reduxjs/toolkit';
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-      username: null,
+      // username: null,
       isAuth: false,
     },
     reducers: {
       loginSuccess: (state, action) => {
-        state.username = action.payload.username;
+        // state.username = action.payload.username;
         state.isAuth = true;
       },
       logout: (state) => {
-        state.username = null;
+        // state.username = null;
         state.isAuth = false;
       },
     },

@@ -59,40 +59,47 @@ export const handleSignUp = async (e, mail, name, surname, password, setStatus, 
 
 //SIGN IN
 export const handleLogin = async (e, email, password, dispatch, navigate, setStatus, setError) => {
-    e.preventDefault(); 
-    if (email && password){
+    e.preventDefault();
+    if (email && password) {
       try {
-        await fetch(`/login`, 
-        {
-            headers: {
-                'Accept': 'text/plain',
-                'Content-type': 'text/plain',
-                'Credentials': 'include'
-            },  
-            method: 'POST',
-            credentials: 'include',
-    
-            body: JSON.stringify({
-                email: email,
-                password: password
-            }),
-        }).then(async (r) => {
-            if (!r.ok){
-                navigate(0);
+        await fetch(`/login`, {
+          headers: {
+            Accept: 'application/json',
+            'Content-type': 'application/json',
+            Credentials: 'include',
+          },
+          method: 'POST',
+          credentials: 'include',
+  
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        })
+          .then(async (r) => {
+            if (!r.ok) {
+               throw r.statusText;
             } else if (r.ok) {
-                setError(null);
-                setStatus('');
-                navigate('/')
+              // Parse the response body as JSON
+              const data = await r.json();
+  
+              // Store the JWT token in local storage
+              localStorage.setItem('token', data.token);
+              
+              // Store Auth data in Redux
+              dispatch(loginSuccess())
+              
+              navigate('/');
             }
-          }) 
+          });
       } catch (error) {
-            console.log(error);
-            setError(error)
-      }  
+        console.log(error);
+        setError(error);
+      }
     } else {
-        setStatus('Missing authorization data')
+      setStatus('Missing authorization data');
     }
-}
+  };
 
 //HANDLE LOG OUT
 export const signOutHandler = async (dispatch, navigate) =>{

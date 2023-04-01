@@ -12,7 +12,6 @@ import HomePage from './routes/Home-Page/HomePage'
 import RootLayout from './layouts/RootLayout/RootLayout';
 // errorElement
 import { ErrorPage } from './routes/Error-Page/ErrorPage';
-import MinimalLayout from './layouts/Minimal-Layout/MinimalLayout';
 import { PageNotFound } from './routes/Page-Not-Found/PageNotFound';
 
 const router = createBrowserRouter(
