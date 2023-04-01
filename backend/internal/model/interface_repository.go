@@ -16,5 +16,5 @@ type SpendingTypeRepo interface {
 }
 
 type IncomeTypeRepo interface {
-	GetIncomeType(ctx context.Context) ([]*SpendingType, error)
+	GetIncomeType(ctx context.Context) ([]*IncomeType, error)
 }

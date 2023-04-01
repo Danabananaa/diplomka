@@ -20,3 +20,7 @@ type JWTService interface {
 type SpendingService interface {
 	GetAllSpendingRepo(ctx context.Context) ([]*SpendingType, error)
 }
+
+type IncomeService interface {
+	GetAllIncomeRepo(ctx context.Context) ([]*IncomeType, error)
+}

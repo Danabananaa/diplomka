@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"time"
-
 	"diplomka/internal/handlers"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
+	"fmt"
+	"log"
+	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -28,16 +27,18 @@ func main() {
 		log.Fatalln(err)
 	}
 	userRepo := repository.NewUserRepo(db)
-	// spendingRepo := repository.NewSpendingRepo(db)
+	spendingRepo := repository.NewSpendingTypeRepo(db)
+	incomeRepo := repository.NewIncomeTypeRepo(db)
 
 	jwtService := service.NewJWTService()
 
 	authService := service.NewAuthService(userRepo, jwtService)
-	// spendingService := service.NewSpendingService(spendingRepo)
-
+	spendingService := service.NewSpendingService(spendingRepo)
+	incomeService := service.NewIncomeService(incomeRepo)
 	middlewareHandlers := handlers.NewMiddleware(authService)
 	authHandlers := handlers.NewAuthHandlers(authService)
-	// sH := handlers.NewSpendingHandlers(spendingService)
+	sH := handlers.NewSpendingHandlers(spendingService)
+	iH := handlers.NewIncomeHandlers(incomeService)
 
 	r := mux.NewRouter()
 
@@ -46,7 +47,8 @@ func main() {
 
 	// для проверки
 	r.Handle("/", middlewareHandlers.RequireAuthentication(http.HandlerFunc(index))).Methods(http.MethodGet)
-	// r.HandleFunc("/spending/type", sH.AllSpendingTypes).Methods(http.MethodGet)
+	r.HandleFunc("/spending/type", sH.AllSpendingTypes).Methods(http.MethodGet)
+	r.HandleFunc("/income/type", iH.AllIncomeTypes).Methods(http.MethodGet)
 
 	r.Use(middlewareHandlers.PanicRecover)
 

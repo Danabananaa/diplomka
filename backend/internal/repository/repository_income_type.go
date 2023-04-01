@@ -10,19 +10,19 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type spending_type struct {
+type income_type struct {
 	DB *sqlx.DB
 }
 
-func NewSpendingTypeRepo(db *sqlx.DB) *spending_type {
-	return &spending_type{
+func NewIncomeTypeRepo(db *sqlx.DB) *income_type {
+	return &income_type{
 		DB: db,
 	}
 }
 
-func (s *spending_type) GetSpendingType(ctx context.Context) ([]*model.SpendingType, error) {
-	starr := make([]*model.SpendingType, 0)
-	query := `SELECT * FROM spendingtype`
+func (s *income_type) GetIncomeType(ctx context.Context) ([]*model.IncomeType, error) {
+	itarr := make([]*model.IncomeType, 0)
+	query := `SELECT * FROM incometype`
 	row, err := s.DB.QueryContext(ctx, query)
 	if err != nil {
 		return nil, fmt.Errorf("Error from QueryContext")
@@ -30,8 +30,8 @@ func (s *spending_type) GetSpendingType(ctx context.Context) ([]*model.SpendingT
 	defer row.Close()
 
 	for row.Next() {
-		st := &model.SpendingType{}
-		err := row.Scan(&st.ID, &st.SpendingType)
+		it := &model.IncomeType{}
+		err := row.Scan(&it.ID, &it.IncomeType)
 		if err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
 				return nil, fmt.Errorf("No rows into table")
@@ -39,12 +39,12 @@ func (s *spending_type) GetSpendingType(ctx context.Context) ([]*model.SpendingT
 				return nil, err
 			}
 		}
-		starr = append(starr, st)
+		itarr = append(itarr, it)
 	}
 
 	if err = row.Err(); err != nil {
 		return nil, fmt.Errorf("Error from row")
 	}
 
-	return starr, nil
+	return itarr, nil
 }
