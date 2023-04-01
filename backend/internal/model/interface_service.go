@@ -11,8 +11,9 @@ type AuthSerivice interface {
 	Refresh(ctr context.Context, token string) (string, error)
 	JWTService
 }
+
 type JWTService interface {
-	GenerateJWT(context.Context, int64) (*Token, error)
+	GenerateJWT(context.Context, int64, string) (*Token, error)
 	Verification(signedToken string) error
 }
 

@@ -2,10 +2,9 @@ package service
 
 import (
 	"context"
+	"diplomka/internal/model"
 	"fmt"
 	"time"
-
-	"diplomka/internal/model"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -20,10 +19,11 @@ func NewJWTService() *jwtService {
 	return &jwtService{}
 }
 
-func (j *jwtService) GenerateJWT(ctx context.Context, userID int64) (*model.Token, error) {
+func (j *jwtService) GenerateJWT(ctx context.Context, userID int64, username string) (*model.Token, error) {
 	claims := jwt.MapClaims{
-		"sub": userID,
-		"iat": time.Now(),
+		"sub":  userID,
+		"name": username,
+		"iat":  time.Now(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
@@ -34,6 +34,7 @@ func (j *jwtService) GenerateJWT(ctx context.Context, userID int64) (*model.Toke
 
 	return &model.Token{
 		UserID:      userID,
+		UserName:    username,
 		TokenString: signedToken,
 	}, nil
 }
