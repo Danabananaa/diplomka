@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const shadesOfWhite = {
   lighter: '#fafafa',
-  light: '#f5f5f5',
+  light: '#F6F6F7',
   main: '#ffffff',
   dark: '#e0e0e0',
   darker: '#d6d6d6',
