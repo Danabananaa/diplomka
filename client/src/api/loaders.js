@@ -6,7 +6,7 @@ export const homeLoader = () => {
     const token = localStorage.getItem('token');
 
     if (token) {
-        return (redirect("/statistics"))
+        return null
     } else {
         return (redirect("/signin"))
     }

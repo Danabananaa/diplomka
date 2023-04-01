@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLoaderData, useLocation } from 'react-router-dom';
 import { Box, CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, Avatar } from '@mui/material';
 import { Menu as MenuIcon, Dashboard as DashboardIcon } from '@mui/icons-material';
 import RootDrawer from '../../components/Root-Drawer/RootDrawer';
@@ -6,17 +6,21 @@ import { MainDrawer } from '../../components/Root-Drawer/RootDrawer';
 import { useState } from 'react';
 import { Search } from '@mui/icons-material';
 import {InputBase} from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const drawerWidth = 240;
 
 const RootLayout = () => {
+
+
+  const username = useSelector((state) => state.auth.username)
   const location = useLocation();
   const path = location.pathname.split('/')[1];
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor:"primary.light"}}>
       <CssBaseline />
       {/* APPBAR */}
-      <AppBar position="fixed" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`, backgroundColor: 'white', color: 'black'}}>
+      <AppBar position="fixed" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`, backgroundColor: 'primary.lighter', color: 'black'}}>
         <Toolbar>
           <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
             <Box sx={{ marginLeft: 2, display: 'flex', alignItems: 'center' }}>
@@ -30,7 +34,7 @@ const RootLayout = () => {
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="body1" component="span" sx={{ marginRight: 1 }}>
-              Username
+              {username ? username : 'User'}
             </Typography>
             <Avatar alt="User Avatar" />
           </Box>

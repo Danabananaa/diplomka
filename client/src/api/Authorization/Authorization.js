@@ -40,6 +40,7 @@ export const handleSignUp = async (e, mail, name, surname, password, setStatus, 
                 })
             }).then(async (r) => {
                 if (!r.ok){
+                    setStatus(r.statusText)
                     console.log("Error");
                 }
                 setError(null);
@@ -87,8 +88,7 @@ export const handleLogin = async (e, email, password, dispatch, navigate, setSta
               localStorage.setItem('token', data.token);
               
               // Store Auth data in Redux
-              dispatch(loginSuccess())
-              
+              dispatch(loginSuccess({ username: data.user_name }))              
               navigate('/');
             }
           });

@@ -25,11 +25,9 @@ import ContactsPage from './routes/Contacts-Page/ContactsPage';
 const router = createBrowserRouter(
   createRoutesFromElements(
 <Route>
-  <Route element={<RootLayout />} id="root" errorElement={<ErrorPage/>}>
+  <Route element={<RootLayout />} id="root" loader={homeLoader} errorElement={<ErrorPage/>}>
       <Route path="/" >
-          <Route index 
-            loader={homeLoader}
-          />
+          <Route index/>
           <Route path="statistics" element={<HomePage/>}/>
           <Route path="budget" element={<BudgetPage/>}/>
           <Route path="planner" element={<PlannerPage/>}/>
