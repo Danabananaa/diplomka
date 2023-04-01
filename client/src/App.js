@@ -15,6 +15,12 @@ import RootLayout from './layouts/RootLayout/RootLayout';
 import { ErrorPage } from './routes/Error-Page/ErrorPage';
 import { PageNotFound } from './routes/Page-Not-Found/PageNotFound';
 import { homeLoader } from './api/loaders';
+import BudgetPage from './routes/Budget-Page/BudgetPage';
+import PlannerPage from './routes/Planner-Page/PlannerPage';
+import DebtPage from './routes/Debt-Page/DebtPage';
+import SettingsPage from './routes/Settings-Page/SettingsPage';
+import AboutUsPage from './routes/About-Us-Page/AboutUsPage';
+import ContactsPage from './routes/Contacts-Page/ContactsPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +30,13 @@ const router = createBrowserRouter(
           <Route index 
             loader={homeLoader}
           />
-          <Route path="statistics" element={<HomePage/>}/>              
+          <Route path="statistics" element={<HomePage/>}/>
+          <Route path="budget" element={<BudgetPage/>}/>
+          <Route path="planner" element={<PlannerPage/>}/>
+          <Route path="debt" element={<DebtPage/>}/>
+          <Route path="settings" element={<SettingsPage/>}/>
+          <Route path="aboutus" element={<AboutUsPage/>}/>
+          <Route path="contacts" element={<ContactsPage/>}/>
       </Route>
       <Route path="*" element={<PageNotFound/>} />
   </Route>

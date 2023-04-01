@@ -3,8 +3,15 @@ import { Dashboard as DashboardIcon, BarChart as BarChartIcon, AttachMoney as At
 import {Divider} from '@mui/material';
 import {ListItemButton} from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 export const MainDrawer = ({path}) =>{
+  
+  const navigate = useNavigate();
 
+  const handleNav = (text) => {
+    const newPath = text.replace(/\s/g, ''); // Removing spaces from a button text
+    navigate(`/${newPath.toLowerCase()}`); // changing the url to the specified nav button text
+  }
   return (
       <div>
         <Toolbar />
@@ -13,8 +20,9 @@ export const MainDrawer = ({path}) =>{
           {['Statistics', 'Budget', 'Planner', 'Debt'].map((text, index) => (
             <ListItem key={text} disablePadding>
                 <ListItemButton
+                  onClick={() => handleNav(text)}
                   sx={{
-                    backgroundColor: path===text && "primary.light",
+                    backgroundColor: (text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) && "primary.light",
                     my: 1,
                     py: 2,
                     borderTopLeftRadius: 20,
@@ -37,8 +45,9 @@ export const MainDrawer = ({path}) =>{
           {['Settings', 'About Us', 'Contacts'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton
+                onClick={() => handleNav(text)}
                 sx={{
-                  backgroundColor: "primary.light",
+                  backgroundColor: (text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) && "primary.light",
                   marginY: 1,
                   py: 2,
                   borderTopLeftRadius: 20,
