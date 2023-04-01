@@ -20,10 +20,10 @@ func NewIncomeTypeRepo(db *sqlx.DB) *income_type {
 	}
 }
 
-func (s *income_type) GetIncomeType(ctx context.Context) ([]*model.IncomeType, error) {
+func (i *income_type) GetIncomeType(ctx context.Context) ([]*model.IncomeType, error) {
 	itarr := make([]*model.IncomeType, 0)
 	query := `SELECT * FROM incometype`
-	row, err := s.DB.QueryContext(ctx, query)
+	row, err := i.DB.QueryContext(ctx, query)
 	if err != nil {
 		return nil, fmt.Errorf("Error from QueryContext")
 	}

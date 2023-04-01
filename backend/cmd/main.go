@@ -27,18 +27,28 @@ func main() {
 		log.Fatalln(err)
 	}
 	userRepo := repository.NewUserRepo(db)
+
+	// Добавленные новые репозитории
+
 	spendingRepo := repository.NewSpendingTypeRepo(db)
-	incomeRepo := repository.NewIncomeTypeRepo(db)
+	incometypeRepo := repository.NewIncomeTypeRepo(db)
+	incomeRepo := repository.NewIncomeRepo(db)
+	// test := repository.NewTestRepo(db)
 
 	jwtService := service.NewJWTService()
-
 	authService := service.NewAuthService(userRepo, jwtService)
-	spendingService := service.NewSpendingService(spendingRepo)
-	incomeService := service.NewIncomeService(incomeRepo)
 	middlewareHandlers := handlers.NewMiddleware(authService)
+
+	// Добавленные новые сервисы
+	spendingTypeService := service.NewSpendingService(spendingRepo)
+	incomeTypeService := service.NewIncomeTypeService(incometypeRepo)
+	incomeService := service.NewIncomeService(incomeRepo)
+
 	authHandlers := handlers.NewAuthHandlers(authService)
-	sH := handlers.NewSpendingHandlers(spendingService)
-	iH := handlers.NewIncomeHandlers(incomeService)
+	// Добавленные новые хендлеры
+	spendTH := handlers.NewSpendingHandlers(spendingTypeService)
+	incTH := handlers.NewIncomeTypeHandlers(incomeTypeService)
+	incH := handlers.NewIncomeHandlers(incomeService)
 
 	r := mux.NewRouter()
 
@@ -47,8 +57,11 @@ func main() {
 
 	// для проверки
 	r.Handle("/", middlewareHandlers.RequireAuthentication(http.HandlerFunc(index))).Methods(http.MethodGet)
-	r.HandleFunc("/spending/type", sH.AllSpendingTypes).Methods(http.MethodGet)
-	r.HandleFunc("/income/type", iH.AllIncomeTypes).Methods(http.MethodGet)
+
+	// Добавленные новые хендлеры
+	r.HandleFunc("/spending/type", spendTH.AllSpendingTypes).Methods(http.MethodGet)
+	r.HandleFunc("/income/type", incTH.AllIncomeTypes).Methods(http.MethodGet)
+	r.HandleFunc("/income/", incH.PostIncome).Methods(http.MethodPost)
 
 	r.Use(middlewareHandlers.PanicRecover)
 

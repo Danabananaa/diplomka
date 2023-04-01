@@ -10,7 +10,7 @@ type income_type struct {
 	model.IncomeTypeRepo
 }
 
-func NewIncomeService(it model.IncomeTypeRepo) *income_type {
+func NewIncomeTypeService(it model.IncomeTypeRepo) *income_type {
 	return &income_type{
 		IncomeTypeRepo: it,
 	}

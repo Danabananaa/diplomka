@@ -8,19 +8,19 @@ import (
 )
 
 type income_type struct {
-	model.IncomeService
+	model.IncomeTypeService
 }
 
-func NewIncomeHandlers(s model.IncomeService) *income_type {
+func NewIncomeTypeHandlers(s model.IncomeTypeService) *income_type {
 	return &income_type{
-		IncomeService: s,
+		IncomeTypeService: s,
 	}
 }
 
 func (s *income_type) AllIncomeTypes(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	obj, err := s.IncomeService.GetAllIncomeRepo(r.Context())
+	obj, err := s.IncomeTypeService.GetAllIncomeRepo(r.Context())
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

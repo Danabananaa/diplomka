@@ -21,6 +21,10 @@ type SpendingService interface {
 	GetAllSpendingRepo(ctx context.Context) ([]*SpendingType, error)
 }
 
-type IncomeService interface {
+type IncomeTypeService interface {
 	GetAllIncomeRepo(ctx context.Context) ([]*IncomeType, error)
+}
+
+type IncomeService interface {
+	InsertIncomeService(ctx context.Context, inc Income) (*Income, error)
 }

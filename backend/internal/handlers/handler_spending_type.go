@@ -1,24 +1,23 @@
 package handlers
 
 import (
-	"encoding/json"
-	"net/http"
-
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
+	"encoding/json"
+	"net/http"
 )
 
-type spending struct {
+type spending_type struct {
 	model.SpendingService
 }
 
-func NewSpendingHandlers(s model.SpendingService) *spending {
-	return &spending{
+func NewSpendingHandlers(s model.SpendingService) *spending_type {
+	return &spending_type{
 		SpendingService: s,
 	}
 }
 
-func (s *spending) AllSpendingTypes(w http.ResponseWriter, r *http.Request) {
+func (s *spending_type) AllSpendingTypes(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	obj, err := s.SpendingService.GetAllSpendingRepo(r.Context())
