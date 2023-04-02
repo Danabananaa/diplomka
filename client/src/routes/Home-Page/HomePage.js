@@ -1,18 +1,20 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import {Box} from '@mui/material';
-
+import DonutChart from '../../components/DonutChart/DonutChart';
 const HomePage = () => {
   return (
-    <div>
+    
       <Box>
 
-      <Typography variant="h4" gutterBottom>
-        TODO: Change theme, Add routes, Finish Auth
-      </Typography>
+        <Typography variant="h4" gutterBottom>
+          Overall budget
+        </Typography>
+        
+        <DonutChart/>
 
       </Box>
-    </div>
+    
   );
 };
 
