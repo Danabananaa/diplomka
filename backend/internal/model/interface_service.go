@@ -13,8 +13,8 @@ type AuthSerivice interface {
 }
 
 type JWTService interface {
-	GenerateJWT(context.Context, int64, string) (*Token, error)
-	Verification(signedToken string) error
+	GenerateJWT(context.Context, User) (*Token, error)
+	Verification(signedToken string) (int64, error)
 }
 
 type SpendingService interface {

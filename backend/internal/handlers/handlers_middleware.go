@@ -1,19 +1,24 @@
 package handlers
 
 import (
+	"context"
 	"net/http"
 
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
 )
 
+type key string
+
+var UserKey key = "userID"
+
 type middleware struct {
-	model.AuthSerivice
+	authService model.AuthSerivice
 }
 
-func NewMiddleware(a model.AuthSerivice) model.Middleware {
+func NewMiddleware(a model.AuthSerivice) *middleware {
 	return &middleware{
-		AuthSerivice: a,
+		authService: a,
 	}
 }
 
@@ -38,13 +43,15 @@ func (m *middleware) RequireAuthentication(next http.Handler) http.Handler {
 			return
 		}
 
-		err := m.Verification(token[0])
+		userID, err := m.authService.Verification(token[0])
 		if err != nil {
 			log.Println(err)
 			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 			return
 		}
 
-		next.ServeHTTP(w, r)
+		ctx := context.WithValue(r.Context(), UserKey, userID)
+
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

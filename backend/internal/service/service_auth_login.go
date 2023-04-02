@@ -2,8 +2,9 @@ package service
 
 import (
 	"context"
-	"diplomka/internal/model"
 	"fmt"
+
+	"diplomka/internal/model"
 )
 
 func (a *auth) LogIn(ctx context.Context, auth model.Authentication) (*model.Token, error) {
@@ -12,7 +13,7 @@ func (a *auth) LogIn(ctx context.Context, auth model.Authentication) (*model.Tok
 		return nil, fmt.Errorf("error was ocured from UserRepo GetUserforAuth: %v", err)
 	}
 
-	token, err := a.JWTService.GenerateJWT(ctx, user.ID, user.Name)
+	token, err := a.JWTService.GenerateJWT(ctx, *user)
 	if err != nil {
 		return nil, err
 	}

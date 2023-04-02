@@ -2,11 +2,13 @@ package service
 
 import (
 	"context"
-	"diplomka/internal/model"
 	"fmt"
+	"strconv"
 	"time"
 
-	"github.com/golang-jwt/jwt/v5"
+	"diplomka/internal/model"
+
+	"github.com/golang-jwt/jwt"
 )
 
 var sampleSecretKey = []byte("SecretYouShouldHide")
@@ -15,16 +17,16 @@ type jwtService struct {
 	model.JWTService
 }
 
-func NewJWTService() *jwtService {
+func NewJWTService() model.JWTService {
 	return &jwtService{}
 }
 
-func (j *jwtService) GenerateJWT(ctx context.Context, userID int64, username string) (*model.Token, error) {
-	claims := jwt.MapClaims{
-		"sub":  userID,
-		"name": username,
-		"iat":  time.Now(),
+func (j *jwtService) GenerateJWT(ctx context.Context, user model.User) (*model.Token, error) {
+	claims := jwt.StandardClaims{
+		Subject:   strconv.Itoa(int(user.ID)),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 	}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	signedToken, err := token.SignedString(sampleSecretKey)
@@ -33,39 +35,38 @@ func (j *jwtService) GenerateJWT(ctx context.Context, userID int64, username str
 	}
 
 	return &model.Token{
-		UserID:      userID,
-		UserName:    username,
+		UserID:      user.ID,
+		UserName:    user.Name,
 		TokenString: signedToken,
 	}, nil
 }
 
-func (j *jwtService) Verification(signedToken string) error {
-	token, err := jwt.Parse(signedToken, keyFunc)
+func (j *jwtService) Verification(signedToken string) (int64, error) {
+	token, err := jwt.ParseWithClaims(signedToken, &jwt.StandardClaims{}, keyFunc)
 	if err != nil {
-		return fmt.Errorf("fwt parse: %v", err)
+		return 0, fmt.Errorf("fwt parse: %v", err)
 	}
 
 	if !token.Valid {
-		return fmt.Errorf("token is not valid")
+		return 0, fmt.Errorf("token is not valid")
 	}
 
-	return nil
+	claims, ok := token.Claims.(*jwt.StandardClaims)
+	if !ok {
+		return 0, fmt.Errorf("invalid token")
+	}
+
+	userID, err := strconv.Atoi(claims.Subject)
+	if err != nil {
+		return 0, err
+	}
+	return int64(userID), nil
 }
 
 func keyFunc(token *jwt.Token) (interface{}, error) {
-	// fmt.Printf("token.Claims: %v\n", token.Claims)
-	// fmt.Printf("token.Header: %v\n", token.Header)
-	// fmt.Printf("token.Method: %v\n", token.Method)
-	// fmt.Printf("token.Raw: %v\n", token.Raw)
-	// fmt.Printf("token.Signature: %v\n", token.Signature)
-	// fmt.Printf("token.Valid: %v\n", token.Valid)
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 		return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 	}
-
-	// проверка токена будет писаться здесь
-	// проверка на время и другие значения
-	// посмотри какие значения находятся в токене
 
 	return sampleSecretKey, nil
 }

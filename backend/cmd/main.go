@@ -1,14 +1,15 @@
 package main
 
 import (
-	"diplomka/internal/handlers"
-	"diplomka/internal/repository"
-	"diplomka/internal/service"
-	"diplomka/pkg/sqlite"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
+
+	"diplomka/internal/handlers"
+	"diplomka/internal/repository"
+	"diplomka/internal/service"
+	"diplomka/pkg/sqlite"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -26,42 +27,48 @@ func main() {
 	if err := db.Ping(); err != nil {
 		log.Fatalln(err)
 	}
+
+	// repository
 	userRepo := repository.NewUserRepo(db)
-
-	// Добавленные новые репозитории
-
-	spendingRepo := repository.NewSpendingTypeRepo(db)
-	incometypeRepo := repository.NewIncomeTypeRepo(db)
-	incomeRepo := repository.NewIncomeRepo(db)
-	// test := repository.NewTestRepo(db)
+	// spendingRepo := repository.NewSpendingTypeRepo(db)
+	// incometypeRepo := repository.NewIncomeTypeRepo(db)
+	// incomeRepo := repository.NewIncomeRepo(db)
 
 	jwtService := service.NewJWTService()
 	authService := service.NewAuthService(userRepo, jwtService)
+
+	// services
+	// spendingTypeService := service.NewSpendingService(spendingRepo)
+	// incomeTypeService := service.NewIncomeTypeService(incometypeRepo)
+	// incomeService := service.NewIncomeService(incomeRepo)
+
+	// handlers
 	middlewareHandlers := handlers.NewMiddleware(authService)
 
-	// Добавленные новые сервисы
-	spendingTypeService := service.NewSpendingService(spendingRepo)
-	incomeTypeService := service.NewIncomeTypeService(incometypeRepo)
-	incomeService := service.NewIncomeService(incomeRepo)
-
 	authHandlers := handlers.NewAuthHandlers(authService)
-	// Добавленные новые хендлеры
-	spendTH := handlers.NewSpendingHandlers(spendingTypeService)
-	incTH := handlers.NewIncomeTypeHandlers(incomeTypeService)
-	incH := handlers.NewIncomeHandlers(incomeService)
+
+	// spendingTypeHandlers := handlers.NewSpendingHandlers(spendingTypeService)
+	// incomeTypeHandlers := handlers.NewIncomeTypeHandlers(incomeTypeService)
+	// incomeHandlers := handlers.NewIncomeHandlers(incomeService)
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/signup", authHandlers.SignUp).Methods(http.MethodPost)
-	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
-
-	// для проверки
 	r.Handle("/", middlewareHandlers.RequireAuthentication(http.HandlerFunc(index))).Methods(http.MethodGet)
 
-	// Добавленные новые хендлеры
-	r.HandleFunc("/spending/type", spendTH.AllSpendingTypes).Methods(http.MethodGet)
-	r.HandleFunc("/income/type", incTH.AllIncomeTypes).Methods(http.MethodGet)
-	r.HandleFunc("/income/", incH.PostIncome).Methods(http.MethodPost)
+	r.HandleFunc("/signup", authHandlers.SignUp).Methods(http.MethodPost)
+	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
+	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
+
+	// r.HandleFunc("/spending/type", spendingTypeHandlers.AllSpendingTypes).Methods(http.MethodGet)
+	// r.HandleFunc("/income/type", incomeTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
+
+	// r.HandleFunc("/spending", incomeHandlers.PostIncome).Methods(http.MethodPost)
+	// r.HandleFunc("/income", incomeHandlers.PostIncome).Methods(http.MethodPost)
+
+	// r.HandleFunc("/spending", incomeHandlers.PostIncome).Methods(http.MethodGet)
+	// r.HandleFunc("/income", incomeHandlers.PostIncome).Methods(http.MethodGet)
+
+	// r.HandleFunc("/statistics", incomeHandlers.PostIncome).Methods(http.MethodGet)
 
 	r.Use(middlewareHandlers.PanicRecover)
 
@@ -79,5 +86,34 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
+	userID, ok := r.Context().Value(handlers.UserKey).(int64)
+	if !ok {
+		http.Error(w, "dont convert", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println(userID)
+	fmt.Fprintln(w, "work")
+}
+
+// type statistics struct {
+// 	start string
+// 	end   string
+// }
+// type name struct {
+// 	Amount float64
+// 	Type   model.SpendingType
+// }
+// type name2 struct {
+// 	Amount float64
+// 	Type   model.SpendingType
+// }
+
+// type statistics struct {
+// 	s []name
+// 	i []name2
+// }
+
+func Statistics(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "work")
 }
