@@ -10,5 +10,5 @@ type Income struct {
 	// С помощью такого формата мы будем получать значение в виде строки.
 	// Пример кода, как из time.Time получить строку:
 	// time.Now().Format("2006-01-02").
-	Date customTime `json:"date"`
+	Date CustomTime `json:"date"`
 }

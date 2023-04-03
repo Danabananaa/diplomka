@@ -9,7 +9,9 @@ type UserRepo interface {
 	GetUserforAuth(ctx context.Context, auth Authentication) (*User, error)
 }
 
-type SpendingRepo interface{}
+type SpendingRepo interface {
+	AddSpending(ctx context.Context, inc Spending) (*Spending, error)
+}
 
 type IncomeRepo interface {
 	AddIncome(ctx context.Context, inc Income) (*Income, error)

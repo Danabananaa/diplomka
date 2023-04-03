@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS spending(
   user_id integer not NULL,
   spending_type integer not NULL,
   amount integer NOT NULL,
-  date datetime,
+  description TEXT NOT NULL,
+  date DATE,
   FOREIGN key(user_id) REFERENCES users(id),
   FOREIGN key(spending_type) REFERENCES spendingtype(id) 
 );
@@ -32,7 +33,8 @@ CREATE TABLE IF NOT EXISTS income(
   user_id integer not NULL,
   income_type integer not NULL,
   amount integer NOT NULL,
-  date datetime,
+  description TEXT NOT NULL,
+  date DATE,
   FOREIGN key(user_id) REFERENCES users(id),
   FOREIGN key(income_type) REFERENCES incometype(id) 
 );

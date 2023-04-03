@@ -8,19 +8,19 @@ import (
 )
 
 type spending_type struct {
-	model.SpendingService
+	model.SpendingTypeService
 }
 
-func NewSpendingHandlers(s model.SpendingService) *spending_type {
+func NewSpendingTypeHandlers(s model.SpendingTypeService) *spending_type {
 	return &spending_type{
-		SpendingService: s,
+		SpendingTypeService: s,
 	}
 }
 
 func (s *spending_type) AllSpendingTypes(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	obj, err := s.SpendingService.GetAllSpendingRepo(r.Context())
+	obj, err := s.SpendingTypeService.GetAllSpendingRepo(r.Context())
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

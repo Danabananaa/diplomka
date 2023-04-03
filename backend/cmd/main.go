@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"time"
-
 	"diplomka/internal/handlers"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
+	"fmt"
+	"log"
+	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -30,40 +29,43 @@ func main() {
 
 	// repository
 	userRepo := repository.NewUserRepo(db)
-	// spendingRepo := repository.NewSpendingTypeRepo(db)
-	// incometypeRepo := repository.NewIncomeTypeRepo(db)
-	// incomeRepo := repository.NewIncomeRepo(db)
+	spendingTypeRepo := repository.NewSpendingTypeRepo(db)
+	incometypeRepo := repository.NewIncomeTypeRepo(db)
+	incomeRepo := repository.NewIncomeRepo(db)
+	spendingRepo := repository.NewSpendingRepo(db)
 
 	jwtService := service.NewJWTService()
 	authService := service.NewAuthService(userRepo, jwtService)
 
 	// services
-	// spendingTypeService := service.NewSpendingService(spendingRepo)
-	// incomeTypeService := service.NewIncomeTypeService(incometypeRepo)
-	// incomeService := service.NewIncomeService(incomeRepo)
+	spendingTypeService := service.NewSpendingTypeService(spendingTypeRepo)
+	incomeTypeService := service.NewIncomeTypeService(incometypeRepo)
+	incomeService := service.NewIncomeService(incomeRepo)
+	spendingService := service.NewSpendingService(spendingRepo)
 
 	// handlers
 	middlewareHandlers := handlers.NewMiddleware(authService)
 
 	authHandlers := handlers.NewAuthHandlers(authService)
 
-	// spendingTypeHandlers := handlers.NewSpendingHandlers(spendingTypeService)
-	// incomeTypeHandlers := handlers.NewIncomeTypeHandlers(incomeTypeService)
-	// incomeHandlers := handlers.NewIncomeHandlers(incomeService)
+	spendingTypeHandlers := handlers.NewSpendingTypeHandlers(spendingTypeService)
+	incomeTypeHandlers := handlers.NewIncomeTypeHandlers(incomeTypeService)
+	incomeHandlers := handlers.NewIncomeHandlers(incomeService)
+	spendingHadlers := handlers.NewSpendingHandlers(spendingService)
 
 	r := mux.NewRouter()
 
-	r.Handle("/", middlewareHandlers.RequireAuthentication(http.HandlerFunc(index))).Methods(http.MethodGet)
+	// r.Handle("/", middlewareHandlers.RequireAuthentication(http.HandlerFunc(index))).Methods(http.MethodGet)
 
 	r.HandleFunc("/signup", authHandlers.SignUp).Methods(http.MethodPost)
 	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
 	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
 
-	// r.HandleFunc("/spending/type", spendingTypeHandlers.AllSpendingTypes).Methods(http.MethodGet)
-	// r.HandleFunc("/income/type", incomeTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
+	r.HandleFunc("/spending/type", spendingTypeHandlers.AllSpendingTypes).Methods(http.MethodGet)
+	r.HandleFunc("/income/type", incomeTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
 
-	// r.HandleFunc("/spending", incomeHandlers.PostIncome).Methods(http.MethodPost)
-	// r.HandleFunc("/income", incomeHandlers.PostIncome).Methods(http.MethodPost)
+	r.Handle("/spending", middlewareHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.PostSpending))).Methods(http.MethodPost)
+	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)
 
 	// r.HandleFunc("/spending", incomeHandlers.PostIncome).Methods(http.MethodGet)
 	// r.HandleFunc("/income", incomeHandlers.PostIncome).Methods(http.MethodGet)
@@ -83,17 +85,6 @@ func main() {
 
 	err = server.ListenAndServe()
 	log.Fatalf("Server error: %v", err)
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-	userID, ok := r.Context().Value(handlers.UserKey).(int64)
-	if !ok {
-		http.Error(w, "dont convert", http.StatusInternalServerError)
-		return
-	}
-
-	fmt.Println(userID)
-	fmt.Fprintln(w, "work")
 }
 
 // type statistics struct {

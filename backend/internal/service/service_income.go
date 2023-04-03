@@ -2,10 +2,8 @@ package service
 
 import (
 	"context"
-	"fmt"
-	"time"
-
 	"diplomka/internal/model"
+	"fmt"
 )
 
 type income struct {
@@ -19,12 +17,7 @@ func NewIncomeService(inc model.IncomeRepo) *income {
 }
 
 func (s *income) InsertIncomeService(ctx context.Context, inc model.Income) (*model.Income, error) {
-	var err error
-	inc.Date, err = time.Parse("01-02-2006 15:04", time.Now().Format("01-02-2006 15:04"))
-	if err != nil {
-		return nil, fmt.Errorf("error was ocured during convertind time format %v", err)
-	}
-
+	fmt.Printf("inc.Date.Time: %v\n", inc.Date.Time)
 	obj, err := s.IncomeRepo.AddIncome(ctx, inc)
 	if err != nil {
 		return nil, fmt.Errorf("get income repo: %v", err)

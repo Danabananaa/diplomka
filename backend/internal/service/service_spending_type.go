@@ -10,7 +10,7 @@ type spending_type struct {
 	model.SpendingTypeRepo
 }
 
-func NewSpendingService(sr model.SpendingTypeRepo) *spending_type {
+func NewSpendingTypeService(sr model.SpendingTypeRepo) *spending_type {
 	return &spending_type{
 		SpendingTypeRepo: sr,
 	}

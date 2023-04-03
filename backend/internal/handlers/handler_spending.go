@@ -7,19 +7,19 @@ import (
 	"net/http"
 )
 
-type income struct {
-	model.IncomeService
+type spending struct {
+	model.SpendingService
 }
 
-func NewIncomeHandlers(inc model.IncomeService) *income {
-	return &income{
-		IncomeService: inc,
+func NewSpendingHandlers(spn model.SpendingService) *spending {
+	return &spending{
+		SpendingService: spn,
 	}
 }
 
-func (a *income) PostIncome(w http.ResponseWriter, r *http.Request) {
+func (s *spending) PostSpending(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	inc := model.Income{}
+	inc := model.Spending{}
 
 	temp := r.Context().Value(UserKey)
 
@@ -36,16 +36,8 @@ func (a *income) PostIncome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = a.InsertIncomeService(r.Context(), inc)
+	_, err = s.InsertSpendingService(r.Context(), inc)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
-
-// {
-//     "user_id":1,
-//     "income_type_id":1,
-//     "amount":5000,
-//     "description":"salary",
-//     "date":"2023-04-03"
-// }
