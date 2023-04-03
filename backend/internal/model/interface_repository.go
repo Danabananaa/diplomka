@@ -15,6 +15,7 @@ type SpendingRepo interface {
 
 type IncomeRepo interface {
 	AddIncome(ctx context.Context, inc Income) (*Income, error)
+	// GetIncome(ctx context.Context, inc Income, date1 string) ([]*Income, error)
 }
 
 type SpendingTypeRepo interface {

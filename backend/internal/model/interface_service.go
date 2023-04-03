@@ -27,6 +27,7 @@ type IncomeTypeService interface {
 
 type IncomeService interface {
 	InsertIncomeService(ctx context.Context, inc Income) (*Income, error)
+	// GetIncomeService(ctx context.Context, inc Income) ([]*Income, error)
 }
 
 type SpendingService interface {

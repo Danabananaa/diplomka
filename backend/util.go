@@ -1,6 +1,9 @@
 package util
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type week struct {
 	Monday time.Time
@@ -18,4 +21,11 @@ func FindMondayAndSunday(t time.Time) week {
 	w.Monday = t.AddDate(0, 0, -daysAgo)
 	w.Sunday = w.Monday.AddDate(0, 0, 6)
 	return w
+}
+
+func FindFirstDay(t time.Time) time.Time {
+	x := t.Month()
+	fmt.Println(int(x))
+	g := time.Date(int(t.Year()), x, 1, 0, 0, 0, 0, time.UTC)
+	return g
 }
