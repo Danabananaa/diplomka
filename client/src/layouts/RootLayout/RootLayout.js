@@ -3,43 +3,29 @@ import { Box, CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, Avat
 import { Menu as MenuIcon, Dashboard as DashboardIcon } from '@mui/icons-material';
 import RootDrawer from '../../components/Root-Drawer/RootDrawer';
 import { MainDrawer } from '../../components/Root-Drawer/RootDrawer';
-import { useState } from 'react';
 import { Search } from '@mui/icons-material';
 import {InputBase} from '@mui/material';
 import { useSelector } from 'react-redux';
-
+import MenuAppBar from '../../components/Appbar/Appbar';
+import { useRef, useEffect, useState } from 'react';
 const drawerWidth = 240;
 
 const RootLayout = () => {
-
-
   const username = useSelector((state) => state.auth.username)
   const location = useLocation();
   const path = location.pathname.split('/')[1];
+  const boxRef = useRef(null); // for height measurement
+  const [boxHeight, setBoxHeight] = useState()
+  useEffect(() => {
+    setBoxHeight(boxRef.current.offsetHeight)
+    console.log(`Box height: ${boxHeight}px`);
+  }, []);
+  
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor:"primary.light"}}>
       <CssBaseline />
       {/* APPBAR */}
-      <AppBar position="fixed" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`, backgroundColor: 'primary.lighter', color: 'black'}}>
-        <Toolbar>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <Box sx={{ marginLeft: 2, display: 'flex', alignItems: 'center' }}>
-              <InputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                sx={{ marginLeft: 1, backgroundColor: "primary.light", borderRadius:4, p:0.7 }}
-              />
-              <Search/>
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="body1" component="span" sx={{ marginRight: 1 }}>
-              {username ? username : 'User'}
-            </Typography>
-            <Avatar alt="User Avatar" />
-          </Box>
-        </Toolbar>
-      </AppBar>
+        <MenuAppBar drawerWidth={drawerWidth}/>
         {/* DRAWER */}
       <Box
         component="nav"
@@ -65,12 +51,13 @@ const RootLayout = () => {
         </Drawer>
       </Box>
       {/* MAIN */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }} ref={boxRef} >
         <Toolbar />
-        <Outlet />
+        <Outlet context={[boxHeight, setBoxHeight]}/>
       </Box>
     </Box>
   );
 };
 
 export default RootLayout;
+

@@ -1,32 +1,141 @@
-import { Chart } from "react-google-charts";
+// install (please make sure versions match peerDependencies)
+// yarn add @nivo/core @nivo/pie
+import { ResponsivePie } from '@nivo/pie'
 
-
-export const data = [
-    ["Task", "Hours per Day"],
-    ["Work", 11],
-    ["Eat", 2],
-    ["Commute", 2],
-    ["Watch TV", 2],
-    ["Sleep", 7], // CSS-style declaration
-  ];
-  
-  export const options = {
-    title: "My Spendings",
-    pieHole: 0.6,
-    is3D: false,
-    backgroundColor: "secondary.dark"
-  };
-  
-  const DonutChart = () => {
-    return (
-      <Chart
-        chartType="PieChart"
-        width="100%"
-        height="600px"
+// make sure parent container have a defined height when using
+// responsive component, otherwise height will be 0 and
+// no chart will be rendered.
+// website examples showcase many properties,
+// you'll often use just a few of them.
+const DonutChart = ({ data /* see data tab */ }) => (
+    <ResponsivePie
         data={data}
-        options={options}
-      />
-    );
-  }
-
-  export default DonutChart;
+        margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+        sortByValue={true}
+        innerRadius={0.7}
+        padAngle={1}
+        cornerRadius={3}
+        activeInnerRadiusOffset={3}
+        activeOuterRadiusOffset={8}
+        colors={{ scheme: 'category10' }}
+        borderColor={{
+            from: 'color',
+            modifiers: [
+                [
+                    'darker',
+                    0.2
+                ]
+            ]
+        }}
+        arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
+        arcLinkLabelsThickness={5}
+        arcLinkLabelsColor={{ from: 'color' }}
+        arcLabelsSkipAngle={18}
+        arcLabelsTextColor={{
+            from: 'color',
+            modifiers: [
+                [
+                    'darker',
+                    '3'
+                ]
+            ]
+        }}
+        defs={[
+            {
+                id: 'dots',
+                type: 'patternDots',
+                background: 'inherit',
+                color: 'rgba(255, 255, 255, 0.3)',
+                size: 4,
+                padding: 1,
+                stagger: true
+            },
+            {
+                id: 'lines',
+                type: 'patternLines',
+                background: 'inherit',
+                color: 'rgba(255, 255, 255, 0.3)',
+                rotation: -45,
+                lineWidth: 6,
+                spacing: 10
+            }
+        ]}
+        fill={[
+            {
+                match: {
+                    id: 'ruby'
+                },
+                id: 'dots'
+            },
+            {
+                match: {
+                    id: 'c'
+                },
+                id: 'dots'
+            },
+            {
+                match: {
+                    id: 'go'
+                },
+                id: 'dots'
+            },
+            {
+                match: {
+                    id: 'python'
+                },
+                id: 'dots'
+            },
+            {
+                match: {
+                    id: 'scala'
+                },
+                id: 'lines'
+            },
+            {
+                match: {
+                    id: 'lisp'
+                },
+                id: 'lines'
+            },
+            {
+                match: {
+                    id: 'elixir'
+                },
+                id: 'lines'
+            },
+            {
+                match: {
+                    id: 'javascript'
+                },
+                id: 'lines'
+            }
+        ]}
+        motionConfig="wobbly"
+        legends={[
+            {
+                anchor: 'bottom',
+                direction: 'row',
+                justify: false,
+                translateX: 0,
+                translateY: 69,
+                itemsSpacing: 0,
+                itemWidth: 108,
+                itemHeight: 33,
+                itemTextColor: '#999',
+                itemDirection: 'left-to-right',
+                itemOpacity: 1,
+                symbolSize: 18,
+                symbolShape: 'circle',
+                effects: [
+                    {
+                        on: 'hover',
+                        style: {
+                            itemTextColor: '#000'
+                        }
+                    }
+                ]
+            }
+        ]}
+    />
+)
+export default DonutChart;
