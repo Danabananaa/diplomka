@@ -46,6 +46,40 @@ CREATE TABLE incometype(
  	income_type VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE assliatype(
+ 	id INTEGER PRIMARY KEY AUTOINCREMENT,
+ 	type VARCHAR(100) NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS assests(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id integer not NULL,
+  type integer not NULL,
+  amount integer NOT NULL,
+  description TEXT NOT NULL,
+  date DATE,
+  FOREIGN key(user_id) REFERENCES users(id),
+  FOREIGN key(type) REFERENCES assliatype(id) 
+);
+
+CREATE TABLE IF NOT EXISTS liabilities(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id integer not NULL,
+  type integer not NULL,
+  amount integer NOT NULL,
+  description TEXT NOT NULL,
+  date DATE,
+  FOREIGN key(user_id) REFERENCES users(id),
+  FOREIGN key(type) REFERENCES assliaype(id) 
+);
+
+
+
+
 INSERT INTO spendingtype (spending_type) VALUES ("Денсаулық"),("Ойын-сауық"),("Транспорт"),("Сыйлықтар"),("Тамақ"),("Спорт"),("Шоппинг"),("Несие"),("Байланыс"),("Ком.Қызметтер"),("Басқа");
 
 INSERT INTO incometype (income_type) VALUES ("Айлық"),("Сыйақы"),("Қосымша табыс");
+
+
+INSERT INTO assliatype (type) VALUES ("Достар"),("Туысқандар"),("Коллегалар"),("Басқа адамдар");

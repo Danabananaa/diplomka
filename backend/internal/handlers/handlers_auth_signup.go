@@ -1,17 +1,15 @@
 package handlers
 
 import (
-	"encoding/json"
-	"net/http"
-
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
+	"encoding/json"
+	"net/http"
 )
 
 func (a *auth) SignUp(w http.ResponseWriter, r *http.Request) {
 	// w.Header().Set("Content-Type", "application/json")
 	user := model.User{}
-
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Printf("json decode: %v", err)

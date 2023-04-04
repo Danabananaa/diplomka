@@ -9,3 +9,10 @@ DROP TABLE IF EXISTS spendingtype;
 DROP TABLE IF EXISTS incometype;
 
 DROP TABLE IF EXISTS income;
+
+DROP TABLE IF EXISTS assliatype;
+
+
+DROP TABLE IF EXISTS assests;
+
+DROP TABLE IF EXISTS liabilities;

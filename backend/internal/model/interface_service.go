@@ -34,3 +34,12 @@ type SpendingService interface {
 	InsertSpendingService(ctx context.Context, spn Spending) (*Spending, error)
 	GetSpendingService(ctx context.Context, bet Between) ([]*Spending, error)
 }
+
+type AssLiaTypeService interface {
+	GetAllAssLiaType(ctx context.Context) ([]*AssLiaType, error)
+}
+
+type AssetsLiabService interface {
+	AddAssetsService(ctx context.Context, ass Assets) (*Assets, error)
+	AddLiabService(ctx context.Context, lia Liabilities) (*Liabilities, error)
+}

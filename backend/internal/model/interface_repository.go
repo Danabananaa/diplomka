@@ -26,3 +26,15 @@ type SpendingTypeRepo interface {
 type IncomeTypeRepo interface {
 	GetIncomeType(ctx context.Context) ([]*IncomeType, error)
 }
+
+type AssLiaTypeRepo interface {
+	GetAssLiaType(ctx context.Context) ([]*AssLiaType, error)
+}
+
+type AssetsRepo interface {
+	AddAssets(ctx context.Context, ast Assets) (*Assets, error)
+}
+
+type LiabilitiesRepo interface {
+	AddLiabilities(ctx context.Context, lia Liabilities) (*Liabilities, error)
+}
