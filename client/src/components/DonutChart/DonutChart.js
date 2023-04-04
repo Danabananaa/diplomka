@@ -7,9 +7,17 @@ import { ResponsivePie } from '@nivo/pie'
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
+const theme = {
+    
+}
+
 const DonutChart = ({ data /* see data tab */ }) => (
     <ResponsivePie
         data={data}
+        theme={{
+            fontSize: 16,
+            
+           }}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
         sortByValue={true}
         innerRadius={0.7}
@@ -27,89 +35,10 @@ const DonutChart = ({ data /* see data tab */ }) => (
                 ]
             ]
         }}
-        arcLinkLabelsTextColor={{ from: 'color', modifiers: [] }}
+        arcLinkLabelsTextColor= 'black'
         arcLinkLabelsThickness={5}
         arcLinkLabelsColor={{ from: 'color' }}
         arcLabelsSkipAngle={18}
-        arcLabelsTextColor={{
-            from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    '3'
-                ]
-            ]
-        }}
-        defs={[
-            {
-                id: 'dots',
-                type: 'patternDots',
-                background: 'inherit',
-                color: 'rgba(255, 255, 255, 0.3)',
-                size: 4,
-                padding: 1,
-                stagger: true
-            },
-            {
-                id: 'lines',
-                type: 'patternLines',
-                background: 'inherit',
-                color: 'rgba(255, 255, 255, 0.3)',
-                rotation: -45,
-                lineWidth: 6,
-                spacing: 10
-            }
-        ]}
-        fill={[
-            {
-                match: {
-                    id: 'ruby'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'c'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'go'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'python'
-                },
-                id: 'dots'
-            },
-            {
-                match: {
-                    id: 'scala'
-                },
-                id: 'lines'
-            },
-            {
-                match: {
-                    id: 'lisp'
-                },
-                id: 'lines'
-            },
-            {
-                match: {
-                    id: 'elixir'
-                },
-                id: 'lines'
-            },
-            {
-                match: {
-                    id: 'javascript'
-                },
-                id: 'lines'
-            }
-        ]}
         motionConfig="wobbly"
         legends={[
             {
@@ -121,16 +50,16 @@ const DonutChart = ({ data /* see data tab */ }) => (
                 itemsSpacing: 0,
                 itemWidth: 108,
                 itemHeight: 33,
-                itemTextColor: '#999',
+                itemTextColor: 'black',
                 itemDirection: 'left-to-right',
                 itemOpacity: 1,
-                symbolSize: 18,
+                symbolSize: 20,
                 symbolShape: 'circle',
                 effects: [
                     {
                         on: 'hover',
                         style: {
-                            itemTextColor: '#000'
+                            itemTextColor: 'white'
                         }
                     }
                 ]

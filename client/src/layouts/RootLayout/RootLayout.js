@@ -8,6 +8,7 @@ import {InputBase} from '@mui/material';
 import { useSelector } from 'react-redux';
 import MenuAppBar from '../../components/Appbar/Appbar';
 import { useRef, useEffect, useState } from 'react';
+
 const drawerWidth = 240;
 
 const RootLayout = () => {
@@ -15,10 +16,15 @@ const RootLayout = () => {
   const location = useLocation();
   const path = location.pathname.split('/')[1];
   const boxRef = useRef(null); // for height measurement
+  const barRef = useRef(null);
   const [boxHeight, setBoxHeight] = useState()
+  const [barHeight, setBarHeight] = useState()
+  
   useEffect(() => {
     setBoxHeight(boxRef.current.offsetHeight)
+    setBarHeight(barRef.current.offsetHeight)
     console.log(`Box height: ${boxHeight}px`);
+    console.log(`Toolbar height: ${barHeight}px`);
   }, []);
   
   return (
@@ -51,9 +57,9 @@ const RootLayout = () => {
         </Drawer>
       </Box>
       {/* MAIN */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }} ref={boxRef} >
-        <Toolbar />
-        <Outlet context={[boxHeight, setBoxHeight]}/>
+      <Box component="main" sx={{flexGrow: 1, pt: 2, maxHeight: boxHeight-barHeight}} ref={boxRef} >
+        <Toolbar ref = {barRef}/>
+        <Outlet/>
       </Box>
     </Box>
   );
