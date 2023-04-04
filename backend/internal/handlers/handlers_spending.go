@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"diplomka/internal/model"
-	"diplomka/pkg/log"
 	"encoding/json"
 	"net/http"
+
+	"diplomka/internal/model"
+	"diplomka/pkg/log"
 )
 
 type spending struct {

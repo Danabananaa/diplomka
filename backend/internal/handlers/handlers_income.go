@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"diplomka/internal/model"
-	"diplomka/pkg/log"
 	"encoding/json"
 	"net/http"
+
+	"diplomka/internal/model"
+	"diplomka/pkg/log"
 )
 
 type income struct {
@@ -41,11 +42,3 @@ func (a *income) PostIncome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
-
-// {
-//     "user_id":1,
-//     "income_type_id":1,
-//     "amount":5000,
-//     "description":"salary",
-//     "date":"2023-04-03"
-// }

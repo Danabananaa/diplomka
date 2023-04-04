@@ -1,14 +1,15 @@
 package main
 
 import (
-	"diplomka/internal/handlers"
-	"diplomka/internal/repository"
-	"diplomka/internal/service"
-	"diplomka/pkg/sqlite"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
+
+	"diplomka/internal/handlers"
+	"diplomka/internal/repository"
+	"diplomka/internal/service"
+	"diplomka/pkg/sqlite"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -59,7 +60,6 @@ func main() {
 
 	r.HandleFunc("/signup", authHandlers.SignUp).Methods(http.MethodPost)
 	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
-	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
 
 	r.HandleFunc("/spending/type", spendingTypeHandlers.AllSpendingTypes).Methods(http.MethodGet)
 	r.HandleFunc("/income/type", incomeTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
@@ -68,9 +68,9 @@ func main() {
 	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)
 
 	// r.HandleFunc("/spending", incomeHandlers.PostIncome).Methods(http.MethodGet)
-	// r.HandleFunc("/income", incomeHandlers.PostIncome).Methods(http.MethodGet)
+	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.GetIncome))).Methods(http.MethodGet)
 
-	// r.HandleFunc("/statistics", incomeHandlers.PostIncome).Methods(http.MethodGet)
+	r.HandleFunc("/statistics", incomeHandlers.PostIncome).Methods(http.MethodGet)
 
 	r.Use(middlewareHandlers.PanicRecover)
 
