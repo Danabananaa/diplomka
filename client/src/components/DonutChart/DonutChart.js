@@ -18,7 +18,7 @@ const DonutChart = ({ data /* see data tab */ }) => (
             fontSize: 16,
             
            }}
-        margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+        margin={{ top: 80, right: 80, bottom: 80, left: 80 }}
         sortByValue={true}
         innerRadius={0.7}
         padAngle={1}
