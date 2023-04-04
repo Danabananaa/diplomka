@@ -32,4 +32,5 @@ type IncomeService interface {
 
 type SpendingService interface {
 	InsertSpendingService(ctx context.Context, spn Spending) (*Spending, error)
+	GetSpendingService(ctx context.Context, bet Between) ([]*Spending, error)
 }

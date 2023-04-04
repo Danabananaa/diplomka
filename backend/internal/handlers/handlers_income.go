@@ -1,11 +1,10 @@
 package handlers
 
 import (
-	"encoding/json"
-	"net/http"
-
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
+	"encoding/json"
+	"net/http"
 )
 
 type income struct {

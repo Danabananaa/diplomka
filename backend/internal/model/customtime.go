@@ -21,3 +21,16 @@ func (t *CustomTime) UnmarshalJSON(b []byte) error {
 	t.Time = parsedTime
 	return nil
 }
+
+func (ct *CustomTime) Scan(value interface{}) error {
+	if value == nil {
+		ct.Time = time.Time{}
+		return nil
+	}
+	t, ok := value.(time.Time)
+	if !ok {
+		return fmt.Errorf("Invalid type %T for CustomTime", value)
+	}
+	ct.Time = t
+	return nil
+}

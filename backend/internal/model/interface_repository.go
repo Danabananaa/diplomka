@@ -11,6 +11,7 @@ type UserRepo interface {
 
 type SpendingRepo interface {
 	AddSpending(ctx context.Context, inc Spending) (*Spending, error)
+	GetSpending(ctx context.Context, bet Between) ([]*Spending, error)
 }
 
 type IncomeRepo interface {

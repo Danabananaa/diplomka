@@ -2,10 +2,8 @@ package service
 
 import (
 	"context"
-	"fmt"
-	"time"
-
 	"diplomka/internal/model"
+	"fmt"
 )
 
 type income struct {
@@ -34,12 +32,4 @@ func (s *income) GetIncomeService(ctx context.Context, bet model.Between) ([]*mo
 	}
 
 	return obj, nil
-}
-
-func FindFirstDay(t time.Time) string {
-	x := t.Month()
-	fmt.Println(int(x))
-	g := time.Date(int(t.Year()), x, 1, 0, 0, 0, 0, time.UTC)
-
-	return g.Format("2006-01-02")
 }
