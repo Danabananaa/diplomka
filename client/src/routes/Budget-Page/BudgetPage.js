@@ -79,7 +79,7 @@ const BudgetPage = () => {
               }}
             >
                 {/* TOP HEADER */}
-                <Typography variant="h4">
+                <Typography variant="h4" sx={{fontFamily: 'DejaVuSans'}}>
                     Кірісті қосу
                 </Typography>
                 {/* TOP AMOUNT */}

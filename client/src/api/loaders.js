@@ -19,7 +19,7 @@ export const typesData =( async () => {
         //   const searchParams = url.searchParams;
         //   const id = searchParams.get('id');
             
-          const [incomeResponse, spendingResponse] = await Promise.all([
+          const [incomeTypeResponse, spendingTypeResponse] = await Promise.all([
             fetch(`/income/type`, {
               headers: {
                 Accept: "application/json",    
@@ -34,24 +34,23 @@ export const typesData =( async () => {
             })
           ]);
             
-          if (!incomeResponse.ok) {
-            const error = new Error(`Could not fetch the post. Status: ${incomeResponse.statusText}`);
-            error.status = incomeResponse.status;
+          if (!incomeTypeResponse.ok) {
+            const error = new Error(`Could not fetch the post. Status: ${incomeTypeResponse.statusText}`);
+            error.status = incomeTypeResponse.status;
             throw error;
           }
           
-          if (!spendingResponse.ok) {
-            const error = new Error(`Could not fetch the comments. Status: ${spendingResponse.statusText}`);
-            error.status = spendingResponse.status;
+          if (!spendingTypeResponse.ok) {
+            const error = new Error(`Could not fetch the comments. Status: ${spendingTypeResponse.statusText}`);
+            error.status = spendingTypeResponse.status;
             throw error;
           }
           
-          const incomeTypes = await incomeResponse.json();
-          const spendingTypes = await spendingResponse.json();
+          const incomeTypes = await incomeTypeResponse.json();
+          const spendingTypes = await spendingTypeResponse.json();
           return { incomeTypes, spendingTypes };
         } catch (error) {
           console.log(error);
           throw error;
         }
-       
 })  

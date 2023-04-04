@@ -17,6 +17,20 @@ const themeOptions = {
       main: '#f50057',
     },
   },
+  typography: {
+    fontFamily: [
+      'DejaVuSans',
+      'Roboto',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
   spacing: 8,
   components: {
     MuiAppBar: {
