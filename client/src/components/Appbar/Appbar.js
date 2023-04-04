@@ -30,28 +30,16 @@ export default function MenuAppBar({drawerWidth}) {
 
   return (
    
-      <AppBar 
-      sx={{
+      <AppBar
+        
+        sx={{
         width: `calc(100% - ${drawerWidth}px)`,
         ml: `${drawerWidth}px`,
         backgroundColor: 'primary.lighter',
-        color: 'black'}}
+        color: 'black'
+      }}
       >
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Photos
-          </Typography>
-          {auth && (
-            <div>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -80,8 +68,7 @@ export default function MenuAppBar({drawerWidth}) {
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
               </Menu>
-            </div>
-          )}
+           
         </Toolbar>
       </AppBar>
   );
