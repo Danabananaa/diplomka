@@ -6,21 +6,27 @@ import (
 	"fmt"
 )
 
-type income_type struct {
+type income_spending_type struct {
 	model.IncomeTypeRepo
+	model.SpendingTypeRepo
 }
 
-func NewIncomeTypeService(it model.IncomeTypeRepo) *income_type {
-	return &income_type{
-		IncomeTypeRepo: it,
+func NewIncSpnTypeService(it model.IncomeTypeRepo, sp model.SpendingTypeRepo) *income_spending_type {
+	return &income_spending_type{
+		IncomeTypeRepo:   it,
+		SpendingTypeRepo: sp,
 	}
 }
 
-func (s *income_type) GetAllIncomeRepo(ctx context.Context) ([]*model.IncomeType, error) {
-	obj, err := s.IncomeTypeRepo.GetIncomeType(ctx)
+func (s *income_spending_type) GetAllIncSpendingService(ctx context.Context) ([]*model.IncomeType, []*model.SpendingType, error) {
+	inctype, err := s.IncomeTypeRepo.GetIncomeType(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("get spending repo: %v", err)
+		return nil, nil, fmt.Errorf("get spending repo: %v", err)
+	}
+	spntype, err := s.SpendingTypeRepo.GetSpendingType(ctx)
+	if err != nil {
+		return nil, nil, fmt.Errorf("get spending repo: %v", err)
 	}
 
-	return obj, nil
+	return inctype, spntype, nil
 }

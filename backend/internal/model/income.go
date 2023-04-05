@@ -12,3 +12,8 @@ type Income struct {
 	// time.Now().Format("2006-01-02").
 	Date CustomTime `db:"date" json:"date"`
 }
+
+type Income_Spending struct {
+	Income   []*Income
+	Spending []*Spending
+}

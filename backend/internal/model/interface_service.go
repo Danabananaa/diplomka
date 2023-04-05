@@ -17,12 +17,12 @@ type JWTService interface {
 	Verification(signedToken string) (int64, error)
 }
 
-type SpendingTypeService interface {
-	GetAllSpendingRepo(ctx context.Context) ([]*SpendingType, error)
-}
+// type SpendingTypeService interface {
+// 	GetAllSpendingRepo(ctx context.Context) ([]*SpendingType, error)
+// }
 
-type IncomeTypeService interface {
-	GetAllIncomeRepo(ctx context.Context) ([]*IncomeType, error)
+type IncomeSpendTypeService interface {
+	GetAllIncSpendingService(ctx context.Context) ([]*IncomeType, []*SpendingType, error)
 }
 
 type IncomeService interface {

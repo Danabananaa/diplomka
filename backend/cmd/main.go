@@ -41,8 +41,8 @@ func main() {
 	authService := service.NewAuthService(userRepo, jwtService)
 
 	// services
-	spendingTypeService := service.NewSpendingTypeService(spendingTypeRepo)
-	incomeTypeService := service.NewIncomeTypeService(incometypeRepo)
+
+	incSpnTypeService := service.NewIncSpnTypeService(incometypeRepo, spendingTypeRepo)
 	incomeService := service.NewIncomeService(incomeRepo)
 	spendingService := service.NewSpendingService(spendingRepo)
 	assliatypeService := service.NewAssLiaTypeService(assliatype)
@@ -53,9 +53,9 @@ func main() {
 
 	authHandlers := handlers.NewAuthHandlers(authService)
 
-	spendingTypeHandlers := handlers.NewSpendingTypeHandlers(spendingTypeService)
-	incomeTypeHandlers := handlers.NewIncomeTypeHandlers(incomeTypeService)
+	incSpnTypeHandlers := handlers.NewIncomeSpendTypeHandlers(incSpnTypeService)
 	incomeHandlers := handlers.NewIncomeHandlers(incomeService)
+	budgetHandler := handlers.NewIncomeSpendingHandlers(incomeService, spendingService)
 	spendingHadlers := handlers.NewSpendingHandlers(spendingService)
 	assliatypeHandlers := handlers.NewAssLiaTypeHandlers(assliatypeService)
 	assets_liab_Handlers := handlers.NewAssetsHandlers(assets_liab_Service)
@@ -66,18 +66,19 @@ func main() {
 
 	r.HandleFunc("/signup", authHandlers.SignUp).Methods(http.MethodPost)
 	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
-
-	r.HandleFunc("/spending/type", spendingTypeHandlers.AllSpendingTypes).Methods(http.MethodGet)
-	r.HandleFunc("/income/type", incomeTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
+	// Added new hadler which contain getting income and spending
+	r.HandleFunc("/budget/type", incSpnTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
+	// Added new hadler which contain getting assets and liability types
 	r.HandleFunc("/assliatype", assliatypeHandlers.GetAllAssLiaType).Methods(http.MethodGet)
 
 	r.Handle("/spending", middlewareHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.PostSpending))).Methods(http.MethodPost)
 	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)
-
+	// Added new hadler which contain getting adding and getting assets and liability
 	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(assets_liab_Handlers.AddAssetsLiabs))).Methods(http.MethodPost)
 	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(assets_liab_Handlers.GetAssetLiab))).Methods(http.MethodGet)
-	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.GetIncome))).Methods(http.MethodGet)
-	r.Handle("/spending", middlewareHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.GetSpending))).Methods(http.MethodGet)
+	// Added new hadler which contain getting income and spending
+	r.Handle("/budget/stats", middlewareHandlers.RequireAuthentication(http.HandlerFunc(budgetHandler.GetIncomeSpending))).Methods(http.MethodGet)
+
 	r.HandleFunc("/statistics", incomeHandlers.PostIncome).Methods(http.MethodGet)
 
 	r.Use(middlewareHandlers.PanicRecover)
@@ -116,3 +117,8 @@ func main() {
 func Statistics(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "work")
 }
+
+// {
+//     "start_date":"2023-01-01",
+//     "end_date":"2023-04-05"
+// }
