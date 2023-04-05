@@ -56,8 +56,12 @@ func (asl *assets_liab) GetAssetLiab(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
+	mergestruct := model.MergeStruct{
+		AssetsArr:      asset,
+		LiabilitiesArr: liab,
+	}
 
-	err = json.NewEncoder(w).Encode([]interface{}{asset, liab})
+	err = json.NewEncoder(w).Encode(mergestruct)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return

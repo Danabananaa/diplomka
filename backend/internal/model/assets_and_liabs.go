@@ -8,3 +8,8 @@ type Assets_and_Liabs struct {
 	Amount      int64      `json:"amount"`
 	Date        CustomTime `json:"date"`
 }
+
+type MergeStruct struct {
+	AssetsArr      []*Assets
+	LiabilitiesArr []*Liabilities
+}
