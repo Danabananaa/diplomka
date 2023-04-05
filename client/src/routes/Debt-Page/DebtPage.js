@@ -1,5 +1,6 @@
 import { Grid, Box, FormControl, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button } from "@mui/material";
 import { useState } from "react";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 // import MyCalendar from "../../components/Calendar/Calendar";
 import Calendar from 'react-calendar';
 import '../../components/Calendar/Calendar.css'
@@ -7,6 +8,8 @@ import "react-calendar/dist/Calendar.css";
 
 const DebtPage = () => {
     const [date, setDate] = useState(new Date());
+    const [debtType, setDebtType] = useState('');
+    const [debtDescription, setDebtDescription] = useState('');
     return (
         
         <Grid 
@@ -59,7 +62,7 @@ const DebtPage = () => {
           <Box
               sx={{
                 height: '45%',
-                width: '95%',
+                width: '80%',
                 backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
                 boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
                 borderRadius: '16px',
@@ -77,7 +80,7 @@ const DebtPage = () => {
           <Box
               sx={{
                 height: '45%',
-                width: '95%',
+                width: '80%',
                 backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
                 boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
                 borderRadius: '16px',
@@ -89,9 +92,40 @@ const DebtPage = () => {
               }}
             >
                 {/* TODO Finish this part */}
-               <Typography> 
-               {date.toDateString()}
+               <Typography variant="h5"> 
+               {/* {date.toDateString()} */}
+               Қарыздар
                </Typography>
+               <TextField 
+                    id="filled-basic" 
+                    label="Description" 
+                    variant="filled" 
+                    onChange={(e)=> setSpendingDescription(e.target.value)}
+                    sx={{
+                        width: '80%'
+                    }}
+                />
+                <TextField
+                  id="outlined-select-spending"
+                  variant="filled"
+                  select
+                  onChange={(e) => setSpendingType(e.target.value)}
+                  label="Select"
+                  defaultValue=""
+                  sx={{ width: '80%' }}
+                >
+                  <MenuItem value="Debt">Debt</MenuItem>
+                  <MenuItem value="Loan">Loan</MenuItem>
+                </TextField>
+                <AddCircleOutlineIcon 
+                    sx={{
+                        fontSize:'50px',
+                        '&:hover':{
+                            cursor: 'pointer',
+                            color: 'white'
+                        },
+                    }}
+                />
 
           </Box>
         </Grid>
