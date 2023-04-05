@@ -4,7 +4,9 @@ import (
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"time"
 )
 
 type assets_liab struct {
@@ -39,16 +41,32 @@ func (asl *assets_liab) GetAssetLiab(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	bet := model.Between{}
 
-	err := json.NewDecoder(r.Body).Decode(&bet)
-	if err != nil {
-		log.Printf("json decode: %v", err)
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
+	// err := json.NewDecoder(r.Body).Decode(&bet)
+	// if err != nil {
+	// 	log.Printf("json decode: %v", err)
+	// 	http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+	// 	return
+	// }
 
 	userID := GetID(w, r)
 
 	bet.UserID = userID
+
+	enddate, err := time.Parse("2006-01-02", time.Now().Format("2006-01-02"))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	startdate := FindFirstDay(enddate)
+
+	bet.StartDate = model.CustomTime{
+		Time: startdate,
+	}
+
+	bet.EndDate = model.CustomTime{
+		Time: enddate,
+	}
 
 	asset, liab, err := asl.AssetsLiabService.GetAssetsLiabsService(r.Context(), bet)
 	if err != nil {

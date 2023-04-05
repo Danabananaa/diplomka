@@ -81,7 +81,3 @@ func FindFirstDay(t time.Time) time.Time {
 	g := time.Date(int(t.Year()), x, 1, 0, 0, 0, 0, time.UTC)
 	return g
 }
-
-func NewCustomTime(t time.Time) model.CustomTime {
-	return model.CustomTime{t}
-}
