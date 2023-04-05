@@ -67,3 +67,56 @@ export const budgetData =( async () => {
           throw error;
         }
 })  
+
+export const debtData =( async () => {
+  const token = localStorage.getItem('token');
+  try {
+        //   const url = new URL(request.url);
+        //   const searchParams = url.searchParams;
+        //   const id = searchParams.get('id');
+            
+          const [debtResponse, debtTypesResponse] = await Promise.all([
+            fetch(`/debt`, {
+              headers: {
+                Accept: "application/json",
+                Authorization: `${token}`,
+              },
+              method: "GET",
+              
+            }),
+            fetch(`/assliatype`, {
+              headers: {
+                Accept: "application/json",
+                Authorization: `${token}`,
+              },
+              method: "GET",
+              
+            }),
+          ]);
+            
+          if (!debtResponse.ok) {
+            // if (budgetTypeResponse.status===401){
+            //   return redirect('/signin')
+            // }
+            const error = new Error(`Could not fetch the post. Status: ${budgetTypeResponse.statusText}`);
+            error.status = budgetTypeResponse.status;
+            throw error;
+          }
+          if (!debtTypesResponse.ok) {
+            // if (budgetTypeResponse.status===401){
+            //   return redirect('/signin')
+            // }
+            const error = new Error(`Could not fetch the post. Status: ${budgetTypeResponse.statusText}`);
+            error.status = budgetTypeResponse.status;
+            throw error;
+          }
+          
+          const debtData = await debtResponse.json();
+          const debtTypesData = await debtTypesResponse.json();
+          console.log(debtTypesData);
+          return { debtTypesData };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+})  

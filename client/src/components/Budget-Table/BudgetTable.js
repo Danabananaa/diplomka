@@ -67,7 +67,7 @@ const handleSpendingType = (ID) => {
   };
 
 return (
-<Paper elevation={12} sx={{ borderRadius: "20px" }}>
+<Paper elevation={12} sx={{ borderRadius: "20px", height: '100%', width: '100%', display: "flex", flexDirection: "column", justifyContent: "space-between"  }}>
 <TableContainer sx={{ borderRadius: "20px" }}>
   <Table sx={{ minWidth: 800, outline: '2px solid #06c'}} aria-label="simple table">
     <TableHead>
