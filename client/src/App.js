@@ -14,7 +14,7 @@ import RootLayout from './layouts/RootLayout/RootLayout';
 // errorElement
 import { ErrorPage } from './routes/Error-Page/ErrorPage';
 import { PageNotFound } from './routes/Page-Not-Found/PageNotFound';
-import { homeLoader, typesData } from './api/loaders';
+import { budgetData, homeLoader } from './api/loaders';
 import BudgetPage from './routes/Budget-Page/BudgetPage';
 import PlannerPage from './routes/Planner-Page/PlannerPage';
 import DebtPage from './routes/Debt-Page/DebtPage';
@@ -29,7 +29,7 @@ const router = createBrowserRouter(
       <Route path="/" >
           <Route index loader={()=>redirect("/statistics")}/>
           <Route path="statistics" element={<HomePage/>}/>
-          <Route path="budget" loader={typesData} element={<BudgetPage/>}/>
+          <Route path="budget" loader={budgetData} element={<BudgetPage/>}/>
           <Route path="planner" element={<PlannerPage/>}/>
           <Route path="debt" element={<DebtPage/>}/>
           <Route path="settings" element={<SettingsPage/>}/>

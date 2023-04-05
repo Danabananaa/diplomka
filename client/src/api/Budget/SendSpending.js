@@ -5,11 +5,12 @@ export const sendSpending = async(e, typeID, amount, description, navigate) => {
     const date = getCurrentDate();
     const token = localStorage.getItem('token');
     const data = {
-        income_type_id: parseInt(typeID, 10), // Convert typeID to a number (int64)
+        spending_type_id: parseInt(typeID, 10), // Convert typeID to a number (int64)
         amount: parseInt(amount, 10),
         description: description,
         date: date
     }
+    console.log(data.income_type_id);
     await fetch(`/spending`, {
         method: 'POST',
         headers: {
@@ -22,7 +23,7 @@ export const sendSpending = async(e, typeID, amount, description, navigate) => {
             console.log("something went wrong");
         } else {
             console.log("Income sent");
-            return navigate(0);  
+            navigate(0);
         }   
       })
       
