@@ -8,7 +8,10 @@ import { sendSpending } from "../../api/Budget/SendSpending";
 
 const BudgetPage = () => {
     const navigate = useNavigate();
-    const { incomeTypes, spendingTypes } = useLoaderData(); //Spending and Income Types from the Server
+    const { Types, Stats } = useLoaderData(); //Spending and Income Types from the Server
+    console.log(Types);
+    console.log(Stats);
+
     const [income, setIncome] = useState();
     const [spending, setSpending] = useState();
     const [incomeType, setIncomeType] = useState();
@@ -92,7 +95,7 @@ const BudgetPage = () => {
                     />
                 </FormControl>
               {/* TOP TYPE */}
-                <TextField
+                {/* <TextField
                     id="outlined-select-currency"
                     variant="filled"
                     select
@@ -106,7 +109,7 @@ const BudgetPage = () => {
                             {option.IncomeType}
                         </MenuItem>
                     ))}
-                </TextField>
+                </TextField> */}
                 {/* Description */}
                 <TextField 
                     id="filled-basic" 
@@ -159,7 +162,7 @@ const BudgetPage = () => {
                     />
                 </FormControl>
               {/* BOTTOM TYPE */}
-                <TextField
+                {/* <TextField
                     id="outlined-select-spending"
                     variant="filled"
                     select
@@ -175,7 +178,7 @@ const BudgetPage = () => {
                         </MenuItem>
                         ))
                     )}
-                </TextField>
+                </TextField> */}
                 {/* Description */}
                 <TextField 
                     id="filled-basic" 
