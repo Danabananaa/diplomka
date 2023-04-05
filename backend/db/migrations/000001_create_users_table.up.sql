@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS liabilities(
   description TEXT NOT NULL,
   date DATE,
   FOREIGN key(user_id) REFERENCES users(id),
-  FOREIGN key(type) REFERENCES assliaype(id) 
+  FOREIGN key(type) REFERENCES assliatype(id) 
 );
 
 
