@@ -13,23 +13,8 @@ export const homeLoader = () => {
 }
 
 
-export const typesData =( async () => {
+export const budgetData =( async () => {
   const token = localStorage.getItem('token');
-      
-//   const currentDate = new Date();
-// const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-
-// const formatDate = (date) => {
-//   const year = date.getFullYear();
-//   const month = String(date.getMonth() + 1).padStart(2, '0');
-//   const day = String(date.getDate()).padStart(2, '0');
-  
-//   return `${year}-${month}-${day}`;
-// };
-
-// const firstDayOfMonthFormatted = formatDate(firstDayOfMonth);
-// const currentDateFormatted = formatDate(currentDate);
-  
   
   try {
         //   const url = new URL(request.url);
@@ -77,6 +62,59 @@ export const typesData =( async () => {
           const Types = await budgetTypeResponse.json();
           const Stats = await budgetStatsResponse.json();
           return { Types, Stats };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+})  
+
+export const debtData =( async () => {
+  const token = localStorage.getItem('token');
+  try {
+        //   const url = new URL(request.url);
+        //   const searchParams = url.searchParams;
+        //   const id = searchParams.get('id');
+            
+          const [debtResponse, debtTypesResponse] = await Promise.all([
+            fetch(`/debt`, {
+              headers: {
+                Accept: "application/json",
+                Authorization: `${token}`,
+              },
+              method: "GET",
+              
+            }),
+            fetch(`/assliatype`, {
+              headers: {
+                Accept: "application/json",
+                Authorization: `${token}`,
+              },
+              method: "GET",
+              
+            }),
+          ]);
+            
+          if (!debtResponse.ok) {
+            // if (budgetTypeResponse.status===401){
+            //   return redirect('/signin')
+            // }
+            const error = new Error(`Could not fetch the post. Status: ${budgetTypeResponse.statusText}`);
+            error.status = budgetTypeResponse.status;
+            throw error;
+          }
+          if (!debtTypesResponse.ok) {
+            // if (budgetTypeResponse.status===401){
+            //   return redirect('/signin')
+            // }
+            const error = new Error(`Could not fetch the post. Status: ${budgetTypeResponse.statusText}`);
+            error.status = budgetTypeResponse.status;
+            throw error;
+          }
+          
+          const debtData = await debtResponse.json();
+          const debtTypesData = await debtTypesResponse.json();
+          console.log(debtTypesData);
+          return { debtTypesData };
         } catch (error) {
           console.log(error);
           throw error;

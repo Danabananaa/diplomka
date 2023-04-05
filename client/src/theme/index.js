@@ -14,7 +14,7 @@ const themeOptions = {
     mode: 'light',
     primary: shadesOfWhite,
     secondary: {
-      main: '#f50057',
+      main: '#9BACD1',
     },
   },
   typography: {

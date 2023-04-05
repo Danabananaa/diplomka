@@ -5,10 +5,15 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Calendar from 'react-calendar';
 import '../../components/Calendar/Calendar.css'
 import "react-calendar/dist/Calendar.css";
-
+import { useLoaderData, useNavigate } from "react-router";
+import { sendDebt } from "../../api/Debt/SendDebt";
 const DebtPage = () => {
+    const navigate = useNavigate();
+    const {debtData, debtTypesData} = useLoaderData();
     const [date, setDate] = useState(new Date());
+    const [debtLoan, setDebtLoan] = useState('');
     const [debtType, setDebtType] = useState('');
+    const [amount, setAmount] = useState();
     const [debtDescription, setDebtDescription] = useState('');
     return (
         
@@ -100,7 +105,16 @@ const DebtPage = () => {
                     id="filled-basic" 
                     label="Description" 
                     variant="filled" 
-                    onChange={(e)=> setSpendingDescription(e.target.value)}
+                    onChange={(e)=> setDebtDescription(e.target.value)}
+                    sx={{
+                        width: '80%'
+                    }}
+                />
+                <TextField 
+                    id="filled-basic" 
+                    label="Amount" 
+                    variant="filled"
+                    onChange={(e)=> setAmount(e.target.value)}
                     sx={{
                         width: '80%'
                     }}
@@ -109,15 +123,35 @@ const DebtPage = () => {
                   id="outlined-select-spending"
                   variant="filled"
                   select
-                  onChange={(e) => setSpendingType(e.target.value)}
+                  onChange={(e) => setDebtLoan(e.target.value)}
                   label="Select"
-                  defaultValue=""
+                  value={debtLoan}
                   sx={{ width: '80%' }}
                 >
                   <MenuItem value="Debt">Debt</MenuItem>
                   <MenuItem value="Loan">Loan</MenuItem>
                 </TextField>
+
+                <TextField
+                    id="outlined-select-spending"
+                    variant="filled"
+                    select
+                    onChange={(e)=>setDebtType(e.target.value)}
+                    value={debtType}
+                    label="Select"
+                    sx={{width: '80%'}}
+                >
+                    {debtTypesData && (debtTypesData.map((option) => (
+                        // console.log(option.SpendingType)
+                        <MenuItem key={option.id} value={option.id}>
+                            {option.type}
+                        </MenuItem>
+                        ))
+                    )}
+                </TextField>
+
                 <AddCircleOutlineIcon 
+                    onClick={()=>sendDebt(debtLoan, debtType, amount, debtDescription, navigate)}
                     sx={{
                         fontSize:'50px',
                         '&:hover':{

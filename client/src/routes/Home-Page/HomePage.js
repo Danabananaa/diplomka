@@ -2,7 +2,8 @@ import React from 'react';
 import { Paper, Typography } from '@mui/material';
 import {Box, Grid} from '@mui/material';
 import DonutChart from '../../components/DonutChart/DonutChart';
-import { display } from '@mui/system';
+import {Button} from '@mui/material';
+import {Stack} from '@mui/system';
 // import { useOutletContext } from "react-router-dom";
 const HomePage = () => {
   // const [mainHeight, setMainHeight] = useOutletContext();
@@ -53,17 +54,82 @@ const HomePage = () => {
     {/* PIE CONTAINER */}
       <Grid item xs={7} 
         sx={{
-          height: '80%',
+          height: '90%',
           // border:'1px solid black',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'space-around'
         }}
       >
+
+        <Box
+          sx={{
+            height: '10%',
+            width: '95%',
+            // backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
+            // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            // border: '1px solid rgba(0, 0, 0, 0.25)',
+            position: 'relative'
+          }}
+        >
+          <Typography variant="h4">Overall Statistics</Typography>
+
+      </Box>
+      <Box
+          sx={{
+            height: '10%',
+            width: '95%',
+            // backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
+            // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            // border: '1px solid rgba(0, 0, 0, 0.25)',
+            position: 'relative'
+          }}
+        >
+        <Stack direction="row" spacing={5}>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ border: "1px solid black", fontWeight: "600", color: "#0C1017", width: "100px" }}
+          >
+            Year
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ border: "1px solid black", fontWeight: "600", color: "#0C1017", width: "100px" }}
+          >
+            Month
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ border: "1px solid black", fontWeight: "600", color: "#0C1017", width: "100px" }}
+          >
+            Week
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ border: "1px solid black", fontWeight: "600", color: "#0C1017", width: "100px" }}
+          >
+            Day
+          </Button>
+        </Stack>
+
+      </Box>
         {/* PIE BOX */}
         <Box
           sx={{
-            height: '95%',
+            height: '80%',
             width: '95%',
             backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
             boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
@@ -110,7 +176,7 @@ const HomePage = () => {
         {/* TOP BOX */}
         <Box
             sx={{
-              height: '40%',
+              height: '45%',
               width: '80%',
               backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
               boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
@@ -126,7 +192,7 @@ const HomePage = () => {
         {/* BOTTOM BOX */}
         <Box
             sx={{
-              height: '40%',
+              height: '45%',
               width: '80%',
               backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
               boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
