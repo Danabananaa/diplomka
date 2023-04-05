@@ -1,14 +1,15 @@
 package main
 
 import (
-	"diplomka/internal/handlers"
-	"diplomka/internal/repository"
-	"diplomka/internal/service"
-	"diplomka/pkg/sqlite"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
+
+	"diplomka/internal/handlers"
+	"diplomka/internal/repository"
+	"diplomka/internal/service"
+	"diplomka/pkg/sqlite"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -80,6 +81,14 @@ func main() {
 	r.Handle("/budget/stats", middlewareHandlers.RequireAuthentication(http.HandlerFunc(budgetHandler.GetIncomeSpending))).Methods(http.MethodGet)
 
 	r.HandleFunc("/statistics", incomeHandlers.PostIncome).Methods(http.MethodGet)
+
+	s := repository.NewStatisticsRepo(db)
+
+	sS := service.NewStatisticsService(s)
+
+	sH := handlers.NewStatisticsHandlers(sS)
+
+	r.HandleFunc("/stat", sH.GetStat).Methods(http.MethodGet)
 
 	r.Use(middlewareHandlers.PanicRecover)
 

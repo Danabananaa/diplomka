@@ -1,6 +1,7 @@
 package model
 
 import (
+	"database/sql/driver"
 	"fmt"
 	"time"
 )
@@ -29,8 +30,12 @@ func (ct *CustomTime) Scan(value interface{}) error {
 	}
 	t, ok := value.(time.Time)
 	if !ok {
-		return fmt.Errorf("Invalid type %T for CustomTime", value)
+		return fmt.Errorf("invalid type %T for CustomTime", value)
 	}
 	ct.Time = t
 	return nil
+}
+
+func (ct CustomTime) Value() (driver.Value, error) {
+	return ct.Time.Format("2006-01-02"), nil
 }

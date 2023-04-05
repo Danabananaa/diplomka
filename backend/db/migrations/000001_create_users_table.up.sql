@@ -81,5 +81,4 @@ INSERT INTO spendingtype (spending_type) VALUES ("Денсаулық"),("Ойы�
 
 INSERT INTO incometype (income_type) VALUES ("Айлық"),("Сыйақы"),("Қосымша табыс");
 
-
 INSERT INTO assliatype (type) VALUES ("Достар"),("Туысқандар"),("Коллегалар"),("Басқа адамдар");

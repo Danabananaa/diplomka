@@ -43,3 +43,7 @@ type AssetsLiabService interface {
 	AddAssetsLiabsService(ctx context.Context, asl Assets_or_Liabs) (*Assets_and_Liabs, error)
 	GetAssetsLiabsService(ctx context.Context, bet Between) ([]*Assets, []*Liabilities, error)
 }
+
+type StatisticsService interface {
+	GetStatistics(context.Context, Between) (Statistics, error)
+}

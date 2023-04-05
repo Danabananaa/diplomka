@@ -40,3 +40,7 @@ type LiabilitiesRepo interface {
 	AddLiabilities(ctx context.Context, ast Assets_or_Liabs) (*Assets_and_Liabs, error)
 	GetLiabilities(ctx context.Context, bet Between) ([]*Liabilities, error)
 }
+
+type StatisticsRepo interface {
+	GetStatistics(context.Context, Between) (Statistics, error)
+}
