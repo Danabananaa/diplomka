@@ -33,8 +33,9 @@ func main() {
 	incometypeRepo := repository.NewIncomeTypeRepo(db)
 	incomeRepo := repository.NewIncomeRepo(db)
 	spendingRepo := repository.NewSpendingRepo(db)
-	// assliatype := repository.NewAssLiaTypeRepo(db)
-	// assetsRepo := repository.NewAssetsRepo(db)
+	assliatype := repository.NewAssLiaTypeRepo(db)
+	assetsRepo := repository.NewAssetsRepo(db)
+	liabsRepo := repository.NewLiabilitiesRepo(db)
 
 	jwtService := service.NewJWTService()
 	authService := service.NewAuthService(userRepo, jwtService)
@@ -44,8 +45,8 @@ func main() {
 	incomeTypeService := service.NewIncomeTypeService(incometypeRepo)
 	incomeService := service.NewIncomeService(incomeRepo)
 	spendingService := service.NewSpendingService(spendingRepo)
-	// assliatypeService := service.NewAssLiaTypeService(assliatype)
-	// assetsService := service.NewAssetsService(assetsRepo)
+	assliatypeService := service.NewAssLiaTypeService(assliatype)
+	assets_liab_Service := service.NewAssetsService(assetsRepo, liabsRepo)
 
 	// handlers
 	middlewareHandlers := handlers.NewMiddleware(authService)
@@ -56,8 +57,8 @@ func main() {
 	incomeTypeHandlers := handlers.NewIncomeTypeHandlers(incomeTypeService)
 	incomeHandlers := handlers.NewIncomeHandlers(incomeService)
 	spendingHadlers := handlers.NewSpendingHandlers(spendingService)
-	// assliatypeHandlers := handlers.NewAssLiaTypeHandlers(assliatypeService)
-	// assetsHandlers := handlers.NewAssetsHandlers(assetsService)
+	assliatypeHandlers := handlers.NewAssLiaTypeHandlers(assliatypeService)
+	assets_liab_Handlers := handlers.NewAssetsHandlers(assets_liab_Service)
 
 	r := mux.NewRouter()
 
@@ -68,12 +69,13 @@ func main() {
 
 	r.HandleFunc("/spending/type", spendingTypeHandlers.AllSpendingTypes).Methods(http.MethodGet)
 	r.HandleFunc("/income/type", incomeTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
-	// r.HandleFunc("/asslia/type", assliatypeHandlers.GetAllAssLiaType).Methods(http.MethodGet)
+	r.HandleFunc("/assliatype", assliatypeHandlers.GetAllAssLiaType).Methods(http.MethodGet)
 
 	r.Handle("/spending", middlewareHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.PostSpending))).Methods(http.MethodPost)
 	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)
-	// r.Handle("/assets", middlewareHandlers.RequireAuthentication(http.HandlerFunc(assetsHandlers.AddAssets))).Methods(http.MethodPost)
 
+	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(assets_liab_Handlers.AddAssetsLiabs))).Methods(http.MethodPost)
+	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(assets_liab_Handlers.GetAssetLiab))).Methods(http.MethodGet)
 	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.GetIncome))).Methods(http.MethodGet)
 	r.Handle("/spending", middlewareHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.GetSpending))).Methods(http.MethodGet)
 	r.HandleFunc("/statistics", incomeHandlers.PostIncome).Methods(http.MethodGet)

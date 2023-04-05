@@ -1,6 +1,6 @@
 package model
 
-type Liabilities struct {
+type Assets_and_Liabs struct {
 	ID          int64      `json:"id"`
 	UserID      int64      `json:"user_id"`
 	TypeID      int64      `json:"type_id"`

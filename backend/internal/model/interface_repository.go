@@ -28,13 +28,15 @@ type IncomeTypeRepo interface {
 }
 
 type AssLiaTypeRepo interface {
-	GetAssLiaType(ctx context.Context) ([]*AssLiaType, error)
+	GetAssLiaTypeRepo(ctx context.Context) ([]*AssLiaType, error)
 }
 
 type AssetsRepo interface {
-	AddAssets(ctx context.Context, ast Assets) (*Assets, error)
+	AddAssets(ctx context.Context, asl Assets_or_Liabs) (*Assets_and_Liabs, error)
+	GetAssets(ctx context.Context, bet Between) ([]*Assets, error)
 }
 
 type LiabilitiesRepo interface {
-	AddLiabilities(ctx context.Context, lia Liabilities) (*Liabilities, error)
+	AddLiabilities(ctx context.Context, ast Assets_or_Liabs) (*Assets_and_Liabs, error)
+	GetLiabilities(ctx context.Context, bet Between) ([]*Liabilities, error)
 }

@@ -17,7 +17,7 @@ func NewAssLiaTypeService(alt model.AssLiaTypeRepo) *assliatype {
 }
 
 func (alt *assliatype) GetAllAssLiaTypeService(ctx context.Context) ([]*model.AssLiaType, error) {
-	obj, err := alt.AssLiaTypeRepo.GetAssLiaType(ctx)
+	obj, err := alt.AssLiaTypeRepo.GetAssLiaTypeRepo(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("get spending repo: %v", err)
 	}

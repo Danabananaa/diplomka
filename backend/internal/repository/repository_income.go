@@ -41,7 +41,6 @@ func (i *income) GetIncome(ctx context.Context, bet model.Between) ([]*model.Inc
 
 	query := `SELECT * FROM income where user_id=? and date BETWEEN ? and ?`
 
-	// err := i.DB.SelectContext(ctx, &incarr, query, bet.UserID, bet.StartDate.Format("2006-01-02"), bet.EndDate.Format("2006-01-02"))
 	row, err := i.DB.QueryxContext(ctx, query, bet.UserID, bet.StartDate.Format("2006-01-02"), bet.EndDate.Format("2006-01-02"))
 	if err != nil {
 		return nil, err

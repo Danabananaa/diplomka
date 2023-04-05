@@ -11,23 +11,17 @@ type assets_liab struct {
 	model.AssetsLiabService
 }
 
-func NewAssetsHandlers(ass model.AssetsLiabService) *assets_liab {
+func NewAssetsHandlers(asl model.AssetsLiabService) *assets_liab {
 	return &assets_liab{
-		AssetsLiabService: ass,
+		AssetsLiabService: asl,
 	}
 }
 
-func (ass *assets_liab) AddAssets(w http.ResponseWriter, r *http.Request) {
+func (asl *assets_liab) AddAssetsLiabs(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	ast := model.Assets{}
+	ast := model.Assets_or_Liabs{}
 
-	temp := r.Context().Value(UserKey)
-
-	userID, ok := temp.(int64)
-	if !ok {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
+	userID := GetID(w, r)
 	ast.UserID = userID
 	err := json.NewDecoder(r.Body).Decode(&ast)
 	if err != nil {
@@ -35,34 +29,37 @@ func (ass *assets_liab) AddAssets(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-
-	_, err = ass.AddAssetsService(r.Context(), ast)
+	_, err = asl.AddAssetsLiabsService(r.Context(), ast)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
 
-func (ass *assets_liab) AddLiab(w http.ResponseWriter, r *http.Request) {
+func (asl *assets_liab) GetAssetLiab(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	lia := model.Liabilities{}
+	bet := model.Between{}
 
-	temp := r.Context().Value(UserKey)
-
-	userID, ok := temp.(int64)
-	if !ok {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
-	lia.UserID = userID
-	err := json.NewDecoder(r.Body).Decode(&lia)
+	err := json.NewDecoder(r.Body).Decode(&bet)
 	if err != nil {
 		log.Printf("json decode: %v", err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
 
-	_, err = ass.AddLiabService(r.Context(), lia)
+	userID := GetID(w, r)
+
+	bet.UserID = userID
+
+	asset, liab, err := asl.AssetsLiabService.GetAssetsLiabsService(r.Context(), bet)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode([]interface{}{asset, liab})
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 }

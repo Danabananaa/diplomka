@@ -20,7 +20,7 @@ func NewAssLiaTypeHandlers(alt model.AssLiaTypeService) *assliatype {
 func (alt *assliatype) GetAllAssLiaType(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	obj, err := alt.AssLiaTypeService.GetAllAssLiaType(r.Context())
+	obj, err := alt.AssLiaTypeService.GetAllAssLiaTypeService(r.Context())
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

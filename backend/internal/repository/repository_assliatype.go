@@ -22,7 +22,7 @@ func NewAssLiaTypeRepo(db *sqlx.DB) *assliatype {
 
 func (alt *assliatype) GetAssLiaTypeRepo(ctx context.Context) ([]*model.AssLiaType, error) {
 	assliaarr := make([]*model.AssLiaType, 0)
-	query := `SELECT * FROM incometype`
+	query := `SELECT * FROM assliatype`
 	row, err := alt.DB.QueryContext(ctx, query)
 	if err != nil {
 		return nil, fmt.Errorf("Error from QueryContext")

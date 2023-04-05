@@ -36,10 +36,10 @@ type SpendingService interface {
 }
 
 type AssLiaTypeService interface {
-	GetAllAssLiaType(ctx context.Context) ([]*AssLiaType, error)
+	GetAllAssLiaTypeService(ctx context.Context) ([]*AssLiaType, error)
 }
 
 type AssetsLiabService interface {
-	AddAssetsService(ctx context.Context, ass Assets) (*Assets, error)
-	AddLiabService(ctx context.Context, lia Liabilities) (*Liabilities, error)
+	AddAssetsLiabsService(ctx context.Context, asl Assets_or_Liabs) (*Assets_and_Liabs, error)
+	GetAssetsLiabsService(ctx context.Context, bet Between) ([]*Assets, []*Liabilities, error)
 }
