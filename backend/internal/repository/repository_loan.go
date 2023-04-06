@@ -10,25 +10,24 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type assets struct {
+type loan struct {
 	DB *sqlx.DB
 }
 
-func NewAssetsRepo(db *sqlx.DB) *assets {
-	return &assets{
+func NewLoanRepo(db *sqlx.DB) *loan {
+	return &loan{
 		DB: db,
 	}
 }
 
-func (ass *assets) AddAssets(ctx context.Context, asl model.Assets_or_Liabs) (*model.Assets_and_Liabs, error) {
-	query := `INSERT INTO assests (user_id, type, amount, date, description) VALUES (?,?,?,?,?);`
+func (ass *loan) AddAssets(ctx context.Context, asl model.Loan_Debt) (*model.Loan_Debt, error) {
+	query := `INSERT INTO loan (user_id, type, amount, date, description) VALUES (?,?,?,?,?);`
 
 	res, err := ass.DB.ExecContext(ctx, query, asl.UserID, asl.TypeID, asl.Amount, asl.Date.Format("2006-01-02"), asl.Description)
 	if err != nil {
 		return nil, fmt.Errorf("error was ocured during executing method ExecContext: %v", err)
 	}
-	ast := model.Assets_and_Liabs{}
-
+	ast := model.Loan_Debt{}
 	ast.ID, err = res.LastInsertId()
 	if err != nil {
 		return nil, fmt.Errorf("error was ocured during executing method LastInsertId: %v", err)
@@ -37,9 +36,9 @@ func (ass *assets) AddAssets(ctx context.Context, asl model.Assets_or_Liabs) (*m
 	return &ast, nil
 }
 
-func (ass *assets) GetAssets(ctx context.Context, bet model.Between) ([]*model.Assets, error) {
-	astarr := make([]*model.Assets, 0)
-	query := `SELECT * FROM assests where user_id=? and date BETWEEN ? and ?`
+func (ass *loan) GetAssets(ctx context.Context, bet model.Between) ([]*model.Loan_Debt, error) {
+	astarr := make([]*model.Loan_Debt, 0)
+	query := `SELECT * FROM loan where user_id=? and date BETWEEN ? and ?`
 
 	row, err := ass.DB.QueryxContext(ctx, query, bet.UserID, bet.StartDate.Format("2006-01-02"), bet.EndDate.Format("2006-01-02"))
 	if err != nil {
@@ -49,7 +48,7 @@ func (ass *assets) GetAssets(ctx context.Context, bet model.Between) ([]*model.A
 	defer row.Close()
 
 	for row.Next() {
-		ast := &model.Assets{}
+		ast := &model.Loan_Debt{}
 
 		err := row.Scan(&ast.ID, &ast.UserID, &ast.TypeID, &ast.Amount, &ast.Description, &ast.Date)
 		if err != nil {
@@ -59,6 +58,7 @@ func (ass *assets) GetAssets(ctx context.Context, bet model.Between) ([]*model.A
 				return nil, err
 			}
 		}
+		ast.Status = true
 		astarr = append(astarr, ast)
 	}
 

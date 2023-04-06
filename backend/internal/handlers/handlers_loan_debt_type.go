@@ -7,20 +7,20 @@ import (
 	"net/http"
 )
 
-type assliatype struct {
-	model.AssLiaTypeService
+type loan_debt_type struct {
+	model.LoanDebtTypeService
 }
 
-func NewAssLiaTypeHandlers(alt model.AssLiaTypeService) *assliatype {
-	return &assliatype{
-		AssLiaTypeService: alt,
+func NewLoanDebtTypeHandlers(alt model.LoanDebtTypeService) *loan_debt_type {
+	return &loan_debt_type{
+		LoanDebtTypeService: alt,
 	}
 }
 
-func (alt *assliatype) GetAllAssLiaType(w http.ResponseWriter, r *http.Request) {
+func (alt *loan_debt_type) GetAllLoanDebtType(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	obj, err := alt.AssLiaTypeService.GetAllAssLiaTypeService(r.Context())
+	obj, err := alt.LoanDebtTypeService.GetAllLoanDebtTypeService(r.Context())
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

@@ -46,13 +46,13 @@ CREATE TABLE incometype(
  	income_type VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE assliatype(
+CREATE TABLE loandebttype(
  	id INTEGER PRIMARY KEY AUTOINCREMENT,
  	type VARCHAR(100) NOT NULL
 );
 
 
-CREATE TABLE IF NOT EXISTS assests(
+CREATE TABLE IF NOT EXISTS loan(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id integer not NULL,
   type integer not NULL,
@@ -60,10 +60,10 @@ CREATE TABLE IF NOT EXISTS assests(
   description TEXT NOT NULL,
   date DATE,
   FOREIGN key(user_id) REFERENCES users(id),
-  FOREIGN key(type) REFERENCES assliatype(id) 
+  FOREIGN key(type) REFERENCES loandebttype(id) 
 );
 
-CREATE TABLE IF NOT EXISTS liabilities(
+CREATE TABLE IF NOT EXISTS debt(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id integer not NULL,
   type integer not NULL,
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS liabilities(
   description TEXT NOT NULL,
   date DATE,
   FOREIGN key(user_id) REFERENCES users(id),
-  FOREIGN key(type) REFERENCES assliatype(id) 
+  FOREIGN key(type) REFERENCES loandebttype(id) 
 );
 
 
@@ -81,4 +81,4 @@ INSERT INTO spendingtype (spending_type) VALUES ("Денсаулық"),("Ойы�
 
 INSERT INTO incometype (income_type) VALUES ("Айлық"),("Сыйақы"),("Қосымша табыс");
 
-INSERT INTO assliatype (type) VALUES ("Достар"),("Туысқандар"),("Коллегалар"),("Басқа адамдар");
+INSERT INTO loandebttype (type) VALUES ("Достар"),("Туысқандар"),("Коллегалар"),("Басқа адамдар");

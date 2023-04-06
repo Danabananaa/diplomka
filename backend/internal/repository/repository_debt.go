@@ -10,24 +10,24 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type liabilities struct {
+type debt struct {
 	DB *sqlx.DB
 }
 
-func NewLiabilitiesRepo(db *sqlx.DB) *liabilities {
-	return &liabilities{
+func NewDebtRepo(db *sqlx.DB) *debt {
+	return &debt{
 		DB: db,
 	}
 }
 
-func (lia *liabilities) AddLiabilities(ctx context.Context, ast model.Assets_or_Liabs) (*model.Assets_and_Liabs, error) {
-	query := `INSERT INTO liabilities (user_id, type, amount, date, description) VALUES (?,?,?,?,?);`
+func (lia *debt) AddLiabilities(ctx context.Context, ast model.Loan_Debt) (*model.Loan_Debt, error) {
+	query := `INSERT INTO debt (user_id, type, amount, date, description) VALUES (?,?,?,?,?);`
 
 	res, err := lia.DB.ExecContext(ctx, query, ast.UserID, ast.TypeID, ast.Amount, ast.Date.Format("2006-01-02"), ast.Description)
 	if err != nil {
 		return nil, fmt.Errorf("error was ocured during executing method ExecContext: %v", err)
 	}
-	liab := model.Assets_and_Liabs{}
+	liab := model.Loan_Debt{}
 	liab.ID, err = res.LastInsertId()
 	if err != nil {
 		return nil, fmt.Errorf("error was ocured during executing method LastInsertId: %v", err)
@@ -36,9 +36,9 @@ func (lia *liabilities) AddLiabilities(ctx context.Context, ast model.Assets_or_
 	return &liab, nil
 }
 
-func (lia *liabilities) GetLiabilities(ctx context.Context, bet model.Between) ([]*model.Liabilities, error) {
-	liaarr := make([]*model.Liabilities, 0)
-	query := `SELECT * FROM liabilities where user_id=? and date BETWEEN ? and ?`
+func (lia *debt) GetLiabilities(ctx context.Context, bet model.Between) ([]*model.Loan_Debt, error) {
+	liaarr := make([]*model.Loan_Debt, 0)
+	query := `SELECT * FROM debt where user_id=? and date BETWEEN ? and ?`
 
 	row, err := lia.DB.QueryxContext(ctx, query, bet.UserID, bet.StartDate.Format("2006-01-02"), bet.EndDate.Format("2006-01-02"))
 	if err != nil {
@@ -48,7 +48,7 @@ func (lia *liabilities) GetLiabilities(ctx context.Context, bet model.Between) (
 	defer row.Close()
 
 	for row.Next() {
-		lia := &model.Liabilities{}
+		lia := &model.Loan_Debt{}
 
 		err := row.Scan(&lia.ID, &lia.UserID, &lia.TypeID, &lia.Amount, &lia.Description, &lia.Date)
 		if err != nil {

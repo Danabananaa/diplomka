@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"diplomka/internal/model"
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -27,4 +28,14 @@ func ConvertTime(t time.Time) model.CustomTime {
 	return model.CustomTime{
 		Time: t,
 	}
+}
+
+func GetTime() time.Time {
+	var zeroTime time.Time
+	time, err := time.Parse("2006-01-02", time.Now().Format("2006-01-02"))
+	if err != nil {
+		fmt.Errorf("Error was ocured during time parsing %v", err)
+		return zeroTime
+	}
+	return time
 }

@@ -10,19 +10,19 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type assliatype struct {
+type loan_debt_type struct {
 	DB *sqlx.DB
 }
 
-func NewAssLiaTypeRepo(db *sqlx.DB) *assliatype {
-	return &assliatype{
+func NewLoanDebtTypeRepo(db *sqlx.DB) *loan_debt_type {
+	return &loan_debt_type{
 		DB: db,
 	}
 }
 
-func (alt *assliatype) GetAssLiaTypeRepo(ctx context.Context) ([]*model.AssLiaType, error) {
-	assliaarr := make([]*model.AssLiaType, 0)
-	query := `SELECT * FROM assliatype`
+func (alt *loan_debt_type) GetLoandebtTypeRepo(ctx context.Context) ([]*model.LoanDebtType, error) {
+	ldarr := make([]*model.LoanDebtType, 0)
+	query := `SELECT * FROM loandebttype`
 	row, err := alt.DB.QueryContext(ctx, query)
 	if err != nil {
 		return nil, fmt.Errorf("Error from QueryContext")
@@ -30,8 +30,8 @@ func (alt *assliatype) GetAssLiaTypeRepo(ctx context.Context) ([]*model.AssLiaTy
 	defer row.Close()
 
 	for row.Next() {
-		asslia := &model.AssLiaType{}
-		err := row.Scan(&asslia.ID, &asslia.Type)
+		ld := &model.LoanDebtType{}
+		err := row.Scan(&ld.ID, &ld.Type)
 		if err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
 				return nil, fmt.Errorf("No rows into table")
@@ -39,12 +39,12 @@ func (alt *assliatype) GetAssLiaTypeRepo(ctx context.Context) ([]*model.AssLiaTy
 				return nil, err
 			}
 		}
-		assliaarr = append(assliaarr, asslia)
+		ldarr = append(ldarr, ld)
 	}
 
 	if err = row.Err(); err != nil {
 		return nil, fmt.Errorf("Error from row")
 	}
 
-	return assliaarr, nil
+	return ldarr, nil
 }

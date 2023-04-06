@@ -1,7 +1,6 @@
 package model
 
 import (
-	"database/sql/driver"
 	"fmt"
 	"time"
 )
@@ -36,6 +35,6 @@ func (ct *CustomTime) Scan(value interface{}) error {
 	return nil
 }
 
-func (ct CustomTime) Value() (driver.Value, error) {
-	return ct.Time.Format("2006-01-02"), nil
-}
+// func (ct CustomTime) Value() (driver.Value, error) {
+// 	return ct.Time.Format("2006-01-02"), nil
+// }

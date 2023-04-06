@@ -27,18 +27,18 @@ type IncomeTypeRepo interface {
 	GetIncomeType(ctx context.Context) ([]*IncomeType, error)
 }
 
-type AssLiaTypeRepo interface {
-	GetAssLiaTypeRepo(ctx context.Context) ([]*AssLiaType, error)
+type LoanDebtTypeRepo interface {
+	GetLoandebtTypeRepo(ctx context.Context) ([]*LoanDebtType, error)
 }
 
-type AssetsRepo interface {
-	AddAssets(ctx context.Context, asl Assets_or_Liabs) (*Assets_and_Liabs, error)
-	GetAssets(ctx context.Context, bet Between) ([]*Assets, error)
+type LoanRepo interface {
+	AddAssets(ctx context.Context, asl Loan_Debt) (*Loan_Debt, error)
+	GetAssets(ctx context.Context, bet Between) ([]*Loan_Debt, error)
 }
 
-type LiabilitiesRepo interface {
-	AddLiabilities(ctx context.Context, ast Assets_or_Liabs) (*Assets_and_Liabs, error)
-	GetLiabilities(ctx context.Context, bet Between) ([]*Liabilities, error)
+type DeptRepo interface {
+	AddLiabilities(ctx context.Context, ast Loan_Debt) (*Loan_Debt, error)
+	GetLiabilities(ctx context.Context, bet Between) ([]*Loan_Debt, error)
 }
 
 type StatisticsRepo interface {

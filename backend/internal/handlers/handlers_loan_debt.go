@@ -4,24 +4,22 @@ import (
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"time"
 )
 
-type assets_liab struct {
-	model.AssetsLiabService
+type loan_debt struct {
+	model.LoanDebtService
 }
 
-func NewAssetsHandlers(asl model.AssetsLiabService) *assets_liab {
-	return &assets_liab{
-		AssetsLiabService: asl,
+func NewLoanDebtHandlers(ld model.LoanDebtService) *loan_debt {
+	return &loan_debt{
+		LoanDebtService: ld,
 	}
 }
 
-func (asl *assets_liab) AddAssetsLiabs(w http.ResponseWriter, r *http.Request) {
+func (ld *loan_debt) AddLoanDebt(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	ast := model.Assets_or_Liabs{}
+	ast := model.Loan_Debt{}
 
 	userID := GetID(w, r)
 	ast.UserID = userID
@@ -31,13 +29,14 @@ func (asl *assets_liab) AddAssetsLiabs(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	_, err = asl.AddAssetsLiabsService(r.Context(), ast)
+
+	_, err = ld.AddLoanDebtService(r.Context(), ast)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
 
-func (asl *assets_liab) GetAssetLiab(w http.ResponseWriter, r *http.Request) {
+func (ld *loan_debt) GetLoanDebt(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	bet := model.Between{}
 
@@ -52,11 +51,7 @@ func (asl *assets_liab) GetAssetLiab(w http.ResponseWriter, r *http.Request) {
 
 	bet.UserID = userID
 
-	enddate, err := time.Parse("2006-01-02", time.Now().Format("2006-01-02"))
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	enddate := GetTime()
 
 	startdate := FindFirstDay(enddate)
 
@@ -64,15 +59,15 @@ func (asl *assets_liab) GetAssetLiab(w http.ResponseWriter, r *http.Request) {
 
 	bet.EndDate = ConvertTime(enddate)
 
-	asset, liab, err := asl.AssetsLiabService.GetAssetsLiabsService(r.Context(), bet)
+	loan, debt, err := ld.LoanDebtService.GetLoanDebtService(r.Context(), bet)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 	mergestruct := model.MergeStruct{
-		AssetsArr:      asset,
-		LiabilitiesArr: liab,
+		LoanArr: loan,
+		DebtArr: debt,
 	}
 
 	err = json.NewEncoder(w).Encode(mergestruct)

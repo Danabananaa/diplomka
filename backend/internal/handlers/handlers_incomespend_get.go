@@ -4,9 +4,7 @@ import (
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"time"
 )
 
 type income_spending struct {
@@ -36,11 +34,7 @@ func (i *income_spending) GetIncomeSpending(w http.ResponseWriter, r *http.Reque
 
 	bet.UserID = userID
 
-	enddate, err := time.Parse("2006-01-02", time.Now().Format("2006-01-02"))
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	enddate := GetTime()
 
 	startdate := FindFirstDay(enddate)
 

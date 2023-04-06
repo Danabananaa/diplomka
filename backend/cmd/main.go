@@ -33,9 +33,9 @@ func main() {
 	incometypeRepo := repository.NewIncomeTypeRepo(db)
 	incomeRepo := repository.NewIncomeRepo(db)
 	spendingRepo := repository.NewSpendingRepo(db)
-	assliatype := repository.NewAssLiaTypeRepo(db)
-	assetsRepo := repository.NewAssetsRepo(db)
-	liabsRepo := repository.NewLiabilitiesRepo(db)
+	ldtyperepo := repository.NewLoanDebtTypeRepo(db)
+	loanRepo := repository.NewLoanRepo(db)
+	debtRepo := repository.NewDebtRepo(db)
 
 	jwtService := service.NewJWTService()
 	authService := service.NewAuthService(userRepo, jwtService)
@@ -45,8 +45,8 @@ func main() {
 	incSpnTypeService := service.NewIncSpnTypeService(incometypeRepo, spendingTypeRepo)
 	incomeService := service.NewIncomeService(incomeRepo)
 	spendingService := service.NewSpendingService(spendingRepo)
-	assliatypeService := service.NewAssLiaTypeService(assliatype)
-	assets_liab_Service := service.NewAssetsService(assetsRepo, liabsRepo)
+	ldtypeService := service.NewLoanDebtTypeService(ldtyperepo)
+	loanDebtService := service.NewLoanDebtService(loanRepo, debtRepo)
 
 	// handlers
 	middlewareHandlers := handlers.NewMiddleware(authService)
@@ -57,8 +57,8 @@ func main() {
 	incomeHandlers := handlers.NewIncomeHandlers(incomeService)
 	budgetHandler := handlers.NewIncomeSpendingHandlers(incomeService, spendingService)
 	spendingHadlers := handlers.NewSpendingHandlers(spendingService)
-	assliatypeHandlers := handlers.NewAssLiaTypeHandlers(assliatypeService)
-	assets_liab_Handlers := handlers.NewAssetsHandlers(assets_liab_Service)
+	ldtypeHandlers := handlers.NewLoanDebtTypeHandlers(ldtypeService)
+	loanDebtHandlers := handlers.NewLoanDebtHandlers(loanDebtService)
 
 	r := mux.NewRouter()
 
@@ -69,13 +69,13 @@ func main() {
 	// Added new hadler which contain getting income and spending
 	r.HandleFunc("/budget/type", incSpnTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
 	// Added new hadler which contain getting assets and liability types
-	r.HandleFunc("/assliatype", assliatypeHandlers.GetAllAssLiaType).Methods(http.MethodGet)
+	r.HandleFunc("/debt/type", ldtypeHandlers.GetAllLoanDebtType).Methods(http.MethodGet)
 
 	r.Handle("/spending", middlewareHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.PostSpending))).Methods(http.MethodPost)
 	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)
 	// Added new hadler which contain getting adding and getting assets and liability
-	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(assets_liab_Handlers.AddAssetsLiabs))).Methods(http.MethodPost)
-	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(assets_liab_Handlers.GetAssetLiab))).Methods(http.MethodGet)
+	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(loanDebtHandlers.AddLoanDebt))).Methods(http.MethodPost)
+	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(loanDebtHandlers.GetLoanDebt))).Methods(http.MethodGet)
 	// Added new hadler which contain getting income and spending
 	r.Handle("/budget/stats", middlewareHandlers.RequireAuthentication(http.HandlerFunc(budgetHandler.GetIncomeSpending))).Methods(http.MethodGet)
 

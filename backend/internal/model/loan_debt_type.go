@@ -1,6 +1,6 @@
 package model
 
-type AssLiaType struct {
+type LoanDebtType struct {
 	ID   int    `json:"id"`
 	Type string `json:"type"`
 }
