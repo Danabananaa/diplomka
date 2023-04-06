@@ -90,7 +90,7 @@ return (
             </TableCell>
             <TableCell align="right">{row.date}</TableCell>
             <TableCell align="right">{row.description}</TableCell>
-            <TableCell align="right">{row.amount}</TableCell>
+            <TableCell align="right">{row.amount} ₸</TableCell>
             <TableCell align="right">{row.type_id}</TableCell>
         </TableRow>
       ))}

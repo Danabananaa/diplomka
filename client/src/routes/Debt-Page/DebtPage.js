@@ -136,14 +136,15 @@ const DebtPage = () => {
                </Typography>
                <TextField 
                     id="filled-basic" 
-                    label="Description" 
-                    variant="filled" 
+                    label="Description"
+                     
+                    variant="filled"
                     onChange={(e)=> setDebtDescription(e.target.value)}
                     sx={{
                         width: '80%'
                     }}
                 />
-                <TextField 
+                {/* <TextField 
                     id="filled-basic" 
                     label="Amount" 
                     variant="filled"
@@ -151,7 +152,18 @@ const DebtPage = () => {
                     sx={{
                         width: '80%'
                     }}
-                />
+                /> */}
+
+                <FormControl sx={{ width: '80%' }} variant="filled">
+                    <InputLabel  required={true} htmlFor="filled-adornment-amount">Amount</InputLabel>
+                    <FilledInput
+                        id="filled-adornment-amount"
+                        onChange={(e)=>setAmount(e.target.value)}
+                        startAdornment={<InputAdornment position="start">₸</InputAdornment>}
+                    />
+                </FormControl>
+
+
                 <TextField
                   id="outlined-select-spending"
                   variant="filled"

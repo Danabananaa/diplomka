@@ -124,7 +124,7 @@ const BudgetPage = () => {
                     <FilledInput
                         id="filled-adornment-amount"
                         onChange={(e)=>setIncome(e.target.value)}
-                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                        startAdornment={<InputAdornment position="start">₸</InputAdornment>}
                     />
                 </FormControl>
               {/* TOP TYPE */}
@@ -192,7 +192,7 @@ const BudgetPage = () => {
                         id="filled-adornment-amount"
 
                         onChange={(e)=>setSpending(e.target.value)}
-                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                        startAdornment={<InputAdornment position="start">₸</InputAdornment>}
                     />
                 </FormControl>
               {/* BOTTOM TYPE */}
