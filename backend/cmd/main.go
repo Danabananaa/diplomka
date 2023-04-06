@@ -1,14 +1,14 @@
 package main
 
 import (
+	"log"
+	"net/http"
+	"time"
+
 	"diplomka/internal/handlers"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
-	"fmt"
-	"log"
-	"net/http"
-	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -28,6 +28,8 @@ func main() {
 	}
 
 	// repository
+	jwtService := service.NewJWTService()
+
 	userRepo := repository.NewUserRepo(db)
 	spendingTypeRepo := repository.NewSpendingTypeRepo(db)
 	incometypeRepo := repository.NewIncomeTypeRepo(db)
@@ -36,20 +38,20 @@ func main() {
 	ldtyperepo := repository.NewLoanDebtTypeRepo(db)
 	loanRepo := repository.NewLoanRepo(db)
 	debtRepo := repository.NewDebtRepo(db)
-
-	jwtService := service.NewJWTService()
-	authService := service.NewAuthService(userRepo, jwtService)
+	statRepo := repository.NewStatisticsRepo(db)
 
 	// services
+	authService := service.NewAuthService(userRepo, jwtService)
 
 	incSpnTypeService := service.NewIncSpnTypeService(incometypeRepo, spendingTypeRepo)
 	incomeService := service.NewIncomeService(incomeRepo)
 	spendingService := service.NewSpendingService(spendingRepo)
 	ldtypeService := service.NewLoanDebtTypeService(ldtyperepo)
 	loanDebtService := service.NewLoanDebtService(loanRepo, debtRepo)
+	statService := service.NewStatisticsService(statRepo)
 
 	// handlers
-	middlewareHandlers := handlers.NewMiddleware(authService)
+	mHandlers := handlers.NewMiddleware(authService)
 
 	authHandlers := handlers.NewAuthHandlers(authService)
 
@@ -59,6 +61,7 @@ func main() {
 	spendingHadlers := handlers.NewSpendingHandlers(spendingService)
 	ldtypeHandlers := handlers.NewLoanDebtTypeHandlers(ldtypeService)
 	loanDebtHandlers := handlers.NewLoanDebtHandlers(loanDebtService)
+	statHandlers := handlers.NewStatisticsHandlers(statService)
 
 	r := mux.NewRouter()
 
@@ -71,25 +74,17 @@ func main() {
 	// Added new hadler which contain getting assets and liability types
 	r.HandleFunc("/debt/type", ldtypeHandlers.GetAllLoanDebtType).Methods(http.MethodGet)
 
-	r.Handle("/spending", middlewareHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.PostSpending))).Methods(http.MethodPost)
-	r.Handle("/income", middlewareHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)
-	// Added new hadler which contain getting adding and getting assets and liability
-	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(loanDebtHandlers.AddLoanDebt))).Methods(http.MethodPost)
-	r.Handle("/debt", middlewareHandlers.RequireAuthentication(http.HandlerFunc(loanDebtHandlers.GetLoanDebt))).Methods(http.MethodGet)
-	// Added new hadler which contain getting income and spending
-	r.Handle("/budget/stats", middlewareHandlers.RequireAuthentication(http.HandlerFunc(budgetHandler.GetIncomeSpending))).Methods(http.MethodGet)
+	r.Handle("/spending", mHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.PostSpending))).Methods(http.MethodPost)
+	r.Handle("/income", mHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)
 
-	r.HandleFunc("/statistics", incomeHandlers.PostIncome).Methods(http.MethodGet)
+	r.Handle("/debt", mHandlers.RequireAuthentication(http.HandlerFunc(loanDebtHandlers.AddLoanDebt))).Methods(http.MethodPost)
+	r.Handle("/debt", mHandlers.RequireAuthentication(http.HandlerFunc(loanDebtHandlers.GetLoanDebt))).Methods(http.MethodGet)
 
-	s := repository.NewStatisticsRepo(db)
+	r.Handle("/budget/stats", mHandlers.RequireAuthentication(http.HandlerFunc(budgetHandler.GetIncomeSpending))).Methods(http.MethodGet)
 
-	sS := service.NewStatisticsService(s)
+	r.Handle("/statistics", mHandlers.RequireAuthentication(http.HandlerFunc(statHandlers.GetStat))).Methods(http.MethodGet)
 
-	sH := handlers.NewStatisticsHandlers(sS)
-
-	r.HandleFunc("/stat", sH.GetStat).Methods(http.MethodGet)
-
-	r.Use(middlewareHandlers.PanicRecover)
+	r.Use(mHandlers.PanicRecover)
 
 	server := http.Server{
 		Addr:         ":" + port,
@@ -103,37 +98,3 @@ func main() {
 	err = server.ListenAndServe()
 	log.Fatalf("Server error: %v", err)
 }
-
-// type statistics struct {
-// 	start string
-// 	end   string
-// }
-// type name struct {
-// 	Amount float64
-// 	Type   model.SpendingType
-// }
-// type name2 struct {
-// 	Amount float64
-// 	Type   model.SpendingType
-// }
-
-// type statistics struct {
-// 	s []name
-// 	i []name2
-// }
-
-func Statistics(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "work")
-}
-
-// {
-//     "start_date":"2023-01-01",
-//     "end_date":"2023-04-05"
-// }
-
-// {
-// 	"name":"b",
-// 	"surname":"b",
-// 	"email":"b",
-// 	"password":"b"
-// }
