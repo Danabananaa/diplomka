@@ -16,7 +16,7 @@ export const sendDebt = async (status, typeID, amount, description, navigate) =>
       description: description,
       amount: parseInt(amount, 10),
       date: date,
-      status: status === "Debt" ? true : false,
+      status: status === "Debt" ? false : true,
     };
     console.log(data.income_type_id);
     await fetch(`/debt`, {

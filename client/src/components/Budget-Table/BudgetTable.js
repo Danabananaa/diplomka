@@ -23,7 +23,7 @@ import HubIcon from '@mui/icons-material/Hub';
 const BudgetTable = ({mergedData}) => {
 
     const [page, setPage] = useState(0);
-    const rowsPerPage = 8;
+    const rowsPerPage = 11;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -80,7 +80,7 @@ return (
       </TableRow>
     </TableHead>
     <TableBody sx={{ fontFamily: "'Helvetica', 'Arial', sans-serif" }}>
-      {mergedData.map((row) => (
+      {mergedData.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((row) => (
           <TableRow key={row.ID} sx={{
               '&:nth-of-type(odd)': { backgroundColor: 'grey.200' },
               '&:hover': { backgroundColor: 'grey.400' },
@@ -98,7 +98,6 @@ return (
   </Table>
 </TableContainer>
 <TablePagination
-        rowsPerPageOptions={[10]}
         component="div"
         count={mergedData.length}
         rowsPerPage={rowsPerPage}

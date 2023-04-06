@@ -84,7 +84,7 @@ export const debtData =( async () => {
               method: "GET",
               
             }),
-            fetch(`/assliatype`, {
+            fetch(`/debt/type`, {
               headers: {
                 Accept: "application/json",
                 Authorization: `${token}`,
@@ -115,7 +115,7 @@ export const debtData =( async () => {
           const debtTypesData = await debtTypesResponse.json();
           // console.log(debtTypesData);
           console.log(debtData);
-          return { debtTypesData };
+          return { debtData, debtTypesData };
         } catch (error) {
           console.log(error);
           throw error;
