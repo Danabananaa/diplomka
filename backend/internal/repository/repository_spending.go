@@ -39,7 +39,7 @@ func (s *spending) AddSpending(ctx context.Context, spn model.Spending) (*model.
 func (s *spending) GetSpending(ctx context.Context, bet model.Between) ([]*model.Spending, error) {
 	incarr := make([]*model.Spending, 0)
 
-	query := `SELECT * FROM income where user_id=? and date BETWEEN ? and ?`
+	query := `SELECT * FROM spending where user_id=? and date BETWEEN ? and ?`
 
 	// err := s.DB.SelectContext(ctx, &incarr, query, bet.UserID, bet.StartDate.Format("2006-01-02"), bet.EndDate.Format("2006-01-02"))
 	row, err := s.DB.QueryxContext(ctx, query, bet.UserID, bet.StartDate.Format("2006-01-02"), bet.EndDate.Format("2006-01-02"))

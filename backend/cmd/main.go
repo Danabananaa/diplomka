@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"time"
-
 	"diplomka/internal/handlers"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
+	"fmt"
+	"log"
+	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -130,4 +129,11 @@ func Statistics(w http.ResponseWriter, r *http.Request) {
 // {
 //     "start_date":"2023-01-01",
 //     "end_date":"2023-04-05"
+// }
+
+// {
+// 	"name":"b",
+// 	"surname":"b",
+// 	"email":"b",
+// 	"password":"b"
 // }

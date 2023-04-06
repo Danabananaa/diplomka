@@ -60,13 +60,9 @@ func (asl *assets_liab) GetAssetLiab(w http.ResponseWriter, r *http.Request) {
 
 	startdate := FindFirstDay(enddate)
 
-	bet.StartDate = model.CustomTime{
-		Time: startdate,
-	}
+	bet.StartDate = ConvertTime(startdate)
 
-	bet.EndDate = model.CustomTime{
-		Time: enddate,
-	}
+	bet.EndDate = ConvertTime(enddate)
 
 	asset, liab, err := asl.AssetsLiabService.GetAssetsLiabsService(r.Context(), bet)
 	if err != nil {

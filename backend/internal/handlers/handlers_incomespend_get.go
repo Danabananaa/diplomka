@@ -44,13 +44,9 @@ func (i *income_spending) GetIncomeSpending(w http.ResponseWriter, r *http.Reque
 
 	startdate := FindFirstDay(enddate)
 
-	bet.StartDate = model.CustomTime{
-		Time: startdate,
-	}
+	bet.StartDate = ConvertTime(startdate)
 
-	bet.EndDate = model.CustomTime{
-		Time: enddate,
-	}
+	bet.EndDate = ConvertTime(enddate)
 
 	inc, err := i.IncomeService.GetIncomeService(r.Context(), bet)
 	if err != nil {
@@ -74,10 +70,4 @@ func (i *income_spending) GetIncomeSpending(w http.ResponseWriter, r *http.Reque
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-}
-
-func FindFirstDay(t time.Time) time.Time {
-	x := t.Month()
-	g := time.Date(int(t.Year()), x, 1, 0, 0, 0, 0, time.UTC)
-	return g
 }
