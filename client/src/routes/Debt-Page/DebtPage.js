@@ -2,9 +2,9 @@ import { Grid, Box, FormControl, InputLabel, FilledInput, InputAdornment, TextFi
 import { useState } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 // import MyCalendar from "../../components/Calendar/Calendar";
+import "react-calendar/dist/Calendar.css";
 import Calendar from 'react-calendar';
 import '../../components/Calendar/Calendar.css'
-import "react-calendar/dist/Calendar.css";
 import { useLoaderData, useNavigate } from "react-router";
 import { sendDebt } from "../../api/Debt/SendDebt";
 const DebtPage = () => {
@@ -66,16 +66,17 @@ const DebtPage = () => {
           {/* CALENDAR BOX */}
           <Box
               sx={{
-                height: '45%',
+                height: '35%',
                 width: '80%',
-                backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
-                boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
-                borderRadius: '16px',
+                // backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
+                // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
+                // borderRadius: '16px',
+                // borderRadius: "8px",
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'space-evenly',
-                border: '1px solid rgba(0, 0, 0, 0.25)'
+                // border: '1px solid rgba(0, 0, 0, 0.25)'
               }}
             >
             {/* CALENDAR */}
@@ -84,7 +85,7 @@ const DebtPage = () => {
           </Box>
           <Box
               sx={{
-                height: '45%',
+                height: '60%',
                 width: '80%',
                 backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
                 boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",

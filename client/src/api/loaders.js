@@ -113,7 +113,8 @@ export const debtData =( async () => {
           
           const debtData = await debtResponse.json();
           const debtTypesData = await debtTypesResponse.json();
-          console.log(debtTypesData);
+          // console.log(debtTypesData);
+          console.log(debtData);
           return { debtTypesData };
         } catch (error) {
           console.log(error);
