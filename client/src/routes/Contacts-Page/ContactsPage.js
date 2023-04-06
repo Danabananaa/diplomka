@@ -5,6 +5,9 @@ import facebook from '../../assets/images/facebook.png'
 import insta from '../../assets/images/insta.png'
 import twitter from '../../assets/images/twitter.png'
 import linkedIn from '../../assets/images/linkedinn.png'
+import contact from '../../assets/images/contact.png'
+import map from '../../assets/images/map.png'
+
 const ContactsPage = () => {
     
     return (
@@ -30,7 +33,7 @@ const ContactsPage = () => {
             justifyContent: 'center'
           }}
           >
-          <Box
+            <Box
             sx={{
                 height: '95%',
                 width: '95%',
@@ -46,7 +49,19 @@ const ContactsPage = () => {
                 padding: '1rem',
             }}
             >
-               asd
+            <img
+                src={map}
+                alt="image"
+                style={{
+                position: "absolute", // Move position property here
+                bottom: '50%',
+                left: '50%',
+                maxWidth: '80%',
+                maxHeight: '80%',
+                opacity: '0.87',
+                transform: 'translate(-50%, 50%)', // Add this line to center the image
+                }}
+            />
             </Box>
         </Grid>
         <Grid item xs={4} 
@@ -58,6 +73,7 @@ const ContactsPage = () => {
             justifyContent: 'center'
         }}
         >
+            {/* MIDDLE BOX */}
         <Box
         sx={{
             height: '95%',
@@ -74,9 +90,6 @@ const ContactsPage = () => {
             padding: '1rem',
           }}
         >
-                    
-            
-
             <img
                 src={contacts}
                 alt="image"
@@ -89,8 +102,42 @@ const ContactsPage = () => {
                     opacity: '0.6',
                     transform: 'translate(-50%, 50%)' // Add this line to center the image
                 }}
-            />   
-            <Typography variant="h5" pt={4}>24 hour Support: +7-708-256-99-01</Typography>
+            />
+                 {/* CONTACTS DATA */}
+                 <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '15%',
+                }}
+                >
+                <img
+                    src={contact}
+                    alt="My Image"
+                    style={{
+                    opacity: '0.66',
+                    width: '90px',
+                    height: '90px',
+                    marginRight: '8px',
+                    }}
+                />
+                <Box
+                    sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    height: '100%',
+                    }}
+                >
+                    <Typography variant="h4" alignSelf="center">
+                    Call-Center
+                    </Typography>
+                    <Typography variant="h5">
+                    +7-708-256-99-01
+                    </Typography>
+                </Box>
+                </Box>
+
         </Box>
         </Grid>
           <Grid item xs={4}
