@@ -19,7 +19,7 @@ export const sendDebt = async (status, typeID, amount, description, navigate) =>
       status: status === "Debt" ? true : false,
     };
     console.log(data.income_type_id);
-    await fetch(`/spending`, {
+    await fetch(`/debt`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

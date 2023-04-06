@@ -1,5 +1,4 @@
-import { Grid, Box,Divider, FormControl, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Grid, Box,Divider, FormControl, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button, Link } from "@mui/material";
 import contacts from '../../assets/images/contacts.png'
 import git from '../../assets/images/git.png'
 import facebook from '../../assets/images/facebook.png'
@@ -76,23 +75,7 @@ const ContactsPage = () => {
           }}
         >
                     
-            <Box
-                sx={{
-                display: 'flex',
-                alignItems: 'center',
-                }}
-            >
-                <img
-                src={git}
-                alt="My Image"
-                style={{
-                    width: '60px',
-                    height: '60px',
-                    marginRight: '8px',
-                }}
-                />
-                <Typography variant="h6"><Link to="https://github.com/Danabananaa">https://github.com/Danabananaa </Link></Typography>
-            </Box>
+            
 
             <img
                 src={contacts}
@@ -107,7 +90,7 @@ const ContactsPage = () => {
                     transform: 'translate(-50%, 50%)' // Add this line to center the image
                 }}
             />   
-            <Typography variant="h6">Bottom Typography</Typography>
+            <Typography variant="h5" pt={4}>24 hour Support: +7-708-256-99-01</Typography>
         </Box>
         </Grid>
           <Grid item xs={4}
@@ -152,7 +135,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Typography variant="h6"><Link to="https://github.com/Danabananaa">https://github.com/Danabananaa </Link></Typography>
+                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa</Link>
             </Box>
             <Box
                 sx={{
@@ -169,7 +152,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Typography variant="h6"><Link to="https://github.com/Danabananaa">https://github.com/Danabananaa </Link></Typography>
+                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
             </Box>
             <Box
                 sx={{
@@ -186,7 +169,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Typography variant="h6"><Link to="https://github.com/Danabananaa">https://github.com/Danabananaa </Link></Typography>
+                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
             </Box>
             
             <Box
@@ -204,7 +187,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Typography variant="h6"><Link to="https://github.com/Danabananaa">https://github.com/Danabananaa </Link></Typography>
+                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
             </Box>
             <Box
                 sx={{
@@ -221,7 +204,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Typography variant="h6"><Link to="https://github.com/Danabananaa">https://github.com/Danabananaa </Link></Typography>
+                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
             </Box>
         </Box>
         </Grid>

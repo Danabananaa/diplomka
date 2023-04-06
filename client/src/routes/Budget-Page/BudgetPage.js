@@ -36,16 +36,16 @@ const BudgetPage = () => {
     const navigate = useNavigate();
     const { Types, Stats } = useLoaderData(); //Spending and Income Types from the Server
     // console.log(Types.Type_spending); //Array with spending types
-    // console.log(Types.Type_income); // Array with income types
-    console.log(Stats.Spending); // Spending data
+    console.log(Types.Type_income); // Array with income types
+    // console.log(Stats.Spending); // Spending data
     // console.log(Stats.Income);  // Income data 
     
     const mergedData = mergeAndSortByDate(Stats.Income, Stats.Spending);
     // console.log(mergedData);
     const [income, setIncome] = useState();
     const [spending, setSpending] = useState();
-    const [incomeType, setIncomeType] = useState();
-    const [spendingType, setSpendingType] = useState(Types.Type_spending.length > 0 ? Types.Type_spending[0].ID : '');
+    const [incomeType, setIncomeType] = useState(Types && Types.Type_income && Types.Type_income[0].ID ? Types.Type_income[0].ID: 1);
+    const [spendingType, setSpendingType] = useState(Types && Types.Type_spending && Types.Type_spending[0].ID ? Types.Type_spending[0].ID: 1);
     const [incomeDescription, setIncomeDescription] = useState();
     const [spendingDescription, setSpendingDescription] = useState();
 
@@ -134,7 +134,8 @@ const BudgetPage = () => {
                     select
                     label="Select"
                     onChange={(e)=>setIncomeType(e.target.value)}
-                    defaultValue={Types.Type_income[0].ID ? Types.Type_income[0].ID: ''}
+                    value={incomeType}
+                    
                     sx={{width: '80%'}}
                     >
                     {Types.Type_income && Types.Type_income.map((option) => (
@@ -201,6 +202,7 @@ const BudgetPage = () => {
                     select
                     onChange={(e)=>setSpendingType(e.target.value)}
                     value={spendingType}
+                    // defaultValue={Types && Types.Type_spending && Types.Type_spending[0].ID ? Types.Type_spending[0].ID: 1}
                     label="Select"
                     sx={{width: '80%'}}
                 >

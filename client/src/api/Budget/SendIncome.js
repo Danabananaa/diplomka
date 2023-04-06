@@ -22,7 +22,6 @@ export const sendIncome = async(e, typeID, amount, description, navigate) => {
             console.log("something went wrong");
         } else {
             console.log("Income sent");
-            navigate(0);
         }   
       })
       
