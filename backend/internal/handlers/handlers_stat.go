@@ -24,7 +24,15 @@ func (s *stat) GetStat(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	b.UserID = 2
+
+	temp := r.Context().Value(UserKey)
+
+	var ok bool
+	b.UserID, ok = temp.(int64)
+	if !ok {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
 	stat, err := s.StatisticsService.GetStatistics(r.Context(), b)
 	if err != nil {
