@@ -13,7 +13,7 @@ type middleware interface {
 	RequireAuthentication(next http.Handler) http.Handler
 }
 
-func NewFinancialHandlers(r *mux.Router, m middleware, fs model.FinancialTrackerService) {
+func InitFinancialHandlers(r *mux.Router, m middleware, fs model.FinancialTrackerService) {
 	handlers := handlers_financial.NewFinancialHandlers(fs)
 
 	s := r.PathPrefix("").Subrouter()
