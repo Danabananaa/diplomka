@@ -1,14 +1,13 @@
 package main
 
 import (
-	"log"
-	"net/http"
-	"time"
-
 	"diplomka/internal/handlers"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
+	"log"
+	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -73,6 +72,9 @@ func main() {
 	r.HandleFunc("/budget/type", incSpnTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
 	// Added new hadler which contain getting assets and liability types
 	r.HandleFunc("/debt/type", ldtypeHandlers.GetAllLoanDebtType).Methods(http.MethodGet)
+	r.Handle("/userinfo", mHandlers.RequireAuthentication(http.HandlerFunc(authHandlers.GetUserInfo))).Methods(http.MethodGet)
+	r.Handle("/userinfo", mHandlers.RequireAuthentication(http.HandlerFunc(authHandlers.PostImage))).Methods(http.MethodPost)
+	r.Handle("/image", mHandlers.RequireAuthentication(http.HandlerFunc(authHandlers.GetImage))).Methods(http.MethodGet)
 
 	r.Handle("/spending", mHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.PostSpending))).Methods(http.MethodPost)
 	r.Handle("/income", mHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)

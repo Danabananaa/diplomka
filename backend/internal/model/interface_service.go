@@ -9,7 +9,14 @@ type AuthSerivice interface {
 	LogOut(ctx context.Context) error
 	LogIn(context.Context, Authentication) (*Token, error)
 	Refresh(ctr context.Context, token string) (string, error)
+	ImageService
 	JWTService
+}
+
+type ImageService interface {
+	GetUserInfoService(ctx context.Context, id int) (*User, error)
+	AddUserImage(ctx context.Context, info UserImage) (*UserImage, error)
+	GetUserImageService(ctx context.Context, id int) (*UserImage, error)
 }
 
 type JWTService interface {

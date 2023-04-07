@@ -51,6 +51,13 @@ CREATE TABLE loandebttype(
  	type VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE images(
+ 	user_id INTEGER unique,
+ 	image_name TEXT NOT NULL,
+  FOREIGN key(user_id) REFERENCES users(id)
+);
+
+
 
 CREATE TABLE IF NOT EXISTS loan(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
