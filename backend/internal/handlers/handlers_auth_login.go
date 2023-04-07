@@ -19,6 +19,11 @@ func (a *auth) LogIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := auth.Validate(); err != nil {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
 	token, err := a.AuthSerivice.LogIn(r.Context(), auth)
 	if err != nil {
 		log.Printf("login service: %v", err)

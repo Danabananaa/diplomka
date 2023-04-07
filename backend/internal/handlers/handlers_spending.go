@@ -20,7 +20,7 @@ func NewSpendingHandlers(spn model.SpendingService) *spending {
 
 func (s *spending) PostSpending(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	inc := model.Spending{}
+	spen := model.Spending{}
 
 	temp := r.Context().Value(UserKey)
 
@@ -29,15 +29,20 @@ func (s *spending) PostSpending(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	inc.UserID = userID
-	err := json.NewDecoder(r.Body).Decode(&inc)
+	spen.UserID = userID
+	err := json.NewDecoder(r.Body).Decode(&spen)
 	if err != nil {
 		log.Printf("json decode: %v", err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
 
-	_, err = s.InsertSpendingService(r.Context(), inc)
+	if err := spen.Validate(); err != nil {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	_, err = s.InsertSpendingService(r.Context(), spen)
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}

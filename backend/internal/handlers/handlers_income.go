@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"diplomka/internal/model"
-	"diplomka/pkg/log"
 	"encoding/json"
 	"net/http"
+
+	"diplomka/internal/model"
+	"diplomka/pkg/log"
 )
 
 type income struct {
@@ -32,6 +33,11 @@ func (a *income) PostIncome(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&inc)
 	if err != nil {
 		log.Printf("json decode: %v", err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	if err := inc.Validate(); err != nil {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
