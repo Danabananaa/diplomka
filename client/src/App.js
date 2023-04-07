@@ -28,7 +28,7 @@ const router = createBrowserRouter(
   <Route element={<RootLayout />} id="root" loader={homeLoader} errorElement={<ErrorPage/>}>
       <Route path="/" >
           <Route index loader={()=>redirect("/statistics")}/>
-          <Route path="statistics" loader={statisticsData} element={<HomePage/>}/>
+          <Route path="statistics" element={<HomePage/>}/>
           <Route path="budget" loader={budgetData} element={<BudgetPage/>}/>
           <Route path="planner" element={<PlannerPage/>}/>
           <Route path="debt" loader={debtData} element={<DebtPage/>}/>
