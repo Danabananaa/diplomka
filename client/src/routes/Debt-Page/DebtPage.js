@@ -100,15 +100,11 @@ const DebtPage = () => {
               sx={{
                 height: '35%',
                 width: '80%',
-                // backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
-                // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
-                // borderRadius: '16px',
-                // borderRadius: "8px",
+                
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'space-evenly',
-                // border: '1px solid rgba(0, 0, 0, 0.25)'
               }}
             >
             {/* CALENDAR */}
@@ -137,7 +133,7 @@ const DebtPage = () => {
                <TextField 
                     id="filled-basic" 
                     label="Description"
-                     
+                   
                     variant="filled"
                     onChange={(e)=> setDebtDescription(e.target.value)}
                     sx={{
@@ -196,7 +192,7 @@ const DebtPage = () => {
                 </TextField>
 
                 <AddCircleOutlineIcon 
-                    onClick={()=>sendDebt(debtLoan, debtType, amount, debtDescription, navigate)}
+                    onClick={()=>sendDebt(date, debtLoan, debtType, amount, debtDescription, navigate)}
                     sx={{
                         fontSize:'50px',
                         '&:hover':{

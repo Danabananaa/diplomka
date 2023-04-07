@@ -35,6 +35,15 @@ type Authentication struct {
 	Password string `json:"password"`
 }
 
+<<<<<<< HEAD
+type UserImage struct {
+	UserID    int64
+	ImageName string
+}
+
+type ImageData struct {
+	Data string `json:"data"`
+=======
 func (a *Authentication) Validate() error {
 	if !validateEmail(a.Email) {
 		return errors.New("invalid email")
@@ -89,4 +98,5 @@ func validatePassword(password string) bool {
 	}
 
 	return hasDigit
+>>>>>>> 3366c655ecf90648c2d0249fb17c75815a37ce88
 }

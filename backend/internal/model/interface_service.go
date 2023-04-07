@@ -15,6 +15,12 @@ type AuthenticationService interface {
 	JWTService
 }
 
+type ImageService interface {
+	GetUserInfoService(ctx context.Context, id int) (*User, error)
+	AddUserImage(ctx context.Context, info UserImage) (*UserImage, error)
+	GetUserImageService(ctx context.Context, id int) (*UserImage, error)
+}
+
 type JWTService interface {
 	GenerateJWT(context.Context, User) (*Token, error)
 	Verification(signedToken string) (int64, error)

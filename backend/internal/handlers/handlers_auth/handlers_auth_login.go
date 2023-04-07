@@ -1,11 +1,10 @@
 package handlers_auth
 
 import (
-	"encoding/json"
-	"net/http"
-
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
+	"encoding/json"
+	"net/http"
 )
 
 func (a *auth) LogIn(w http.ResponseWriter, r *http.Request) {
