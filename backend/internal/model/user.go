@@ -61,12 +61,10 @@ func validateEmail(email string) bool {
 }
 
 func validatePassword(password string) bool {
-	// Проверяем длину пароля (минимальная длина - 8 символов)
 	if len(password) < 8 {
 		return false
 	}
 
-	// Проверяем, что пароль содержит хотя бы одну букву в верхнем регистре и одну букву в нижнем регистре
 	var hasUpper, hasLower bool
 	for _, char := range password {
 		if unicode.IsUpper(char) {
@@ -82,7 +80,6 @@ func validatePassword(password string) bool {
 		return false
 	}
 
-	// Проверяем, что пароль содержит хотя бы одну цифру
 	hasDigit := false
 	for _, char := range password {
 		if unicode.IsDigit(char) {
