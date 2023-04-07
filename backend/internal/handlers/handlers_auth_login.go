@@ -1,11 +1,10 @@
 package handlers
 
 import (
-	"encoding/json"
-	"net/http"
-
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
+	"encoding/json"
+	"net/http"
 )
 
 func (a *auth) LogIn(w http.ResponseWriter, r *http.Request) {
@@ -15,6 +14,11 @@ func (a *auth) LogIn(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&auth)
 	if err != nil {
 		log.Printf("json decode: %v", err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	if err := auth.Validate(); err != nil {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}

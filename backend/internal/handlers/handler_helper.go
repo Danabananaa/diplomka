@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"diplomka/internal/model"
 	"fmt"
 	"net/http"
 	"time"
+
+	"diplomka/internal/model"
 )
 
 func GetID(w http.ResponseWriter, r *http.Request) int64 {
