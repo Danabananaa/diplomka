@@ -7,8 +7,6 @@ import (
 	"fmt"
 
 	"diplomka/internal/model"
-
-	"diplomka/internal/model"
 )
 
 func (u *repo) AddUser(ctx context.Context, user model.User) (*model.User, error) {
@@ -65,7 +63,7 @@ func (u *repo) GetUserforAuth(ctx context.Context, auth model.Authentication) (*
 	return &x, nil
 }
 
-func (u *user) AddUserImage(ctx context.Context, info model.UserImage) (*model.UserImage, error) {
+func (u *repo) AddUserImage(ctx context.Context, info model.UserImage) (*model.UserImage, error) {
 	query := `INSERT INTO images (user_id, image_name) VALUES (?,?)`
 
 	res, err := u.DB.ExecContext(ctx, query, info.UserID, info.ImageName)
@@ -80,7 +78,7 @@ func (u *user) AddUserImage(ctx context.Context, info model.UserImage) (*model.U
 	return &info, nil
 }
 
-func (u *user) GetUserImage(ctx context.Context, id int) (*model.UserImage, error) {
+func (u *repo) GetUserImage(ctx context.Context, id int) (*model.UserImage, error) {
 	query := `Select * from images where user_id=?`
 
 	row := u.DB.QueryRowxContext(ctx, query, id)
