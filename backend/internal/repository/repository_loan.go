@@ -3,24 +3,13 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"diplomka/internal/model"
 	"errors"
 	"fmt"
 
-	"github.com/jmoiron/sqlx"
+	"diplomka/internal/model"
 )
 
-type loan struct {
-	DB *sqlx.DB
-}
-
-func NewLoanRepo(db *sqlx.DB) *loan {
-	return &loan{
-		DB: db,
-	}
-}
-
-func (ass *loan) AddAssets(ctx context.Context, asl model.Loan_Debt) (*model.Loan_Debt, error) {
+func (ass *repo) AddAssets(ctx context.Context, asl model.Loan_Debt) (*model.Loan_Debt, error) {
 	query := `INSERT INTO loan (user_id, type, amount, date, description) VALUES (?,?,?,?,?);`
 
 	res, err := ass.DB.ExecContext(ctx, query, asl.UserID, asl.TypeID, asl.Amount, asl.Date.Format("2006-01-02"), asl.Description)
@@ -36,7 +25,7 @@ func (ass *loan) AddAssets(ctx context.Context, asl model.Loan_Debt) (*model.Loa
 	return &ast, nil
 }
 
-func (ass *loan) GetAssets(ctx context.Context, bet model.Between) ([]*model.Loan_Debt, error) {
+func (ass *repo) GetAssets(ctx context.Context, bet model.Between) ([]*model.Loan_Debt, error) {
 	astarr := make([]*model.Loan_Debt, 0)
 	query := `SELECT * FROM loan where user_id=? and date BETWEEN ? and ?`
 

@@ -3,24 +3,13 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"diplomka/internal/model"
 	"errors"
 	"fmt"
 
-	"github.com/jmoiron/sqlx"
+	"diplomka/internal/model"
 )
 
-type income struct {
-	DB *sqlx.DB
-}
-
-func NewIncomeRepo(db *sqlx.DB) *income {
-	return &income{
-		DB: db,
-	}
-}
-
-func (i *income) AddIncome(ctx context.Context, inc model.Income) (*model.Income, error) {
+func (i *repo) AddIncome(ctx context.Context, inc model.Income) (*model.Income, error) {
 	query := `INSERT INTO income (user_id, income_type, amount, date, description) VALUES (?,?,?,?,?);`
 
 	res, err := i.DB.ExecContext(ctx, query, inc.UserID, inc.IncomeTypeID, inc.Amount, inc.Date.Format("2006-01-02"), inc.Description)
@@ -36,7 +25,7 @@ func (i *income) AddIncome(ctx context.Context, inc model.Income) (*model.Income
 	return &inc, nil
 }
 
-func (i *income) GetIncome(ctx context.Context, bet model.Between) ([]*model.Income, error) {
+func (i *repo) GetIncome(ctx context.Context, bet model.Between) ([]*model.Income, error) {
 	incarr := make([]*model.Income, 0)
 
 	query := `SELECT * FROM income where user_id=? and date BETWEEN ? and ?`

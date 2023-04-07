@@ -9,6 +9,26 @@ type CustomTime struct {
 	time.Time
 }
 
+func (t CustomTime) FirstDayOfMonth() CustomTime {
+	firstOfMonth := time.Date(t.Year(), t.Month(), 1, 0, 0, 0, 0, t.Location())
+	return CustomTime{firstOfMonth}
+}
+
+func (t CustomTime) FirstDayOfYear() CustomTime {
+	year, _, _ := t.Date()
+	firstOfYear := time.Date(year, 1, 1, 0, 0, 0, 0, t.Location())
+	return CustomTime{firstOfYear}
+}
+
+func (c CustomTime) FirstDayOfWeek() CustomTime {
+	weekday := c.Weekday()
+	daysSinceMonday := int(weekday - time.Monday)
+	if daysSinceMonday < 0 {
+		daysSinceMonday += 7
+	}
+	return CustomTime{c.Time.AddDate(0, 0, -daysSinceMonday)}
+}
+
 func (t CustomTime) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf(`"%s"`, t.Format("2006-01-02"))), nil
 }

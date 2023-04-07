@@ -5,21 +5,9 @@ import (
 	"log"
 
 	"diplomka/internal/model"
-
-	"github.com/jmoiron/sqlx"
 )
 
-type stat struct {
-	DB *sqlx.DB
-}
-
-func NewStatisticsRepo(db *sqlx.DB) *stat {
-	return &stat{
-		DB: db,
-	}
-}
-
-func (s *stat) GetStatistics(ctx context.Context, b model.Between) (model.Statistics, error) {
+func (s *repo) GetStatistics(ctx context.Context, b model.Between) (model.Statistics, error) {
 	stat := model.Statistics{}
 
 	querySumIncome := `

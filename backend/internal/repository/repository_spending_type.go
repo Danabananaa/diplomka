@@ -3,24 +3,13 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"diplomka/internal/model"
 	"errors"
 	"fmt"
 
-	"github.com/jmoiron/sqlx"
+	"diplomka/internal/model"
 )
 
-type spending_type struct {
-	DB *sqlx.DB
-}
-
-func NewSpendingTypeRepo(db *sqlx.DB) *spending_type {
-	return &spending_type{
-		DB: db,
-	}
-}
-
-func (s *spending_type) GetSpendingType(ctx context.Context) ([]*model.SpendingType, error) {
+func (s *repo) GetSpendingType(ctx context.Context) ([]*model.SpendingType, error) {
 	starr := make([]*model.SpendingType, 0)
 	query := `SELECT * FROM spendingtype`
 	row, err := s.DB.QueryContext(ctx, query)

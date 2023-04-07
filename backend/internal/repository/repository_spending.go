@@ -3,24 +3,13 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"diplomka/internal/model"
 	"errors"
 	"fmt"
 
-	"github.com/jmoiron/sqlx"
+	"diplomka/internal/model"
 )
 
-type spending struct {
-	DB *sqlx.DB
-}
-
-func NewSpendingRepo(db *sqlx.DB) *spending {
-	return &spending{
-		DB: db,
-	}
-}
-
-func (s *spending) AddSpending(ctx context.Context, spn model.Spending) (*model.Spending, error) {
+func (s *repo) AddSpending(ctx context.Context, spn model.Spending) (*model.Spending, error) {
 	query := `INSERT INTO spending (user_id, spending_type, amount, date, description) VALUES (?,?,?,?,?);`
 
 	res, err := s.DB.ExecContext(ctx, query, spn.UserID, spn.SpendingTypeID, spn.Amount, spn.Date.Format("2006-01-02"), spn.Description)
@@ -36,7 +25,7 @@ func (s *spending) AddSpending(ctx context.Context, spn model.Spending) (*model.
 	return &spn, nil
 }
 
-func (s *spending) GetSpending(ctx context.Context, bet model.Between) ([]*model.Spending, error) {
+func (s *repo) GetSpending(ctx context.Context, bet model.Between) ([]*model.Spending, error) {
 	incarr := make([]*model.Spending, 0)
 
 	query := `SELECT * FROM spending where user_id=? and date BETWEEN ? and ?`

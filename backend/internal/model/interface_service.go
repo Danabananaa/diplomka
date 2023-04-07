@@ -4,11 +4,14 @@ import (
 	"context"
 )
 
-type AuthSerivice interface {
-	SignUp(context.Context, User) error
-	LogOut(ctx context.Context) error
-	LogIn(context.Context, Authentication) (*Token, error)
-	Refresh(ctr context.Context, token string) (string, error)
+type AuthService interface {
+	AuthenticationService
+}
+
+type AuthenticationService interface {
+	SignUp(ctx context.Context, user User) error
+	LogIn(ctx context.Context, auth Authentication) (*Token, error)
+	Refresh(ctx context.Context, token string) (string, error)
 	JWTService
 }
 
@@ -17,12 +20,16 @@ type JWTService interface {
 	Verification(signedToken string) (int64, error)
 }
 
-// type SpendingTypeService interface {
-// 	GetAllSpendingRepo(ctx context.Context) ([]*SpendingType, error)
-// }
+type FinancialTrackerService interface {
+	IncomeService
+	SpendingService
+	StatisticsService
+	FinancialTypeService
+	FinancialLiabilityService
+}
 
-type IncomeSpendTypeService interface {
-	GetAllIncSpendingService(ctx context.Context) ([]*IncomeType, []*SpendingType, error)
+type FinancialTypeService interface {
+	GetAllIncomeSpendingService(ctx context.Context) ([]*IncomeType, []*SpendingType, error)
 }
 
 type IncomeService interface {
@@ -35,15 +42,12 @@ type SpendingService interface {
 	GetSpendingService(ctx context.Context, bet Between) ([]*Spending, error)
 }
 
-type LoanDebtTypeService interface {
-	GetAllLoanDebtTypeService(ctx context.Context) ([]*LoanDebtType, error)
-}
-
-type LoanDebtService interface {
-	AddLoanDebtService(ctx context.Context, asl Loan_Debt) (*Loan_Debt, error)
-	GetLoanDebtService(ctx context.Context, bet Between) ([]*Loan_Debt, []*Loan_Debt, error)
-}
-
 type StatisticsService interface {
 	GetStatistics(context.Context, Between) (Statistics, error)
+}
+
+type FinancialLiabilityService interface {
+	GetAllLoanDebtTypeService(ctx context.Context) ([]*LoanDebtType, error)
+	AddLoanDebtService(ctx context.Context, asl Loan_Debt) (*Loan_Debt, error)
+	GetLoanDebtService(ctx context.Context, bet Between) ([]*Loan_Debt, []*Loan_Debt, error)
 }

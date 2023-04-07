@@ -7,19 +7,9 @@ import (
 	"fmt"
 
 	"diplomka/internal/model"
-
-	"github.com/jmoiron/sqlx"
 )
 
-type user struct {
-	DB *sqlx.DB
-}
-
-func NewUserRepo(db *sqlx.DB) *user {
-	return &user{DB: db}
-}
-
-func (u *user) AddUser(ctx context.Context, user model.User) (*model.User, error) {
+func (u *repo) AddUser(ctx context.Context, user model.User) (*model.User, error) {
 	query := `INSERT INTO users (name, surname, email, password) VALUES (?,?,?,?);`
 
 	res, err := u.DB.ExecContext(ctx, query, user.Name, user.Surname, user.Email, user.Password)
@@ -35,7 +25,7 @@ func (u *user) AddUser(ctx context.Context, user model.User) (*model.User, error
 	return &user, nil
 }
 
-func (u *user) GetUser(ctx context.Context, id int) (*model.User, error) {
+func (u *repo) GetUser(ctx context.Context, id int) (*model.User, error) {
 	x := &model.User{}
 
 	query := `select * from users where id=?`
@@ -55,7 +45,7 @@ func (u *user) GetUser(ctx context.Context, id int) (*model.User, error) {
 	return x, nil
 }
 
-func (u *user) GetUserforAuth(ctx context.Context, auth model.Authentication) (*model.User, error) {
+func (u *repo) GetUserforAuth(ctx context.Context, auth model.Authentication) (*model.User, error) {
 	x := model.User{}
 	query := `select * from users where email=? and password=?`
 	row := u.DB.QueryRowContext(ctx, query, auth.Email, auth.Password)

@@ -8,6 +8,14 @@ type UserRepo interface {
 	AddUser(context.Context, User) (*User, error)
 	GetUserforAuth(ctx context.Context, auth Authentication) (*User, error)
 }
+type FinancialRepo interface {
+	SpendingRepo
+	IncomeRepo
+	SpendingTypeRepo
+	IncomeTypeRepo
+	StatisticsRepo
+	DebtorRepo
+}
 
 type SpendingRepo interface {
 	AddSpending(ctx context.Context, inc Spending) (*Spending, error)
@@ -26,6 +34,15 @@ type SpendingTypeRepo interface {
 type IncomeTypeRepo interface {
 	GetIncomeType(ctx context.Context) ([]*IncomeType, error)
 }
+type StatisticsRepo interface {
+	GetStatistics(context.Context, Between) (Statistics, error)
+}
+
+type DebtorRepo interface {
+	LoanDebtTypeRepo
+	LoanRepo
+	DeptRepo
+}
 
 type LoanDebtTypeRepo interface {
 	GetLoandebtTypeRepo(ctx context.Context) ([]*LoanDebtType, error)
@@ -39,8 +56,4 @@ type LoanRepo interface {
 type DeptRepo interface {
 	AddLiabilities(ctx context.Context, ast Loan_Debt) (*Loan_Debt, error)
 	GetLiabilities(ctx context.Context, bet Between) ([]*Loan_Debt, error)
-}
-
-type StatisticsRepo interface {
-	GetStatistics(context.Context, Between) (Statistics, error)
 }

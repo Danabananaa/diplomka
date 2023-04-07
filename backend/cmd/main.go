@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"diplomka/internal/handlers"
+	middleware "diplomka/internal/handlers/handlers_middleware"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
@@ -27,64 +28,24 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	// repository
-	jwtService := service.NewJWTService()
+	if _, err := db.Exec(`PRAGMA foreign_keys = ON;`); err != nil {
+		log.Fatalln(err)
+	}
 
-	userRepo := repository.NewUserRepo(db)
-	spendingTypeRepo := repository.NewSpendingTypeRepo(db)
-	incometypeRepo := repository.NewIncomeTypeRepo(db)
-	incomeRepo := repository.NewIncomeRepo(db)
-	spendingRepo := repository.NewSpendingRepo(db)
-	ldtyperepo := repository.NewLoanDebtTypeRepo(db)
-	loanRepo := repository.NewLoanRepo(db)
-	debtRepo := repository.NewDebtRepo(db)
-	statRepo := repository.NewStatisticsRepo(db)
+	repo := repository.NewRepository(db)
 
-	// services
-	authService := service.NewAuthService(userRepo, jwtService)
-
-	incSpnTypeService := service.NewIncSpnTypeService(incometypeRepo, spendingTypeRepo)
-	incomeService := service.NewIncomeService(incomeRepo)
-	spendingService := service.NewSpendingService(spendingRepo)
-	ldtypeService := service.NewLoanDebtTypeService(ldtyperepo)
-	loanDebtService := service.NewLoanDebtService(loanRepo, debtRepo)
-	statService := service.NewStatisticsService(statRepo)
-
-	// handlers
-	mHandlers := handlers.NewMiddleware(authService)
-
-	authHandlers := handlers.NewAuthHandlers(authService)
-
-	incSpnTypeHandlers := handlers.NewIncomeSpendTypeHandlers(incSpnTypeService)
-	incomeHandlers := handlers.NewIncomeHandlers(incomeService)
-	budgetHandler := handlers.NewIncomeSpendingHandlers(incomeService, spendingService)
-	spendingHadlers := handlers.NewSpendingHandlers(spendingService)
-	ldtypeHandlers := handlers.NewLoanDebtTypeHandlers(ldtypeService)
-	loanDebtHandlers := handlers.NewLoanDebtHandlers(loanDebtService)
-	statHandlers := handlers.NewStatisticsHandlers(statService)
+	authService := service.NewAuthenticationService(repo)
+	finansService := service.NewFinancialTrackerService(repo)
 
 	r := mux.NewRouter()
 
-	// r.Handle("/", middlewareHandlers.RequireAuthentication(http.HandlerFunc(index))).Methods(http.MethodGet)
+	m := middleware.NewMiddleware(authService)
 
-	r.HandleFunc("/signup", authHandlers.SignUp).Methods(http.MethodPost)
-	r.HandleFunc("/login", authHandlers.LogIn).Methods(http.MethodPost)
-	// Added new hadler which contain getting income and spending
-	r.HandleFunc("/budget/type", incSpnTypeHandlers.AllIncomeTypes).Methods(http.MethodGet)
-	// Added new hadler which contain getting assets and liability types
-	r.HandleFunc("/debt/type", ldtypeHandlers.GetAllLoanDebtType).Methods(http.MethodGet)
+	handlers.NewAuthHandlers(r, authService)
+	handlers.NewFinancialHandlers(r, m, finansService)
+	handlers.NewAvatarHandlers(r)
 
-	r.Handle("/spending", mHandlers.RequireAuthentication(http.HandlerFunc(spendingHadlers.PostSpending))).Methods(http.MethodPost)
-	r.Handle("/income", mHandlers.RequireAuthentication(http.HandlerFunc(incomeHandlers.PostIncome))).Methods(http.MethodPost)
-
-	r.Handle("/debt", mHandlers.RequireAuthentication(http.HandlerFunc(loanDebtHandlers.AddLoanDebt))).Methods(http.MethodPost)
-	r.Handle("/debt", mHandlers.RequireAuthentication(http.HandlerFunc(loanDebtHandlers.GetLoanDebt))).Methods(http.MethodGet)
-
-	r.Handle("/budget/stats", mHandlers.RequireAuthentication(http.HandlerFunc(budgetHandler.GetIncomeSpending))).Methods(http.MethodGet)
-
-	r.Handle("/statistics", mHandlers.RequireAuthentication(http.HandlerFunc(statHandlers.GetStat))).Methods(http.MethodGet)
-
-	r.Use(mHandlers.PanicRecover)
+	r.Use(m.PanicRecover)
 
 	server := http.Server{
 		Addr:         ":" + port,

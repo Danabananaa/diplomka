@@ -3,24 +3,13 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"diplomka/internal/model"
 	"errors"
 	"fmt"
 
-	"github.com/jmoiron/sqlx"
+	"diplomka/internal/model"
 )
 
-type income_type struct {
-	DB *sqlx.DB
-}
-
-func NewIncomeTypeRepo(db *sqlx.DB) *income_type {
-	return &income_type{
-		DB: db,
-	}
-}
-
-func (i *income_type) GetIncomeType(ctx context.Context) ([]*model.IncomeType, error) {
+func (i *repo) GetIncomeType(ctx context.Context) ([]*model.IncomeType, error) {
 	itarr := make([]*model.IncomeType, 0)
 	query := `SELECT * FROM incometype`
 	row, err := i.DB.QueryContext(ctx, query)
