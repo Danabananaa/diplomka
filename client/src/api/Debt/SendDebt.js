@@ -6,19 +6,23 @@
 // Date        CustomTime `json:"date"`
 // Status      bool       `json:"status"`
 
-import { getCurrentDate } from "../API";
+import { formatDateCalendar, getCurrentDate } from "../API";
 
-export const sendDebt = async (status, typeID, amount, description, navigate) => {
-    const date = getCurrentDate();
+export const sendDebt = async (date, status, typeID, amount, description, navigate) => {
+    // const date = getCurrentDate();
     const token = localStorage.getItem("token");
+    const formattedDate = formatDateCalendar(date);
+    
+    console.log(formattedDate);
+    console.log(date);
     const data = {
       type_id: parseInt(typeID, 10),
       description: description,
       amount: parseInt(amount, 10),
-      date: date,
+      date: formattedDate,
       status: status === "Debt" ? false : true,
     };
-    console.log(data.income_type_id);
+    // console.log(data.income_type_id);
     await fetch(`/debt`, {
       method: "POST",
       headers: {
