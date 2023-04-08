@@ -2,9 +2,10 @@ package middleware
 
 import (
 	"context"
+	"net/http"
+
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
-	"net/http"
 )
 
 type key string

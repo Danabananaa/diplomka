@@ -1,13 +1,14 @@
 package main
 
 import (
+	"log"
+	"net/http"
+	"time"
+
 	"diplomka/internal/handlers"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
-	"log"
-	"net/http"
-	"time"
 
 	middleware "diplomka/internal/handlers/handlers_middleware"
 
@@ -44,7 +45,7 @@ func main() {
 
 	handlers.InitAuthHandlers(r, authService)
 	handlers.InitFinancialHandlers(r, m, finansService)
-	handlers.InitAvatarHandlers(r, avatarService)
+	handlers.InitAvatarHandlers(r, m, avatarService)
 
 	r.Use(m.PanicRecover)
 

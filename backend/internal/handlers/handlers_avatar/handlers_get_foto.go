@@ -1,22 +1,24 @@
 package handlers_avatar
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 
 	middleware "diplomka/internal/handlers/handlers_middleware"
 )
 
-func (a *avatar) DeleteFoto(w http.ResponseWriter, r *http.Request) {
+type image struct {
+	Name string `json:"name"`
+}
+
+func (a *avatar) GetFoto(w http.ResponseWriter, r *http.Request) {
 	userID := middleware.GetUserID(r)
-	if userID < 1 {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
-	err := a.AvatarService.DeleteImageService(r.Context(), userID)
+	picName, err := a.GetUserImageService(r.Context(), userID)
 	if err != nil {
-		fmt.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
+	json.NewEncoder(w).Encode(image{
+		Name: picName.ImageName,
+	})
 }

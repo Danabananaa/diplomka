@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -30,6 +31,7 @@ func (a *avatar) UploadFoto(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user_id := middleware.GetUserID(r)
+
 	imagename := uuid.New().String() + ".jpg"
 
 	info := model.UserImage{
@@ -39,11 +41,12 @@ func (a *avatar) UploadFoto(w http.ResponseWriter, r *http.Request) {
 
 	_, err = a.AddUserImage(r.Context(), info)
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
-	file, err := os.Create(filepath.Join("./temp", imagename))
+	file, err := os.Create(filepath.Join("./static/images/", imagename))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

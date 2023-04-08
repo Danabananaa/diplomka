@@ -18,10 +18,10 @@ func (a *auth) SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := user.Validate(); err != nil {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
+	// if err := user.Validate(); err != nil {
+	// 	http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+	// 	return
+	// }
 
 	if err := a.AuthService.SignUp(r.Context(), user); err != nil {
 		log.Printf("service SignUp: %v", err)

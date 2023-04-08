@@ -18,7 +18,8 @@ type AuthenticationService interface {
 type AvatarService interface {
 	GetUserInfoService(ctx context.Context, id int) (*User, error)
 	AddUserImage(ctx context.Context, info UserImage) (*UserImage, error)
-	GetUserImageService(ctx context.Context, id int) (*UserImage, error)
+	GetUserImageService(ctx context.Context, id int64) (*UserImage, error)
+	DeleteImageService(ctx context.Context, id int64) error
 }
 
 type JWTService interface {

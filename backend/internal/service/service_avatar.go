@@ -2,8 +2,10 @@ package service
 
 import (
 	"context"
-	"diplomka/internal/model"
 	"fmt"
+	"os"
+
+	"diplomka/internal/model"
 )
 
 type avatar struct {
@@ -24,10 +26,9 @@ func (a *avatar) AddUserImage(ctx context.Context, info model.UserImage) (*model
 	return image, nil
 }
 
-func (a *avatar) GetUserImageService(ctx context.Context, id int) (*model.UserImage, error) {
+func (a *avatar) GetUserImageService(ctx context.Context, id int64) (*model.UserImage, error) {
 	info, err := a.UserRepo.GetUserImage(ctx, id)
 	if err != nil {
-		fmt.Println(err)
 		return nil, fmt.Errorf("error was ocured from UserRepo GetUserImage: %v", err)
 	}
 	return info, nil
@@ -39,4 +40,21 @@ func (a *avatar) GetUserInfoService(ctx context.Context, id int) (*model.User, e
 		return nil, fmt.Errorf("error was ocured from UserRepo GetUser: %v", err)
 	}
 	return user, nil
+}
+
+func (a *avatar) DeleteImageService(ctx context.Context, id int64) error {
+	ImgName, err := a.UserRepo.GetUserImage(ctx, id)
+	if err != nil {
+		return fmt.Errorf("error was ocured from UserRepo GetUserImage: %v", err)
+	}
+	path := "./static/images/" + ImgName.ImageName
+	err = os.Remove(path)
+	if err != nil {
+		return err
+	}
+	err = a.UserRepo.DeleteImage(ctx, id)
+	if err != nil {
+		return fmt.Errorf("error was ocured from UserRepo DeleteImage: %v", err)
+	}
+	return nil
 }

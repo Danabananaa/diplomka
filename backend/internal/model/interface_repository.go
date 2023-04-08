@@ -9,7 +9,8 @@ type UserRepo interface {
 	GetUser(ctx context.Context, id int) (*User, error)
 	GetUserforAuth(ctx context.Context, auth Authentication) (*User, error)
 	AddUserImage(ctx context.Context, info UserImage) (*UserImage, error)
-	GetUserImage(ctx context.Context, id int) (*UserImage, error)
+	GetUserImage(ctx context.Context, id int64) (*UserImage, error)
+	DeleteImage(ctx context.Context, id int64) error
 }
 type FinancialRepo interface {
 	SpendingRepo

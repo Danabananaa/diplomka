@@ -78,7 +78,7 @@ func (u *repo) AddUserImage(ctx context.Context, info model.UserImage) (*model.U
 	return &info, nil
 }
 
-func (u *repo) GetUserImage(ctx context.Context, id int) (*model.UserImage, error) {
+func (u *repo) GetUserImage(ctx context.Context, id int64) (*model.UserImage, error) {
 	query := `Select * from images where user_id=?`
 
 	row := u.DB.QueryRowxContext(ctx, query, id)
@@ -94,4 +94,13 @@ func (u *repo) GetUserImage(ctx context.Context, id int) (*model.UserImage, erro
 	}
 
 	return &info, nil
+}
+
+func (u *repo) DeleteImage(ctx context.Context, id int64) error {
+	query := `DELETE FROM images WHERE user_id=?`
+	_, err := u.DB.ExecContext(ctx, query, id)
+	if err != nil {
+		return fmt.Errorf("error was ocured during executing method ExecContext: %v", err)
+	}
+	return nil
 }

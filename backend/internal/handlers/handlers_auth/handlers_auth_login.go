@@ -1,10 +1,11 @@
 package handlers_auth
 
 import (
-	"diplomka/internal/model"
-	"diplomka/pkg/log"
 	"encoding/json"
 	"net/http"
+
+	"diplomka/internal/model"
+	"diplomka/pkg/log"
 )
 
 func (a *auth) LogIn(w http.ResponseWriter, r *http.Request) {
@@ -18,10 +19,10 @@ func (a *auth) LogIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := auth.Validate(); err != nil {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
+	// if err := auth.Validate(); err != nil {
+	// 	http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+	// 	return
+	// }
 
 	token, err := a.AuthService.LogIn(r.Context(), auth)
 	if err != nil {
