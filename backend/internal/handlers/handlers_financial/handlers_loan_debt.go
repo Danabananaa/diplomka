@@ -1,12 +1,12 @@
 package handlers_financial
 
 import (
+	"diplomka/internal/model"
+	"diplomka/pkg/log"
 	"encoding/json"
 	"net/http"
 
 	middleware "diplomka/internal/handlers/handlers_middleware"
-	"diplomka/internal/model"
-	"diplomka/pkg/log"
 )
 
 func (f *financial) AddLoanDebt(w http.ResponseWriter, r *http.Request) {
@@ -17,6 +17,11 @@ func (f *financial) AddLoanDebt(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&ast)
 	if err != nil {
 		log.Printf("json decode: %v", err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	if err := ast.Validate(); err != nil {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}

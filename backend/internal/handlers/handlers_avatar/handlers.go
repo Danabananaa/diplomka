@@ -1,7 +1,13 @@
 package handlers_avatar
 
-type avatar struct{}
+import "diplomka/internal/model"
 
-func NewAvatarHandlers() *avatar {
-	return &avatar{}
+type avatar struct {
+	model.AvatarService
+}
+
+func NewAvatarHandlers(ava model.AvatarService) *avatar {
+	return &avatar{
+		AvatarService: ava,
+	}
 }

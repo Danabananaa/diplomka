@@ -13,3 +13,4 @@ func NewAuthService(ur model.UserRepo, jw model.JWTService) model.AuthService {
 		JWTService: jw,
 	}
 }
+

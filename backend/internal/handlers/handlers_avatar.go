@@ -9,12 +9,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func InitAvatarHandlers(r *mux.Router) {
-	handlers := handlers_avatar.NewAvatarHandlers()
+func InitAvatarHandlers(r *mux.Router, ava model.AvatarService) {
+	handlers := handlers_avatar.NewAvatarHandlers(ava)
 
-	fs := http.FileServer(model.NewFileSystem(http.Dir("./static/images/")))
+	// fs := http.FileServer(model.NewFileSystem(http.Dir("./static/images/")))
+	fs := http.FileServer(http.Dir("./static/images/"))
 
-	r.Handle("/images/", http.StripPrefix("/images", fs)).Methods(http.MethodGet)
-	r.HandleFunc("/images/upload", handlers.UploadFoto).Methods(http.MethodPost)
-	r.HandleFunc("/images/upload", handlers.DeleteFoto).Methods(http.MethodDelete)
+	r.Handle("/images/", http.StripPrefix("/images", fs))
+
+	r.HandleFunc("/images", handlers.UploadFoto).Methods(http.MethodPost)
+	r.HandleFunc("/images", handlers.DeleteFoto).Methods(http.MethodDelete)
 }

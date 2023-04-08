@@ -1,15 +1,15 @@
 package main
 
 import (
+	"diplomka/internal/handlers"
+	"diplomka/internal/repository"
+	"diplomka/internal/service"
+	"diplomka/pkg/sqlite"
 	"log"
 	"net/http"
 	"time"
 
-	"diplomka/internal/handlers"
 	middleware "diplomka/internal/handlers/handlers_middleware"
-	"diplomka/internal/repository"
-	"diplomka/internal/service"
-	"diplomka/pkg/sqlite"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"
@@ -36,14 +36,15 @@ func main() {
 
 	authService := service.NewAuthenticationService(repo)
 	finansService := service.NewFinancialTrackerService(repo)
+	avatarService := service.NewAvatarService(repo)
 
 	r := mux.NewRouter()
 
 	m := middleware.NewMiddleware(authService)
 
-	handlers.NewAuthHandlers(r, authService)
-	handlers.NewFinancialHandlers(r, m, finansService)
-	handlers.NewAvatarHandlers(r)
+	handlers.InitAuthHandlers(r, authService)
+	handlers.InitFinancialHandlers(r, m, finansService)
+	handlers.InitAvatarHandlers(r, avatarService)
 
 	r.Use(m.PanicRecover)
 
