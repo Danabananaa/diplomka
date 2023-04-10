@@ -10,7 +10,7 @@ export const sendSpending = async(e, typeID, amount, description, navigate) => {
         description: description,
         date: date
     }
-    console.log(data.income_type_id);
+    console.log(date);
     await fetch(`/spending`, {
         method: 'POST',
         headers: {

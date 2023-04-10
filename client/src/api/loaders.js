@@ -12,31 +12,58 @@ export const homeLoader = () => {
     }
 }
 
-export const statisticsData =( async () => {
+export const statisticsData =( async ({request}) => {
+  const url = new URL(request.url);
+  const currentQuery = url.search;
   const token = localStorage.getItem('token');
-
-  try{
-    const response = await fetch(`/statistics`, {
-      headers: {
-        Accept: 'application/json',
-        Authorization: `${token}`,
+  
+  try {
+    const [statResponse] = await Promise.all([
+      fetch(`/statistics${currentQuery}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `${token}`,
         },
-      method: "GET",
-    })
-    if (!response.ok){
-      
-        const error = new Error(response.statusText);
-        error.status = response.status;
-        throw error;
-    } else if (response.ok){
-      const data = await response.json();
-      console.log(data);
-      return {data};
+        method: "GET",
+      }),
+    ]);
+
+    if (!statResponse.ok) {
+      const error = new Error(`Could not fetch posts. Status: ${statResponse.statusText}`);
+      error.status = statResponse.status;
+      throw error;
     }
-  } catch(error){
+
+    const data = await statResponse.json();
+
+    return { data };
+  } catch (error) {
     console.log(error);
     throw error;
   }
+
+  // try{
+  //   const response = await fetch(`/statistics`, {
+  //     headers: {
+  //       Accept: 'application/json',
+  //       Authorization: `${token}`,
+  //       },
+  //     method: "GET",
+  //   })
+  //   if (!response.ok){
+      
+  //       const error = new Error(response.statusText);
+  //       error.status = response.status;
+  //       throw error;
+  //   } else if (response.ok){
+  //     const data = await response.json();
+  //     console.log(data);
+  //     return {data};
+  //   }
+  // } catch(error){
+  //   console.log(error);
+  //   throw error;
+  // }
 })  //OK
 
 export const budgetData =( async () => {
@@ -147,5 +174,3 @@ export const debtData =( async () => {
           throw error;
         }
 })
-
-

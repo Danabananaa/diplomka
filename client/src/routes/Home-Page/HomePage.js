@@ -4,6 +4,7 @@ import {Box, Grid} from '@mui/material';
 import DonutChart from '../../components/DonutChart/DonutChart';
 import {Button} from '@mui/material';
 import {Stack} from '@mui/system';
+import { useNavigate } from 'react-router';
 // import { useOutletContext } from "react-router-dom";
 const HomePage = () => {
   // const [mainHeight, setMainHeight] = useOutletContext();
@@ -40,8 +41,17 @@ const HomePage = () => {
       "color": "hsl(232, 70%, 50%)"
     }
   ]
+  const navigate = useNavigate();
+  const query = new URLSearchParams(location.search);
 
-
+  const handleButtonClick = (e, value) => {
+    e.preventDefault();
+    if (value) {
+      // Update the URL with the new page number
+      const newQuery = new URLSearchParams(query);
+      newQuery.set('filter', value);
+      navigate({ search: newQuery.toString() }); // navigate to update state values with useEffect
+    }  };
 
   return (
     <Grid 
@@ -95,35 +105,18 @@ const HomePage = () => {
           }}
         >
         <Stack direction="row" spacing={5}>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ border: "1px solid black", fontWeight: "600", color: "#0C1017", width: "100px" }}
-          >
-            Year
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ border: "1px solid black", fontWeight: "600", color: "#0C1017", width: "100px" }}
-          >
-            Month
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ border: "1px solid black", fontWeight: "600", color: "#0C1017", width: "100px" }}
-          >
-            Week
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={{ border: "1px solid black", fontWeight: "600", color: "#0C1017", width: "100px" }}
-          >
-            Day
-          </Button>
-        </Stack>
+      {['Year', 'Month', 'Week', 'Day'].map((period) => (
+        <Button
+          key={period}
+          variant="contained"
+          color="secondary"
+          onClick={(e) => handleButtonClick(e, period.toLowerCase())}
+          sx={{ border: '1px solid black', fontWeight: '600', color: '#0C1017', width: '100px' }}
+        >
+          {period}
+        </Button>
+      ))}
+    </Stack>
 
       </Box>
         {/* PIE BOX */}

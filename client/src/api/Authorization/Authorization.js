@@ -102,23 +102,13 @@ export const handleLogin = async (e, email, password, dispatch, navigate, setSta
   };
 
 //HANDLE LOG OUT
-export const signOutHandler = async (dispatch, navigate) =>{
-    const response = await fetch(`${baseURL}/auth/log_out`, {
-        headers: {
-            'Accept': 'application/json',
-            'Credentials': 'include',
-        },
-        method: "GET",
-        credentials: "include",
-        })
-        
-        dispatch(logout());
-        if (!response.ok){
-            const error = new Error('Error fetching token data for the Sign Out');
-            error.status = response.status;
-            navigate("/signin", {state: {error}})
-        }
-        navigate("/signin");  
+export const signOutHandler = (dispatch, navigate) =>{
+  // Remove the token from local storage
+  localStorage.removeItem('token');
+  // Dispatch the logout action to update the Redux state
+  dispatch(logout());
+
+  navigate("/signin");  
 }
 export const signOutOnError = async () =>{ // Very unlikely to happen
     await fetch(`${baseURL}/auth/log_out`, {

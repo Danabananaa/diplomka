@@ -1,19 +1,31 @@
-import { List, ListItem, ListItemIcon, ListItemText, Drawer, Toolbar, Box } from '@mui/material';
+import { List, ListItem, ListItemIcon, ListItemText, Drawer, Toolbar, Box, Typography, Button } from '@mui/material';
 import { Dashboard as DashboardIcon, BarChart as BarChartIcon, AttachMoney as AttachMoneyIcon, EventNote as EventNoteIcon, CreditCard as CreditCardIcon, Settings as SettingsIcon, Info as InfoIcon, Mail as MailIcon } from '@mui/icons-material';
 import {Divider} from '@mui/material';
 import {ListItemButton} from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { signOutHandler } from '../../api/Authorization/Authorization';
+import { useDispatch } from 'react-redux';
 export const MainDrawer = ({path}) =>{
   
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleNav = (text) => {
     const newPath = text.replace(/\s/g, ''); // Removing spaces from a button text
     navigate(`/${newPath.toLowerCase()}`); // changing the url to the specified nav button text
   }
   return (
-      <div>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100%', // Make sure the Box component expands to the full height of its container
+      }}
+    >
+      <Box>
+
         <Toolbar />
         <Divider />
         <List >
@@ -69,6 +81,29 @@ export const MainDrawer = ({path}) =>{
             </ListItem>
           ))}
         </List>
-      </div>
+
+      </Box>
+        
+        <Box
+        onClick={signOutHandler(dispatch, navigate)}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          mb: 6,
+          "&:hover": {
+            color: "aliceblue",
+            cursor: "pointer"
+          },
+          "&:active":{
+            color: "#FF2020",
+          }
+        }}
+        >
+        
+        <LogoutIcon fontSize='large'/><Typography>Sign Out</Typography>
+        
+        </Box>
+      </Box>
     );
 } 

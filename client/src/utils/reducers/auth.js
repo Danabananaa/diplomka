@@ -20,17 +20,17 @@ const authSlice = createSlice({
     },
   });
 
-  export const handleLogout = () => async (dispatch) => {
-    try {
-      const response = await fetch('/logout', { method: 'POST' });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      dispatch(logout());
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // export const handleLogout = () => async (dispatch) => {
+  //   try {
+  //     const response = await fetch('/logout', { method: 'POST' });
+  //     if (!response.ok) {
+  //       throw new Error(response.statusText);
+  //     }
+  //     dispatch(logout());
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
 export const { loginSuccess, logout } = authSlice.actions;
 export default authSlice.reducer;
