@@ -1,15 +1,12 @@
 import { Grid, Box,Divider, FormControl, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button, Link } from "@mui/material";
-import contacts from '../../assets/images/contacts-back.png'
+import contacts from '../../assets/images/contacts.png'
 import git from '../../assets/images/git.png'
 import facebook from '../../assets/images/facebook.png'
 import insta from '../../assets/images/insta.png'
 import twitter from '../../assets/images/twitter.png'
 import linkedIn from '../../assets/images/linkedinn.png'
-import contact from '../../assets/images/contact.png'
-import map from '../../assets/images/map.png'
-
 const ContactsPage = () => {
-    // ???????????asdasd????
+    
     return (
         <Grid container direction="row" sx={{ height: '100%' }}>
         {/* Full width grid item */}
@@ -33,8 +30,7 @@ const ContactsPage = () => {
             justifyContent: 'center'
           }}
           >
-            {/* LEFT BOX */}
-            <Box
+          <Box
             sx={{
                 height: '95%',
                 width: '95%',
@@ -50,45 +46,7 @@ const ContactsPage = () => {
                 padding: '1rem',
             }}
             >
-                <Box 
-                sx={{
-                    height: "10%",
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: 'center'
-                }}>
-                    <Typography variant="h4">Address</Typography>
-                </Box>
-                
-                <Box 
-                sx={{
-                    height: '85%',
-                    width: '100%',
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: 'center'
-                }}>
-
-
-                    <Typography variant="h6">Kazakhstan, Astana city, Mangilik El, C4.5</Typography>
-                    
-                    <img
-                        src={map}
-                        alt="image"
-                        style={{
-                        // position: "absolute", // Move position property here
-                        // bottom: '50%',
-                        // left: '50%',
-                        marginTop: '100px',
-                        maxWidth: '70%',
-                        maxHeight: '70%',
-                        opacity: '0.70',
-                        //transform: 'translate(-50%, 50%)', // Add this line to center the image
-                        }}
-                    />
-                </Box>
-                
+               asd
             </Box>
         </Grid>
         <Grid item xs={4} 
@@ -100,7 +58,6 @@ const ContactsPage = () => {
             justifyContent: 'center'
         }}
         >
-            {/* MIDDLE BOX */}
         <Box
         sx={{
             height: '95%',
@@ -111,69 +68,29 @@ const ContactsPage = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-between',
             border: '1px solid rgba(0, 0, 0, 0.25)',
             position: 'relative',
             padding: '1rem',
-        }}>
-            {/* MIDDLEBOX HEADER */}
-            <Box 
-                sx={{
-                    height: "10%",
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: 'center'
+          }}
+        >
+                    
+            
+
+            <img
+                src={contacts}
+                alt="image"
+                style={{
+                    position: "absolute", // Move position property here
+                    bottom: '50%',
+                    left: '50%',
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    opacity: '0.6',
+                    transform: 'translate(-50%, 50%)' // Add this line to center the image
                 }}
-            >
-                <Typography variant="h4" sx={{flexGrow:1}}>
-                    Call-Center
-                </Typography>
-            </Box>
-            {/* MIDDLEBOX DATA */}
-            <Box 
-            sx={{
-                height: '85%',
-                width: '100%',
-                display: "flex",
-                flexDirection: "column",
-                alignItems: 'center'
-            }}>
-                <Box 
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                }}>
-                    <img 
-                    src={contact}
-                    alt="image"
-                    style={{
-                        width: '30px',
-                        height: '30px',
-                        opacity: 0.6,
-                        marginRight: '8px',
-                    }}
-                    />
-                    <Typography variant="h5">
-                        +7-708-256-99-01
-                    </Typography>
-                </Box>
-                    <img
-                    src={contacts}
-                    alt="image"
-                    style={{
-                        //position: "absolute", // Move position property here
-                        //bottom: '50%',
-                        //left: '50%',
-                        marginTop: '100px',
-                        maxWidth: '70%',
-                        maxHeight: '70%',
-                        opacity: '0.6',
-                        //transform: 'translate(-50%, 50%)' // Add this line to center the image
-                    }}
-                    />
-                </Box>  
+            />   
+            <Typography variant="h5" pt={4}>24 hour Support: +7-708-256-99-01</Typography>
         </Box>
         </Grid>
           <Grid item xs={4}
@@ -201,29 +118,9 @@ const ContactsPage = () => {
             padding: '1rem',
         }}
         >
-            <Box 
-                sx={{
-                    height: "10%",
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: 'center'
-                }}>
-
-                <Typography variant="h4">Contacts</Typography>
-            </Box>
+            <Typography variant="h4">Contacts</Typography>
             
-            
-            <Box 
-            sx={{
-                height: '85%',
-                width: '100%',
-                display: "flex",
-                flexDirection: "column",
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-            }}>
-                <Box
+            <Box
                 sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -233,7 +130,6 @@ const ContactsPage = () => {
                 src={git}
                 alt="My Image"
                 style={{
-                    opacity: 0.8,
                     width: '60px',
                     height: '60px',
                     marginRight: '8px',
@@ -241,7 +137,6 @@ const ContactsPage = () => {
                 />
                 <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa</Link>
             </Box>
-
             <Box
                 sx={{
                 display: 'flex',
@@ -252,7 +147,6 @@ const ContactsPage = () => {
                 src={linkedIn}
                 alt="My Image"
                 style={{
-                    opacity: 0.6,
                     width: '60px',
                     height: '60px',
                     marginRight: '8px',
@@ -270,7 +164,6 @@ const ContactsPage = () => {
                 src={facebook}
                 alt="My Image"
                 style={{
-                    opacity: 0.8,
                     width: '60px',
                     height: '60px',
                     marginRight: '8px',
@@ -289,7 +182,6 @@ const ContactsPage = () => {
                 src={twitter}
                 alt="My Image"
                 style={{
-                    opacity: 0.8,
                     width: '60px',
                     height: '60px',
                     marginRight: '8px',
@@ -307,7 +199,6 @@ const ContactsPage = () => {
                 src={insta}
                 alt="My Image"
                 style={{
-                    opacity: 0.6,
                     width: '60px',
                     height: '60px',
                     marginRight: '8px',
@@ -315,8 +206,6 @@ const ContactsPage = () => {
                 />
                 <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
             </Box>
-            </Box>
-
         </Box>
         </Grid>
         </Grid>
