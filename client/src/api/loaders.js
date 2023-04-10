@@ -12,6 +12,32 @@ export const homeLoader = () => {
     }
 }
 
+export const statisticsData =( async () => {
+  const token = localStorage.getItem('token');
+
+  try{
+    const response = await fetch(`/statistics`, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `${token}`,
+        },
+      method: "GET",
+    })
+    if (!response.ok){
+      
+        const error = new Error(response.statusText);
+        error.status = response.status;
+        throw error;
+    } else if (response.ok){
+      const data = await response.json();
+      console.log(data);
+      return {data};
+    }
+  } catch(error){
+    console.log(error);
+    throw error;
+  }
+})  //OK
 
 export const budgetData =( async () => {
   const token = localStorage.getItem('token');
@@ -84,7 +110,7 @@ export const debtData =( async () => {
               method: "GET",
               
             }),
-            fetch(`/assliatype`, {
+            fetch(`/debt/type`, {
               headers: {
                 Accept: "application/json",
                 Authorization: `${token}`,
@@ -115,9 +141,11 @@ export const debtData =( async () => {
           const debtTypesData = await debtTypesResponse.json();
           // console.log(debtTypesData);
           console.log(debtData);
-          return { debtTypesData };
+          return { debtData, debtTypesData };
         } catch (error) {
           console.log(error);
           throw error;
         }
-})  
+})
+
+

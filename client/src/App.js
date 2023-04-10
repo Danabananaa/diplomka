@@ -9,18 +9,18 @@ import {
 import SignIn from './routes/Sign-In/SignIn'
 import SignUp from './routes/Sign-Up/SignUp';
 import HomePage from './routes/Home-Page/HomePage'
+import BudgetPage from './routes/Budget-Page/BudgetPage';
+import PlannerPage from './routes/Planner-Page/PlannerPage';
+import DebtPage from './routes/Debt-Page/DebtPage';
+import ContactsPage from './routes/Contacts-Page/ContactsPage';
+import SettingsPage from './routes/Settings-Page/SettingsPage';
+import AboutUsPage from './routes/About-Us-Page/AboutUsPage';
 // layouts
 import RootLayout from './layouts/RootLayout/RootLayout';
 // errorElement
 import { ErrorPage } from './routes/Error-Page/ErrorPage';
 import { PageNotFound } from './routes/Page-Not-Found/PageNotFound';
-import { budgetData, debtData, homeLoader } from './api/loaders';
-import BudgetPage from './routes/Budget-Page/BudgetPage';
-import PlannerPage from './routes/Planner-Page/PlannerPage';
-import DebtPage from './routes/Debt-Page/DebtPage';
-import SettingsPage from './routes/Settings-Page/SettingsPage';
-import AboutUsPage from './routes/About-Us-Page/AboutUsPage';
-import ContactsPage from './routes/Contacts-Page/ContactsPage';
+import { budgetData, debtData, homeLoader, statisticsData } from './api/loaders';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
