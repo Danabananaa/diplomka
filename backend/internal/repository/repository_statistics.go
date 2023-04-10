@@ -11,7 +11,7 @@ func (s *repo) GetStatistics(ctx context.Context, b model.Between) (model.Statis
 	stat := model.Statistics{}
 
 	querySumIncome := `
-	SELECT sum(amount) AS sum
+	SELECT ifnull(sum(amount), 0) AS sum
 	FROM income WHERE user_id = ?
 	AND date  BETWEEN ? AND ?`
 
@@ -36,8 +36,8 @@ func (s *repo) GetStatistics(ctx context.Context, b model.Between) (model.Statis
 
 		queryIncomePercentag := `SELECT
 			income_type AS type_id,
-			sum(amount) as 'total',
-			(sum(amount) * 100.0) / ? as 'percentage'
+			sum(amount) AS 'total',
+			(sum(amount) * 100.0) / ? AS 'percentage'
 		FROM income
 		WHERE
 			user_id = ?
@@ -70,8 +70,8 @@ func (s *repo) GetStatistics(ctx context.Context, b model.Between) (model.Statis
 		querySpendingPercentag := `
 			SELECT
 			spending_type AS type_id,
-			sum(amount) as 'total',
-			(sum(amount) * 100.0) / ? as 'percentage'
+			sum(amount) AS 'total',
+			(sum(amount) * 100.0) / ? AS 'percentage'
 		FROM spending
 		WHERE
 			user_id = ?

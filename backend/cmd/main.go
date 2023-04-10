@@ -6,11 +6,10 @@ import (
 	"time"
 
 	"diplomka/internal/handlers"
+	middleware "diplomka/internal/handlers/handlers_middleware"
 	"diplomka/internal/repository"
 	"diplomka/internal/service"
 	"diplomka/pkg/sqlite"
-
-	middleware "diplomka/internal/handlers/handlers_middleware"
 
 	"github.com/gorilla/mux"
 	_ "github.com/mattn/go-sqlite3"

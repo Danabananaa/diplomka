@@ -1,6 +1,8 @@
 package model
 
-import "errors"
+import (
+	"errors"
+)
 
 type Between struct {
 	UserID    int64      `json:"-" db:"user_id"`
