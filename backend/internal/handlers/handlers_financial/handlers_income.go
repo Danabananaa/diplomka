@@ -13,8 +13,7 @@ func (a *financial) PostIncome(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	inc := model.Income{}
 
-	userID := middleware.GetUserID(r)
-	inc.UserID = userID
+	inc.UserID = middleware.GetUserID(r)
 	err := json.NewDecoder(r.Body).Decode(&inc)
 	if err != nil {
 		log.Printf("json decode: %v", err)
