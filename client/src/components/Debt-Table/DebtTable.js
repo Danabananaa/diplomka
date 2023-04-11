@@ -15,7 +15,7 @@ import {
   
   const DebtTable = ({ mergedData }) => {
     const [page, setPage] = useState(0);
-    const rowsPerPage = 11;
+    const rowsPerPage = 10;
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);

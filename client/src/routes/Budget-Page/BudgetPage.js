@@ -35,8 +35,9 @@ const mergeAndSortByDate = (incomeArray, spendingArray) => {
 const BudgetPage = () => {
     const navigate = useNavigate();
     const { Types, Stats } = useLoaderData(); //Spending and Income Types from the Server
+    console.log(Types);
     // console.log(Types.Type_spending); //Array with spending types
-    console.log(Types.Type_income); // Array with income types
+    // console.log(Types.Type_income); // Array with income types
     // console.log(Stats.Spending); // Spending data
     // console.log(Stats.Income);  // Income data 
     
@@ -49,7 +50,7 @@ const BudgetPage = () => {
     const [incomeDescription, setIncomeDescription] = useState();
     const [spendingDescription, setSpendingDescription] = useState();
 
-    console.log(spendingType);
+    // console.log(spendingType);
     return (
         <Grid 
             container 

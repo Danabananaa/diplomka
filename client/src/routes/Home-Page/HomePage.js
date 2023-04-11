@@ -4,48 +4,31 @@ import {Box, Grid} from '@mui/material';
 import DonutChart from '../../components/DonutChart/DonutChart';
 import {Button} from '@mui/material';
 import {Stack} from '@mui/system';
-import { useNavigate } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 // import { useOutletContext } from "react-router-dom";
 const HomePage = () => {
   // const [mainHeight, setMainHeight] = useOutletContext();
   // console.log(mainHeight);
+  const {pieChartData} = useLoaderData(); // Allows us to use data returned from the loaderer for this page
   const data = [
     {
-      "id": "scala",
-      "label": "scala",
-      "value": 102,
+      "id": "Income",
+      "label": "Income",
+      "value": 0,
       "color": "hsl(1, 70%, 50%)"
     },
     {
-      "id": "haskell",
-      "label": "haskell",
-      "value": 265,
+      "id": "Spending",
+      "label": "Spending",
+      "value": 0,
       "color": "hsl(242, 70%, 50%)"
     },
-    {
-      "id": "php",
-      "label": "php",
-      "value": 594,
-      "color": "hsl(228, 70%, 50%)"
-    },
-    {
-      "id": "ruby",
-      "label": "ruby",
-      "value": 156,
-      "color": "hsl(37, 70%, 50%)"
-    },
-    {
-      "id": "c",
-      "label": "c",
-      "value": 546,
-      "color": "hsl(232, 70%, 50%)"
-    }
   ]
   const navigate = useNavigate();
   const query = new URLSearchParams(location.search);
 
   const handleButtonClick = (e, value) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (value) {
       // Update the URL with the new page number
       const newQuery = new URLSearchParams(query);
@@ -152,7 +135,8 @@ const HomePage = () => {
               <path d="M184.357 94.738H71.356c-4.656 0-8.43 3.774-8.43 8.43s3.774 8.43 8.43 8.43h48.07v87.914a8.43 8.43 0 008.43 8.43 8.43 8.43 0 008.43-8.43v-87.914h48.071c4.656 0 8.43-3.774 8.43-8.43s-3.77-8.43-8.43-8.43zM71.356 81.492H184.36c4.656 0 8.43-3.774 8.43-8.43s-3.774-8.43-8.43-8.43H71.356c-4.656 0-8.43 3.773-8.43 8.43s3.774 8.43 8.43 8.43z" />
             </g>
         </svg>
-          <DonutChart data={data}/>
+          <DonutChart data={pieChartData ? pieChartData : data}/> 
+          {/* DONUT CHART */}
         </Box>
       </Grid>
       {/* RIGHT CONTAINER */}

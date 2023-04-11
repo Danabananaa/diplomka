@@ -1,29 +1,58 @@
 import { loginSuccess, logout } from "../../utils/reducers/auth";
 import { baseURL } from "../API";
 //SIGN UP
+function validateName(name) {
+  const regex = /^[A-Z][a-z]*$/;
+  return regex.test(name);
+}
+
+function validateSurname(surname) {
+  const regex = /^[A-Z][a-z]*(-[A-Z][a-z]*)?$/;
+  return regex.test(surname);
+}
+
+function validateEmail(email) {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return regex.test(email);
+}
+
+function validatePassword(password) {
+  if (password.length < 8) {
+    return false;
+  }
+
+  const hasUpper = /[A-Z]/.test(password);
+  const hasLower = /[a-z]/.test(password);
+  const hasDigit = /\d/.test(password);
+
+  return hasUpper && hasLower && hasDigit;
+}
+
+const validateData = (mail, name, surname, password, setStatus) => {
+    if (!validateEmail(mail)) {
+        setStatus('Invalid Email.')
+        return false
+    }
+    if (!validateName(name)){
+        setStatus('Invalid name format')
+        return false
+    }
+    if (!validateSurname(surname)){
+      setStatus('Invalid surname format')
+        return false
+    }
+    if (!validatePassword(password)){
+        setStatus('Invalid Password.')
+        return false
+    }
+    setStatus('')
+    return true
+}
 export const handleSignUp = async (e, mail, name, surname, password, setStatus, setError, navigate) => {
     e.preventDefault();
-
-    // const validateData = (email, username, password) => {
-    //     const patternUsername = /^[a-zA-Z][a-zA-Z0-9._-]{3,15}$/;
-    //     const patternMail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,29}$/;
-    //     const patternPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{7,}$/;
-    //     if (!patternUsername.test(username)) {
-    //         setStatus('Invalid Username. It must be 3 to 15 characters long and can\'t start with a number')
-    //         return false
-    //     }
-    //     if (!patternMail.test(email)){
-    //         setStatus('Invalid email format')
-    //         return false
-    //     }
-    //     if (!patternPassword.test(password)){
-    //         setStatus('Invalid Password. A valid password has at least one lower and one uppercase letter, one digit, one special character and must be at least 7 characters long')
-    //         return false
-    //     }
-    //     return true
-    // }
-    //Data validation
-    // if (validateData(mail, username, password)){
+    
+    // Data validation
+    if (validateData(mail, name, surname, password, setStatus)){
         try{
             await fetch(`/signup`, 
             {
@@ -42,26 +71,28 @@ export const handleSignUp = async (e, mail, name, surname, password, setStatus, 
                 if (!r.ok){
                     setStatus(r.statusText)
                     console.log("Error");
+                } else if (r.ok){
+                  setError(null);
+                  setStatus('');
+                  navigate("/signin", {
+                      state: {
+                        success: true,
+                      },
+                    });
                 }
-                setError(null);
-                setStatus('');
-                navigate("/signin", {
-                    state: {
-                      success: true,
-                    },
-                  });
             })    
         } catch(error){
             console.log(error);
             setError(error);
         }
+      } 
     
 }
 
 //SIGN IN
 export const handleLogin = async (e, email, password, dispatch, navigate, setStatus, setError) => {
     e.preventDefault();
-    if (email && password) {
+    if (validateEmail(email) && validatePassword(password)) {
       try {
         await fetch(`/login`, {
           headers: {
@@ -89,15 +120,19 @@ export const handleLogin = async (e, email, password, dispatch, navigate, setSta
               
               // Store Auth data in Redux
               dispatch(loginSuccess({ username: data.user_name }))              
+              setStatus('');
               navigate('/');
             }
           });
       } catch (error) {
         console.log(error);
-        setError(error);
+        setStatus(error);
       }
-    } else {
-      setStatus('Missing authorization data');
+    } else if (!validateEmail(email)){
+      setStatus('Invalid Email.')
+
+    } else if (!validatePassword(password)){
+      setStatus('Invalid Password.')
     }
   };
 

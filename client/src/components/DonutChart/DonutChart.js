@@ -40,31 +40,31 @@ const DonutChart = ({ data /* see data tab */ }) => (
         arcLinkLabelsColor={{ from: 'color' }}
         arcLabelsSkipAngle={18}
         motionConfig="wobbly"
-        legends={[
-            {
-                anchor: 'bottom',
-                direction: 'row',
-                justify: false,
-                translateX: 0,
-                translateY: 69,
-                itemsSpacing: 0,
-                itemWidth: 108,
-                itemHeight: 33,
-                itemTextColor: 'black',
-                itemDirection: 'left-to-right',
-                itemOpacity: 1,
-                symbolSize: 20,
-                symbolShape: 'circle',
-                effects: [
-                    {
-                        on: 'hover',
-                        style: {
-                            itemTextColor: 'white'
-                        }
-                    }
-                ]
-            }
-        ]}
+        // legends={[
+        //     {
+        //         anchor: 'bottom',
+        //         direction: 'row',
+        //         justify: false,
+        //         translateX: 0,
+        //         translateY: 69,
+        //         itemsSpacing: 0,
+        //         itemWidth: 108,
+        //         itemHeight: 33,
+        //         itemTextColor: 'black',
+        //         itemDirection: 'left-to-right',
+        //         itemOpacity: 1,
+        //         symbolSize: 20,
+        //         symbolShape: 'circle',
+        //         effects: [
+        //             {
+        //                 on: 'hover',
+        //                 style: {
+        //                     itemTextColor: 'white'
+        //                 }
+        //             }
+        //         ]
+        //     }
+        // ]}
     />
 )
 export default DonutChart;

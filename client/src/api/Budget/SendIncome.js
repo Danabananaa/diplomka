@@ -22,6 +22,9 @@ export const sendIncome = async(e, typeID, amount, description, navigate) => {
             console.log("something went wrong");
         } else {
             console.log("Income sent");
+            setTimeout(() => {
+                navigate(0); // This will navigate back to the previous page
+              }, 300);
         }   
       })
       

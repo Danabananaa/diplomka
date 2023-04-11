@@ -85,7 +85,7 @@ export const MainDrawer = ({path}) =>{
       </Box>
         
         <Box
-        onClick={signOutHandler(dispatch, navigate)}
+        onClick={() => signOutHandler(dispatch, navigate)}
         sx={{
           display: 'flex',
           justifyContent: 'center',
