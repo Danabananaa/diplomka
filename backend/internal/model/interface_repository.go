@@ -7,6 +7,7 @@ import (
 type UserRepo interface {
 	AddUser(context.Context, User) (*User, error)
 	GetUser(ctx context.Context, id int) (*User, error)
+	DeleteUser(ctx context.Context, userID int64) error
 	GetUserforAuth(ctx context.Context, auth Authentication) (*User, error)
 	AddUserImage(ctx context.Context, info UserImage) (*UserImage, error)
 	GetUserImage(ctx context.Context, id int64) (*UserImage, error)

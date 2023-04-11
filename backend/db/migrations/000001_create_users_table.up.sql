@@ -6,11 +6,6 @@ CREATE TABLE users(
 	password CHAR(60) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS sessions(
-  token primary key,
-  userid INTEGER NOT NULL unique,
-  FOREIGN key(userid) REFERENCES users(id) 
-);
 
 CREATE TABLE IF NOT EXISTS spending(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,8 +50,6 @@ CREATE TABLE images(
   FOREIGN key(user_id) REFERENCES users(id)
 );
 
-
-
 CREATE TABLE IF NOT EXISTS loan(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id integer not NULL,
@@ -78,8 +71,6 @@ CREATE TABLE IF NOT EXISTS debt(
   FOREIGN key(user_id) REFERENCES users(id),
   FOREIGN key(type) REFERENCES loandebttype(id) 
 );
-
-
 
 
 INSERT INTO spendingtype (spending_type) VALUES ("Денсаулық"),("Ойын-сауық"),("Транспорт"),("Сыйлықтар"),("Тамақ"),("Спорт"),("Шоппинг"),("Несие"),("Байланыс"),("Ком.Қызметтер"),("Басқа");

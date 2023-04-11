@@ -45,6 +45,47 @@ func (u *repo) GetUser(ctx context.Context, id int) (*model.User, error) {
 	return x, nil
 }
 
+func (u *repo) DeleteUser(ctx context.Context, userID int64) error {
+	tx, err := u.DB.BeginTxx(ctx, nil)
+	if err != nil {
+		return err
+	}
+
+	defer tx.Rollback()
+
+	_, err = tx.ExecContext(ctx, `DELETE FROM spending WHERE user_id = ?`, userID)
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.ExecContext(ctx, `DELETE FROM income WHERE user_id = ?`, userID)
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.ExecContext(ctx, `DELETE FROM loan WHERE user_id = ?`, userID)
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.ExecContext(ctx, `DELETE FROM debt WHERE user_id = ?`, userID)
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.ExecContext(ctx, `DELETE FROM images WHERE user_id = ?`, userID)
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.ExecContext(ctx, `DELETE FROM users WHERE id = ?`, userID)
+	if err != nil {
+		return err
+	}
+
+	return tx.Commit()
+}
+
 func (u *repo) GetUserforAuth(ctx context.Context, auth model.Authentication) (*model.User, error) {
 	x := model.User{}
 	query := `select * from users where email=? and password=?`

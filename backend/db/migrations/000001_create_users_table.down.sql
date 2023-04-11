@@ -1,7 +1,5 @@
 DROP TABLE IF EXISTS users;
 
-DROP TABLE IF EXISTS sessions;
-
 DROP TABLE IF EXISTS spending;
 
 DROP TABLE IF EXISTS spendingtype;
@@ -12,7 +10,8 @@ DROP TABLE IF EXISTS income;
 
 DROP TABLE IF EXISTS loandebttype;
 
-
 DROP TABLE IF EXISTS loan;
 
 DROP TABLE IF EXISTS debt;
+
+DROP TABLE IF EXISTS images;

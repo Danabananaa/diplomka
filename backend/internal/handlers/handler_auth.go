@@ -18,5 +18,6 @@ func InitAuthHandlers(r *mux.Router, m middleware, as model.AuthService) {
 	s := r.PathPrefix("").Subrouter()
 
 	s.HandleFunc("/profile", handler.Profile).Methods(http.MethodGet)
+	s.HandleFunc("/profile", handler.Delete).Methods(http.MethodDelete)
 	s.Use(m.RequireAuthentication)
 }
