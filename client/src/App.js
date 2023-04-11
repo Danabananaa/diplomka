@@ -22,6 +22,13 @@ import { ErrorPage } from './routes/Error-Page/ErrorPage';
 import { PageNotFound } from './routes/Page-Not-Found/PageNotFound';
 import { budgetData, debtData, homeLoader, statisticsData } from './api/loaders';
 
+
+//App is our main router of our App. It listens to the path and renders specific pages. 
+// LOADER - function that gets executed before the rendering of your page
+// ELEMENT - The code that will be rendered
+// PATH - URL path in your browser
+// path="*" Any other non specified page
+
 const router = createBrowserRouter(
   createRoutesFromElements(
 <Route>

@@ -73,43 +73,52 @@ export const statisticsData =( async ({request}) => {
     const types = await budgetTypeResponse.json(); //Data from budgetTypeResponse
     
     const data = await statResponse.json(); // Data from statResponse
-    const financialData = null
-   // Create a mapping from typeId to IncomeType and SpendingType
-   if (types.Type_income && types.Type_spending){
+    const financialData = {
+      spendings: [],
+      totalSpending: 0,
+      incomes: [],
+      totalIncome: 0,
+    };
+  // Create a mapping from typeId to IncomeType and SpendingType
+if (types.Type_income && types.Type_spending) {
+  const incomeTypeMapping = types.Type_income.reduce((acc, type) => {
+    acc[type.ID] = type.IncomeType;
+    return acc;
+  }, {});
 
-     const incomeTypeMapping = types.Type_income.reduce((acc, type) => {
-      acc[type.ID] = type.IncomeType;
-      return acc;
-    }, {});
+  const spendingTypeMapping = types.Type_spending.reduce((acc, type) => {
+    acc[type.ID] = type.SpendingType;
+    return acc;
+  }, {});
+
+  if (
+    (data.value_spending.spendings &&
+    data.value_spending.total_amount)
+  ) {
+    financialData.spendings = data.value_spending.spendings.map(s => ({
+      typeId: spendingTypeMapping[s.type_id], // Use mapping here
+      percentage: s.percentage,
+      total: s.total,
+    }));
+
+    financialData.totalSpending = data.value_spending.total_amount;
+  if ((data.value_income.incomes &&
+    data.value_income.total_amount)){
+
+      financialData.incomes = data.value_income.incomes.map(i => ({
+        typeId: incomeTypeMapping[i.type_id], // Use mapping here
+        percentage: i.percentage,
+        total: i.total,
+      }));
   
-    const spendingTypeMapping = types.Type_spending.reduce((acc, type) => {
-      acc[type.ID] = type.SpendingType;
-      return acc;
-    }, {});
-    if (data.value_spending.spendings && data.value_income.incomes && data.value_income.total_amount && data.value_spending.total_amount){
-      financialData = {
-        spendings: data.value_spending.spendings.map(s => ({
-          typeId: spendingTypeMapping[s.type_id], // Use mapping here
-          percentage: s.percentage,
-          total: s.total,
-        })),
-        totalSpending: data.value_spending.total_amount,
-        incomes: data.value_income.incomes.map(i => ({
-          typeId: incomeTypeMapping[i.type_id], // Use mapping here
-          percentage: i.percentage,
-          total: i.total,
-        })),
-        totalIncome: data.value_income.total_amount,
-      };
+      financialData.totalIncome = data.value_income.total_amount;
     }
-  } else{
-    throw new Error(`Couldn't fetch types data`)
   }
-  
-  let pieChartData = null;
-  if (financialData){
-    pieChartData = convertToPieChartData(financialData);
-  }
+} else {
+  throw new Error(`Couldn't fetch types data`);
+}
+  console.log("GOT HERE");
+  const  pieChartData = convertToPieChartData(financialData);
     return { pieChartData };
   } catch (error) {
     throw error;
