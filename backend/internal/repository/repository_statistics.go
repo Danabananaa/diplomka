@@ -31,7 +31,8 @@ func (s *repo) GetStatistics(ctx context.Context, b model.Between) (model.Statis
 	if err != nil {
 		return stat, err
 	}
-
+	// 519685
+	// '2023-04-17'
 	if stat.ValueIncome.TotalAmount > 0 {
 
 		queryIncomePercentag := `SELECT

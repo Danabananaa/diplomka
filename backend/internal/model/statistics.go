@@ -7,12 +7,12 @@ type Statistics struct {
 
 type ValueSpending struct {
 	Spendings   []Value `json:"spendings"`
-	TotalAmount int64   `json:"total_amount,omitempty" db:"sum"`
+	TotalAmount int64   `json:"total_amount" db:"sum"`
 }
 
 type ValueIncome struct {
 	Incomes     []Value `json:"incomes"`
-	TotalAmount int64   `json:"total_amount,omitempty" db:"sum"`
+	TotalAmount int64   `json:"total_amount" db:"sum"`
 }
 
 type Value struct {
