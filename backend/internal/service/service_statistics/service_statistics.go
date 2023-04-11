@@ -22,5 +22,7 @@ func (s *stat) GetStatistics(ctx context.Context, b model.Between) (model.Statis
 	if err != nil {
 		return st, fmt.Errorf("get statistics: %v", err)
 	}
+	st.EndDate = b.EndDate
+	st.StartDate = b.StartDate
 	return st, nil
 }

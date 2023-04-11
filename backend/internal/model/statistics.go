@@ -3,6 +3,8 @@ package model
 type Statistics struct {
 	ValueSpending ValueSpending `json:"value_spending"`
 	ValueIncome   ValueIncome   `json:"value_income"`
+	StartDate     CustomTime    `json:"start_date" db:"start_date"`
+	EndDate       CustomTime    `json:"end_date" db:"end_date"`
 }
 
 type ValueSpending struct {
