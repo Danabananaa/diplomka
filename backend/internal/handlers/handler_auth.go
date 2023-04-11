@@ -9,9 +9,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func InitAuthHandlers(r *mux.Router, as model.AuthService) {
+func InitAuthHandlers(r *mux.Router, m middleware, as model.AuthService) {
 	handler := handlers_auth.NewAuthHandlers(as)
 
 	r.HandleFunc("/signup", handler.SignUp).Methods(http.MethodPost)
 	r.HandleFunc("/login", handler.LogIn).Methods(http.MethodPost)
+
+	s := r.PathPrefix("").Subrouter()
+
+	s.HandleFunc("/profile", handler.Profile).Methods(http.MethodGet)
+	s.Use(m.RequireAuthentication)
 }

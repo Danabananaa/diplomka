@@ -12,6 +12,7 @@ type AuthenticationService interface {
 	SignUp(ctx context.Context, user User) error
 	LogIn(ctx context.Context, auth Authentication) (*Token, error)
 	Refresh(ctx context.Context, token string) (string, error)
+	Profile(ctx context.Context, userID int64) (Profile, error)
 	JWTService
 }
 

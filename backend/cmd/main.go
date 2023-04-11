@@ -42,7 +42,7 @@ func main() {
 
 	m := middleware.NewMiddleware(authService)
 
-	handlers.InitAuthHandlers(r, authService)
+	handlers.InitAuthHandlers(r, m, authService)
 	handlers.InitFinancialHandlers(r, m, finansService)
 	handlers.InitAvatarHandlers(r, m, avatarService)
 
