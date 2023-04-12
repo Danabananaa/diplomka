@@ -1,6 +1,6 @@
 export const baseURL = 'http://localhost:8080/api';
 
-export function getCurrentDate() {
+export function getCurrentDate() { // Gives the current date
     const date = new Date();
   
     const year = date.getFullYear();
@@ -10,7 +10,7 @@ export function getCurrentDate() {
     return `${year}-${month}-${day}`;
 }
 
-export function formatDateCalendar(dateStr) {
+export function formatDateCalendar(dateStr) { // Formats the given date into year-month-day format
   const date = new Date(dateStr);
 
   const year = date.getFullYear();

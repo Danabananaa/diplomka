@@ -9,7 +9,7 @@ import { useLoaderData, useNavigate } from 'react-router';
 const HomePage = () => {
   // const [mainHeight, setMainHeight] = useOutletContext();
   // console.log(mainHeight);
-  const {pieChartData} = useLoaderData(); // Allows us to use data returned from the loaderer for this page
+  const {pieChartData, incomeTotal, spendingTotal, period} = useLoaderData(); // Allows us to use data returned from the loaderer for this page
   const data = [
     {
       "id": "Income",
@@ -58,7 +58,7 @@ const HomePage = () => {
 
         <Box
           sx={{
-            height: '10%',
+            height: '5%',
             width: '95%',
             // backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
             // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
@@ -75,7 +75,7 @@ const HomePage = () => {
       </Box>
       <Box
           sx={{
-            height: '10%',
+            height: '5%',
             width: '95%',
             // backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
             // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
@@ -159,12 +159,25 @@ const HomePage = () => {
               boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
               borderRadius: '16px',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'space-evenly',
               border: '1px solid rgba(0, 0, 0, 0.25)'
             }}
           >
-            INCOME
+            {period && period.durationInDays !== 0 && (
+              <>
+              <Typography variant="h4" fontWeight={700}>Period of Time</Typography>
+              <Typography variant="h5" >From: {period.startDate}</Typography>
+              <Typography variant="h5">Untill: {period.endDate}</Typography>
+              <Typography variant="h5">Overall: {period.durationInDays} days</Typography>
+              </>
+            )}
+            {period && period.durationInDays === 0 && (
+              <>
+              <Typography variant="h5" fontWeight={700}>Statistics for today</Typography>
+              </>
+            )}
         </Box>
         {/* BOTTOM BOX */}
         <Box
@@ -175,12 +188,14 @@ const HomePage = () => {
               boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
               borderRadius: '16px',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'space-evenly',
               border: '1px solid rgba(0, 0, 0, 0.25)'
             }}
           >
-            SHIGISTAR
+            <Typography variant="h5">Income Total: {incomeTotal}</Typography>
+            <Typography variant="h5">Spending Total: {spendingTotal}</Typography>
         </Box>
       </Grid>
     </Grid>

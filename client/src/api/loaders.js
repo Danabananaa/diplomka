@@ -1,5 +1,5 @@
 import { redirect } from "react-router";
-
+import { formatDateCalendar } from "./API";
 const spendingColors = ['DC2F02', 'E85D04', 'F48C06', 'FAA307', 'D00000'];
 const incomeColors = ['9EF01A', '70E000', 'CCFF33', '38B000'];
 
@@ -7,14 +7,14 @@ const incomeColors = ['9EF01A', '70E000', 'CCFF33', '38B000'];
 function convertToPieChartData(financialData) { // CONVERTS loader data on page Statistics to the format that is acceptable with the Donut Chart
   const pieChartData = [
     ...financialData.spendings.map((s, index) => ({
-      id: `spending-${s.typeId}`,
-      label: `Spending Type ${s.typeId}`,
+      id: `${s.typeId}`, // Spending
+      label: `${s.typeId}`,
       value: s.total,
       color: `#${spendingColors[index % spendingColors.length]}`,
     })),
     ...financialData.incomes.map((i, index) => ({
-      id: `income-${i.typeId}`,
-      label: `Income Type ${i.typeId}`,
+      id: `${i.typeId}`, // Income
+      label: `${i.typeId}`,
       value: i.total,
       color: `#${incomeColors[index % incomeColors.length]}`,
     })),
@@ -60,13 +60,16 @@ export const statisticsData =( async ({request}) => {
         method: "GET",
       }),
     ]);
+    if (budgetTypeResponse.status === 401 || statResponse.status === 401){ // Check if status is unauthorized
+      return redirect('/signin');
+    }
     if (!budgetTypeResponse.ok) {
-      const error = new Error(`Could not fetch posts. Status: ${budgetTypeResponse.statusText}`);
+      const error = new Error(`Could not fetch budget Types. Status: ${budgetTypeResponse.statusText}`);
       error.status = budgetTypeResponse.status;
       throw error;
     }
     if (!statResponse.ok) {
-      const error = new Error(`Could not fetch posts. Status: ${statResponse.statusText}`);
+      const error = new Error(`Could not fetch statistics Data. Status: ${statResponse.statusText}`);
       error.status = statResponse.status;
       throw error;
     }
@@ -81,45 +84,58 @@ export const statisticsData =( async ({request}) => {
     };
   // Create a mapping from typeId to IncomeType and SpendingType
 if (types.Type_income && types.Type_spending) {
-  const incomeTypeMapping = types.Type_income.reduce((acc, type) => {
-    acc[type.ID] = type.IncomeType;
-    return acc;
-  }, {});
-
-  const spendingTypeMapping = types.Type_spending.reduce((acc, type) => {
-    acc[type.ID] = type.SpendingType;
-    return acc;
-  }, {});
-
-  if (
-    (data.value_spending.spendings &&
-    data.value_spending.total_amount)
-  ) {
+    //Changing income types to proper values from Ids
+    const incomeTypeMapping = types.Type_income.reduce((acc, type) => {
+      acc[type.ID] = type.IncomeType;
+      return acc;
+    }, {});
+    //Changing spending types to proper values from Ids
+    const spendingTypeMapping = types.Type_spending.reduce((acc, type) => {
+      acc[type.ID] = type.SpendingType;
+      return acc;
+    }, {});
+  //ADDING SPENDING DATA
+  if (data.value_spending.spendings) {
     financialData.spendings = data.value_spending.spendings.map(s => ({
       typeId: spendingTypeMapping[s.type_id], // Use mapping here
       percentage: s.percentage,
       total: s.total,
     }));
-
+  }
+  //ADDING SPENDING TOTAL
+  if (data.value_spending.total_amount){
     financialData.totalSpending = data.value_spending.total_amount;
-  if ((data.value_income.incomes &&
-    data.value_income.total_amount)){
+  }
+  //ADDING INCOME DATA
+  if (data.value_income.incomes){
 
       financialData.incomes = data.value_income.incomes.map(i => ({
         typeId: incomeTypeMapping[i.type_id], // Use mapping here
         percentage: i.percentage,
         total: i.total,
       }));
-  
-      financialData.totalIncome = data.value_income.total_amount;
-    }
+  }
+  //ADDING INCOME TOTAL
+  if(data.value_income.total_amount){
+    financialData.totalIncome = data.value_income.total_amount;
   }
 } else {
   throw new Error(`Couldn't fetch types data`);
 }
-  console.log("GOT HERE");
-  const  pieChartData = convertToPieChartData(financialData);
-    return { pieChartData };
+  const pieChartData = convertToPieChartData(financialData);
+  const incomeTotal = financialData.totalIncome;
+  const spendingTotal = financialData.totalSpending;
+  
+  const startDate = new Date(data.start_date);
+  const endDate = new Date(data.end_date)
+  const period = {
+    startDate: formatDateCalendar(startDate),
+    endDate: formatDateCalendar(endDate),
+    durationInDays: (endDate - startDate) / (1000 * 60 * 60 * 24),
+  };
+  console.log(period);
+  console.log(pieChartData);
+  return { pieChartData, incomeTotal, spendingTotal, period };
   } catch (error) {
     throw error;
   }

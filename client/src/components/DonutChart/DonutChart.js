@@ -12,15 +12,19 @@ const theme = {
 }
 
 const DonutChart = ({ data /* see data tab */ }) => (
+    
     <ResponsivePie
         data={data}
+        
         theme={{
             fontSize: 16,
-            
            }}
         margin={{ top: 80, right: 80, bottom: 80, left: 80 }}
         sortByValue={true}
         innerRadius={0.7}
+        outerRadius={0.95}
+        skipAngle={10}
+        
         padAngle={1}
         cornerRadius={3}
         activeInnerRadiusOffset={3}
@@ -35,10 +39,16 @@ const DonutChart = ({ data /* see data tab */ }) => (
                 ]
             ]
         }}
+        arcLinkLabelsThickness={3}
         arcLinkLabelsTextColor= 'black'
-        arcLinkLabelsThickness={5}
         arcLinkLabelsColor={{ from: 'color' }}
-        arcLabelsSkipAngle={18}
+        arcLinkLabelsSkipAngle={13} // When to not show a label
+        arcLinkLabelsDiagonalLength ={16}
+        arcLinkLabelsStraightLength = {20}
+
+        arcLabelsRadiusOffset={0.5}
+        arcLabelsSkipAngle={24}
+        
         motionConfig="wobbly"
         // legends={[
         //     {

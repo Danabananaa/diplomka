@@ -23,8 +23,8 @@ const RootLayout = () => {
   useEffect(() => {
     setBoxHeight(boxRef.current.offsetHeight)
     setBarHeight(barRef.current.offsetHeight)
-    console.log(`Box height: ${boxHeight}px`);
-    console.log(`Toolbar height: ${barHeight}px`);
+    // console.log(`Box height: ${boxHeight}px`);
+    // console.log(`Toolbar height: ${barHeight}px`);
   }, []);
   
   return (
