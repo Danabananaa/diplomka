@@ -20,13 +20,13 @@ const DonutChart = ({ data /* see data tab */ }) => (
             fontSize: 16,
            }}
         margin={{ top: 80, right: 80, bottom: 80, left: 80 }}
-        sortByValue={true}
-        innerRadius={0.7}
+        //sortByValue={true}
+        innerRadius={0.6}
         outerRadius={0.95}
-        skipAngle={10}
+        skipAngle={10} // when to skip
         
-        padAngle={1}
-        cornerRadius={3}
+        padAngle={1.7} // angle between pads
+        cornerRadius={6}
         activeInnerRadiusOffset={3}
         activeOuterRadiusOffset={8}
         colors={{ scheme: 'category10' }}

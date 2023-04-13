@@ -19,7 +19,9 @@ const authSlice = createSlice({
       },
     },
   });
+ 
 
+  
   // export const handleLogout = () => async (dispatch) => {
   //   try {
   //     const response = await fetch('/logout', { method: 'POST' });

@@ -15,12 +15,13 @@ import DebtPage from './routes/Debt-Page/DebtPage';
 import ContactsPage from './routes/Contacts-Page/ContactsPage';
 import SettingsPage from './routes/Settings-Page/SettingsPage';
 import AboutUsPage from './routes/About-Us-Page/AboutUsPage';
+import ProfilePage from './routes/Profile-Page/ProfilaPage';
 // layouts
 import RootLayout from './layouts/RootLayout/RootLayout';
 // errorElement
 import { ErrorPage } from './routes/Error-Page/ErrorPage';
 import { PageNotFound } from './routes/Page-Not-Found/PageNotFound';
-import { budgetData, debtData, homeLoader, statisticsData } from './api/loaders';
+import { budgetData, debtData, homeLoader, profileData, statisticsData } from './api/loaders';
 
 
 //App is our main router of our App. It listens to the path and renders specific pages. 
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
           <Route path="settings" element={<SettingsPage/>}/>
           <Route path="aboutus" element={<AboutUsPage/>}/>
           <Route path="contacts" element={<ContactsPage/>}/>
+          <Route path="profile" loader={profileData} element={<ProfilePage/>}/>
       </Route>
       <Route path="*" element={<PageNotFound/>} />
   </Route>

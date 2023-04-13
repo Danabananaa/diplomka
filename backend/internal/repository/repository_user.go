@@ -128,7 +128,7 @@ func (u *repo) GetUserImage(ctx context.Context, id int64) (*model.UserImage, er
 	err := row.Scan(&info.UserID, &info.ImageName)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, sql.ErrNoRows
+			return nil, fmt.Errorf("no avatar found for user") // Return a custom error
 		} else {
 			return nil, err
 		}

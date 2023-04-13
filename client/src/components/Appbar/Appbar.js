@@ -12,9 +12,31 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Avatar } from '@mui/material';
+import { useNavigate } from 'react-router';
+import { useLoaderData } from 'react-router';
+import { useEffect } from 'react';
+import { fetchImage } from '../../api/Avatar/Avatar';
+import { useDispatch } from 'react-redux';
+import { fetchImageSuccess } from '../../utils/reducers/auth';
+import { fetchAndSetImageURL } from '../../utils/reducers/avatar';
+import { useSelector } from 'react-redux';
+
 export default function MenuAppBar({drawerWidth}) {
+  const {avatar} = useLoaderData(); // Avatar from the RootLayout loader
+  const imageURL = useSelector((state) => state.image.imageURL);
+
+  const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (avatar) {
+          dispatch(fetchAndSetImageURL(avatar.name));
+        }
+      }, [avatar, dispatch]);
+
+  
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -28,6 +50,11 @@ export default function MenuAppBar({drawerWidth}) {
     setAnchorEl(null);
   };
 
+  const handleProfile = () => {
+    setAnchorEl(null);
+    navigate("/profile");
+  }
+
   return (
    
       <AppBar
@@ -40,7 +67,7 @@ export default function MenuAppBar({drawerWidth}) {
       }}
       >
         <Toolbar>
-              <Avatar onClick={handleMenu}/>
+              <Avatar src={imageURL} onClick={handleMenu}/>
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -56,7 +83,7 @@ export default function MenuAppBar({drawerWidth}) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleProfile}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
               </Menu>
            

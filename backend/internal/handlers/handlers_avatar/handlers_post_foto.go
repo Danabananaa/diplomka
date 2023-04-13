@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	middleware "diplomka/internal/handlers/handlers_middleware"
 	"diplomka/internal/model"
@@ -24,7 +25,15 @@ func (a *avatar) UploadFoto(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	decoded, err := base64.StdEncoding.DecodeString(imageData.Data)
+	// Remove the Data URL prefix
+	dataURLPrefixIndex := strings.Index(imageData.Data, ",")
+	if dataURLPrefixIndex < 0 {
+		http.Error(w, "Invalid base64 data format", http.StatusBadRequest)
+		return
+	}
+	base64Data := imageData.Data[dataURLPrefixIndex+1:]
+
+	decoded, err := base64.StdEncoding.DecodeString(base64Data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

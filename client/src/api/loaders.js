@@ -24,12 +24,40 @@ function convertToPieChartData(financialData) { // CONVERTS loader data on page 
 } 
 
 
-export const homeLoader = () => {
+export const homeLoader = async () => {
     
     const token = localStorage.getItem('token');
 
     if (token) {
-        return null
+      try {
+              const [avatarResponse] = await Promise.all([
+                fetch(`/images`, {
+                  headers: {
+                    Accept: "application/json",
+                    Authorization: `${token}`,
+                  },
+                  method: "GET",
+                  
+                }),
+              ]);
+                
+              if (!avatarResponse.ok) {
+                if (avatarResponse.status === 404) {
+                  const avatar = null;
+                  return { avatar };
+                } else {
+                  const error = new Error(`Could not fetch profile Data. Status: ${avatarResponse.statusText}`);
+                  error.status = avatarResponse.status;
+                  throw error;
+                }
+              }
+              
+              const avatar = await avatarResponse.json();
+              return { avatar};
+            } catch (error) {
+              console.log(error);
+              throw error;
+            }
     } else {
         return (redirect("/signin"))
     }
@@ -279,6 +307,39 @@ export const debtData =( async () => {
           // console.log(debtTypesData);
           console.log(debtData);
           return { debtData, debtTypesData };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+})
+
+
+export const profileData =( async () => {
+  const token = localStorage.getItem('token');
+  try {
+          const [profileResponse] = await Promise.all([
+            fetch(`/profile`, {
+              headers: {
+                Accept: "application/json",
+                Authorization: `${token}`,
+              },
+              method: "GET",
+              
+            }),
+            
+          ]);
+            
+          if (!profileResponse.ok) {
+            // if (budgetTypeResponse.status===401){
+            //   return redirect('/signin')
+            // }
+            const error = new Error(`Could not fetch profile Data. Status: ${profileResponse.statusText}`);
+            error.status = profileResponse.status;
+            throw error;
+          }
+
+          const profileData = await profileResponse.json();
+          return { profileData};
         } catch (error) {
           console.log(error);
           throw error;
