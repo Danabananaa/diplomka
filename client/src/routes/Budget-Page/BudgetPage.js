@@ -1,4 +1,4 @@
-import { Grid, Box, FormControl, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button } from "@mui/material";
+import { Grid, Box, FormControl, InputLabel, Stack, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useLoaderData } from "react-router";
 import { sendIncome } from "../../api/Budget/SendIncome";
@@ -34,8 +34,8 @@ const mergeAndSortByDate = (incomeArray, spendingArray) => {
 
 const BudgetPage = () => {
     const navigate = useNavigate();
+    const query = new URLSearchParams(location.search);
     const { Types, Stats } = useLoaderData(); //Spending and Income Types from the Server
-    console.log(Types);
     // console.log(Types.Type_spending); //Array with spending types
     // console.log(Types.Type_income); // Array with income types
     // console.log(Stats.Spending); // Spending data
@@ -50,7 +50,16 @@ const BudgetPage = () => {
     const [incomeDescription, setIncomeDescription] = useState();
     const [spendingDescription, setSpendingDescription] = useState();
 
-    // console.log(spendingType);
+  //FILTERS
+    const handleButtonClick = (e, value) => {
+      // e.preventDefault();
+      if (value) {
+        // Update the URL with the new page number
+        const newQuery = new URLSearchParams(query);
+        newQuery.set('filter', value);
+        navigate({ search: newQuery.toString() }); // navigate to update state values with useEffect
+      } 
+    };
     return (
         <Grid 
             container 
@@ -65,14 +74,46 @@ const BudgetPage = () => {
             height: '100%',
             // border:'1px solid black',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'space-evenly'
           }}
         >
           {/* BUDGET DATA BOX */}
+          
+          <Box
+          sx={{
+            height: '5%',
+            width: '95%',
+            // backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
+            // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            // border: '1px solid rgba(0, 0, 0, 0.25)',
+            position: 'relative'
+          }}
+        >
+        <Stack direction="row" spacing={5}>
+      {['Year', 'Month', 'Week', 'Day'].map((period) => (
+        <Button
+          key={period}
+          variant="contained"
+          color="secondary"
+          onClick={(e) => handleButtonClick(e, period.toLowerCase())}
+          sx={{ border: '1px solid black', fontWeight: '600', color: '#0C1017', width: '100px' }}
+        >
+          {period}
+        </Button>
+      ))}
+    </Stack>
+
+      </Box>
+          
           <Box
             sx={{
-              height: '95%',
+              height: '90%',
               width: '95%',
               // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
               // borderRadius: '16px',

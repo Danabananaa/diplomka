@@ -20,11 +20,12 @@ import { useDispatch } from 'react-redux';
 import { fetchImageSuccess } from '../../utils/reducers/auth';
 import { fetchAndSetImageURL } from '../../utils/reducers/avatar';
 import { useSelector } from 'react-redux';
+import { alpha } from '@mui/system'; // Import the alpha function to handle color opacity
 
 export default function MenuAppBar({drawerWidth}) {
   const {avatar} = useLoaderData(); // Avatar from the RootLayout loader
   const imageURL = useSelector((state) => state.image.imageURL);
-
+  const userName = localStorage.getItem('user_name');
   const dispatch = useDispatch();
 
     useEffect(() => {
@@ -60,19 +61,40 @@ export default function MenuAppBar({drawerWidth}) {
       <AppBar
         
         sx={{
+        backgroundImage: 'linear-gradient(151deg, #c2b6df 29%, #cdb2bd 70%)',
         width: `calc(100% - ${drawerWidth}px)`,
         ml: `${drawerWidth}px`,
         backgroundColor: 'primary.lighter',
-        color: 'black'
+        color: 'black',
+        borderLeft: '1px solid white'
       }}
       >
-        <Toolbar>
-              <Avatar src={imageURL} onClick={handleMenu}/>
+        <Toolbar sx={{
+          display: 'flex', 
+          alignItems:'center',
+          justifyContent: 'flex-end'
+        }}>
+              <Typography variant="h6" mr={3}>  {userName}'s profile</Typography>
+              <Avatar 
+                src={imageURL}
+                onClick={handleMenu}   
+                sx={{
+                  width: 56,
+                  height: 56,
+                  cursor: 'pointer', // Change the cursor to a pointer on hover
+                  '&:hover': {
+                    borderColor: 'green', // Set the border color to green on hover
+                    borderWidth: '2px', // Set the border width
+                    borderStyle: 'solid', // Set the border style
+                    boxShadow: `0 0 0 4px ${alpha('#00ff00', 0.5)}`, // Add a green glow around the avatar on hover
+                  },
+                }}
+              />
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: 'top',
+                  vertical: 'bottom',
                   horizontal: 'right',
                 }}
                 keepMounted

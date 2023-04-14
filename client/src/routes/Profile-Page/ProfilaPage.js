@@ -1,4 +1,4 @@
-import { Grid, Box, FormControl, List, ListItem, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button, Divider, Avatar } from "@mui/material";
+import { Grid, Box, FormControl, List, ListItem, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button, Divider, Avatar, Hidden } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useLoaderData } from "react-router";
 import { sendIncome } from "../../api/Budget/SendIncome";
@@ -12,9 +12,11 @@ import { fetchImage } from "../../api/Avatar/Avatar";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
+
 const ProfilePage = () => {
     const imageURL = useSelector((state) => state.image.imageURL);
-    
+    const {profileData} = useLoaderData();
+    console.log(profileData);
     return (
         <Grid 
             container 
@@ -75,31 +77,63 @@ const ProfilePage = () => {
           }}
         >
           {/* TOP BOX */}
-          <Box
+        <Box
+          sx={{
+              height: '45%',
+              width: '80%',
+              backgroundColor: 'White',
+              boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
+              borderRadius: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              border: '1px solid rgba(0, 0, 0, 0.25)',
+              position: 'relative',
+              overflow: 'auto',
+              backgroundImage: {girlImage}
+          }}
+          >
+              <Typography variant="h5" fontWeight={800} component="h2" mt={3}>
+                  Personal information
+              </Typography>
+
+            <Box 
+            alignSelf="flex-start"
+            ml={8}
             sx={{
-                height: '45%',
-                width: '80%',
-                backgroundColor: 'White',
-                boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
-                borderRadius: '16px',
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'flex-end',
-                border: '1px solid rgba(0, 0, 0, 0.25)',
-                position: 'relative',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
             }}
             >
-            <img
-                src={girlImage}
-                alt="image"
+              <ul
                 style={{
-                marginBottom: 0, // Add this property
-                marginLeft: 0, 
-                maxWidth: '80%',
-                maxHeight: '80%',
-                objectFit: 'contain',
+                  listStyleType: 'disc',
+                  paddingLeft: '1em',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-evenly',
+                  height: '100%', // Ensure the <ul> takes the full height available
                 }}
-            />
+              >
+                <li>
+                  <Typography variant="h6" component="h2">
+                    Name: {profileData.name}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="h6" component="h2">
+                    Surname: {profileData.surname}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="h6" component="h2">
+                    Email: {profileData.email}
+                  </Typography>
+                </li>
+              </ul>
+            </Box>
             
             
         </Box>
@@ -111,38 +145,28 @@ const ProfilePage = () => {
                 boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
                 borderRadius: '16px',
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'flex-end',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'space-around',
                 border: '1px solid rgba(0, 0, 0, 0.25)',
                 position: 'relative',
 
               }}
             >
               {/* BOTTOM INFO */}
-                <Box sx={{pl:2,alignSelf:'center', flexGrow: "0.9"}}>
+                <Box sx={{pl:2}}>
 
                     <Typography variant="h5" mb={3} mt={3} textAlign="center">
-                        Used technologies
+                        Delete Profile
                     </Typography>
                     <Divider/>
-                    <List sx={{ listStyleType: 'disc', pl: 4 , fontSize:'1.2rem'}}>
-                        <ListItem sx={{ display: 'list-item' }}>Nivo Charts</ListItem>
-                        <ListItem sx={{ display: 'list-item' }}>React Calendar</ListItem>
-                        <ListItem sx={{ display: 'list-item' }}>SQLite</ListItem>
-                        <ListItem sx={{ display: 'list-item' }}>Banana</ListItem>
-                    </List>
+                    <Typography variant="h6">
+                        Warning: Deleting an account will permanently delete all the personal data
+                    </Typography>
+                    
                 </Box>
-              <img
-                src={bulb}
-                alt="image"
-                style={{
-                marginBottom: 0, // Add this property
-                marginRight: 0, 
-                maxWidth: '70%',
-                maxHeight: '70%',
-                objectFit: 'contain',
-                }}
-            />
+                    <Button variant="contained" size="large" color="error" sx={{alignSelf: 'center'}}>Delete</Button>
+              
         
           </Box>
         </Grid>

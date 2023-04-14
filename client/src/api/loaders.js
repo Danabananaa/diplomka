@@ -198,11 +198,13 @@ if (types.Type_income && types.Type_spending) {
   // }
 })  //OK
 
-export const budgetData =( async () => {
+export const budgetData =( async ({request}) => {
   const token = localStorage.getItem('token');
   
   if (token) { // Do fetch if token is present
-
+    const url = new URL(request.url);
+    const currentQuery = url.search;
+    
     try {
       //   const url = new URL(request.url);
       //   const searchParams = url.searchParams;
@@ -217,7 +219,7 @@ export const budgetData =( async () => {
             method: "GET",
             
           }),
-          fetch(`/budget/stats`, {
+          fetch(`/budget/stats${currentQuery}`, {
             headers: {
               Accept: "application/json",
               Authorization: `${token}`,
@@ -259,15 +261,16 @@ export const budgetData =( async () => {
   }  
 })  
 
-export const debtData =( async () => {
+export const debtData =( async ({request}) => {
   const token = localStorage.getItem('token');
   try {
         //   const url = new URL(request.url);
         //   const searchParams = url.searchParams;
         //   const id = searchParams.get('id');
-            
+        const url = new URL(request.url);
+        const currentQuery = url.search;    
           const [debtResponse, debtTypesResponse] = await Promise.all([
-            fetch(`/debt`, {
+            fetch(`/debt${currentQuery}`, {
               headers: {
                 Accept: "application/json",
                 Authorization: `${token}`,

@@ -1,4 +1,4 @@
-import { Grid, Box, FormControl, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button } from "@mui/material";
+import { Grid, Box, FormControl, Stack, InputLabel, FilledInput, InputAdornment, TextField, MenuItem, Typography, Button } from "@mui/material";
 import { useState } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 // import MyCalendar from "../../components/Calendar/Calendar";
@@ -44,8 +44,18 @@ const DebtPage = () => {
     const [amount, setAmount] = useState();
     const [debtDescription, setDebtDescription] = useState('');
     const mergedData = mergeAndSortDebtsLoansByDate(debtData.DebtArr, debtData.LoanArr);
-    
-    
+    const query = new URLSearchParams(location.search);
+
+  //FILTERS
+  const handleButtonClick = (e, value) => {
+    // e.preventDefault();
+    if (value) {
+      // Update the URL with the new page number
+      const newQuery = new URLSearchParams(query);
+      newQuery.set('filter', value);
+      navigate({ search: newQuery.toString() }); // navigate to update state values with useEffect
+    } 
+  };    
     return (
         
         <Grid 
@@ -61,14 +71,46 @@ const DebtPage = () => {
             height: '100%',
             // border:'1px solid black',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'space-evenly'
           }}
         >
+          
+        <Box
+          sx={{
+            height: '5%',
+            width: '95%',
+            // backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
+            // boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            // border: '1px solid rgba(0, 0, 0, 0.25)',
+            position: 'relative'
+          }}
+        >
+        <Stack direction="row" spacing={5}>
+          {['Year', 'Month', 'Week', 'Day'].map((period) => (
+            <Button
+              key={period}
+              variant="contained"
+              color="secondary"
+              onClick={(e) => handleButtonClick(e, period.toLowerCase())}
+              sx={{ border: '1px solid black', fontWeight: '600', color: '#0C1017', width: '100px' }}
+            >
+              {period}
+            </Button>
+          ))}
+        </Stack>
+
+      </Box>
+          
           {/* DEBT DATA BOX */}
           <Box
             sx={{
-              height: '95%',
+              height: '90%',
               width: '95%',
               backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
               boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",

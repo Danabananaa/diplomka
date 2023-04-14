@@ -10,23 +10,12 @@ const HomePage = () => {
   // const [mainHeight, setMainHeight] = useOutletContext();
   // console.log(mainHeight);
   const {pieChartData, incomeTotal, spendingTotal, period} = useLoaderData(); // Allows us to use data returned from the loaderer for this page
-  const data = [
-    {
-      "id": "Income",
-      "label": "Income",
-      "value": 0,
-      "color": "hsl(1, 70%, 50%)"
-    },
-    {
-      "id": "Spending",
-      "label": "Spending",
-      "value": 0,
-      "color": "hsl(242, 70%, 50%)"
-    },
-  ]
   const navigate = useNavigate();
-  const query = new URLSearchParams(location.search);
+  const total = incomeTotal + spendingTotal;
+  const incomePercentage = (incomeTotal / total) * 100;
+  const spendingPercentage = (spendingTotal / total) * 100;
 
+  const query = new URLSearchParams(location.search);
   const handleButtonClick = (e, value) => {
     // e.preventDefault();
     if (value) {
@@ -195,6 +184,24 @@ const HomePage = () => {
             }}
           >
             <Typography variant="h5">Income Total: {incomeTotal}</Typography>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              width="90%"
+              border="1px solid black"
+            >
+              <Box
+                bgcolor="#23FF26"
+                height={10}
+                flexGrow={incomePercentage}
+              ></Box>
+              <Box
+                bgcolor="#FF2323"
+                height={10}
+                flexGrow={spendingPercentage}
+              ></Box>
+            </Box>
             <Typography variant="h5">Spending Total: {spendingTotal}</Typography>
         </Box>
       </Grid>

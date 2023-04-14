@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOutHandler } from '../../api/Authorization/Authorization';
 import { useDispatch } from 'react-redux';
+import Amiyan from '../../assets/images/Amiyan.png'
+
 export const MainDrawer = ({path}) =>{
   
   const navigate = useNavigate();
@@ -25,9 +27,36 @@ export const MainDrawer = ({path}) =>{
       }}
     >
       <Box>
-
-        <Toolbar />
-        <Divider />
+      <Box
+      sx={{
+        height: 150,
+        width: '100%',
+        borderBottomLeftRadius: '50%',
+        borderBottomRightRadius: '50%',
+        borderBottom: '3px solid white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      }}
+    >
+      <img
+        src={Amiyan}
+        onClick={()=> {navigate("/")}}
+        style={{
+          width: '100%',
+          height: 'auto',
+          borderRadius: 1, // Reset the default border-radius of Avatar
+          
+        }}
+      />
+    
+        
+      </Box>
+        {/* <Toolbar /> */}
+        {/* <Divider /> */}
         <List >
           {['Statistics', 'Budget', 'Planner', 'Debt'].map((text, index) => (
             <ListItem key={text} disablePadding>

@@ -31,7 +31,7 @@ import {
                 <TableCell align="right" sx={{ color: 'primary.contrastText', fontSize: '1rem' }}>Date</TableCell>
                 <TableCell align="right" sx={{ color: 'primary.contrastText', fontSize: '1rem' }}>Description</TableCell>
                 <TableCell align="right" sx={{ color: 'primary.contrastText', fontSize: '1rem' }}>Amount</TableCell>
-                <TableCell align="right" sx={{ color: 'primary.contrastText', fontSize: '1rem' }}>Type ID</TableCell>
+                {/* <TableCell align="right" sx={{ color: 'primary.contrastText', fontSize: '1rem' }}>Type ID</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody sx={{ fontFamily: "'Helvetica', 'Arial', sans-serif" }}>
@@ -46,7 +46,7 @@ import {
                   <TableCell align="right">{row.date}</TableCell>
                   <TableCell align="right">{row.description}</TableCell>
                   <TableCell align="right">{row.amount} ₸</TableCell>
-                  <TableCell align="right">{row.type_id}</TableCell>
+                  {/* <TableCell align="right">{row.type_id}</TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

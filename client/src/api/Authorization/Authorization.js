@@ -117,6 +117,7 @@ export const handleLogin = async (e, email, password, dispatch, navigate, setSta
   
               // Store the JWT token in local storage
               localStorage.setItem('token', data.token);
+              localStorage.setItem('user_name', data.user_name);
               
               // Store Auth data in Redux
               dispatch(loginSuccess({ username: data.user_name }))              
