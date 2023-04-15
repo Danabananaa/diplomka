@@ -1,3 +1,4 @@
+import { redirect } from "react-router";
 import { loginSuccess, logout } from "../../utils/reducers/auth";
 import { baseURL } from "../API";
 //SIGN UP
@@ -110,7 +111,11 @@ export const handleLogin = async (e, email, password, dispatch, navigate, setSta
         })
           .then(async (r) => {
             if (!r.ok) {
-               throw r.statusText;
+              if(r.status===500){
+                setStatus("User doesn't exist")
+              } else {
+                throw r.statusText;
+              }
             } else if (r.ok) {
               // Parse the response body as JSON
               const data = await r.json();
@@ -141,6 +146,8 @@ export const handleLogin = async (e, email, password, dispatch, navigate, setSta
 export const signOutHandler = (dispatch, navigate) =>{
   // Remove the token from local storage
   localStorage.removeItem('token');
+  localStorage.removeItem('user_name');
+  
   // Dispatch the logout action to update the Redux state
   dispatch(logout());
 
@@ -156,4 +163,38 @@ export const signOutOnError = async () =>{ // Very unlikely to happen
         credentials: "include",
         })
 }
+
+export const deleteProfile =( async (e,dispatch, navigate) => {
+  e.preventDefault();
+  const token = localStorage.getItem('token');
+  try {
+          const [profileResponse] = await Promise.all([
+            fetch(`/profile`, {
+              headers: {
+                Accept: "application/json",
+                Authorization: `${token}`,
+              },
+              method: "DELETE",
+              
+            }),
+            
+          ]);
+            
+          if (!profileResponse.ok) {
+            // if (budgetTypeResponse.status===401){
+            //   return redirect('/signin')
+            // }
+            const error = new Error(`Could not fetch profile Data. Status: ${profileResponse.statusText}`);
+            error.status = profileResponse.status;
+            throw error;
+          }
+          localStorage.removeItem("token");
+          localStorage.removeItem("user_name");
+          dispatch(logout());
+          navigate("/signin");
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+})
       

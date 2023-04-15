@@ -34,6 +34,7 @@ export const sendDebt = async (date, status, typeID, amount, description, naviga
       if (!response.ok) {
         console.log("something went wrong");
       } else {
+        navigate(0);
         console.log("Income sent");
       }
     });

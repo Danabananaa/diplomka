@@ -10,23 +10,25 @@ import bulb from '../../assets/images/bulb.png'
 import ImageUploadForm from "../../components/Image-Upload-Form/ImageUploadForm";
 import { fetchImage } from "../../api/Avatar/Avatar";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProfile } from "../../api/Authorization/Authorization";
 
 const ProfilePage = () => {
     const imageURL = useSelector((state) => state.image.imageURL);
     const {profileData} = useLoaderData();
-    console.log(profileData);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     return (
         <Grid 
             container 
             alignItems="center"
+            justifyContent="space-evenly"
             sx={{ 
             height: '100%'
             }}
         >
       {/* BUDGET MAIN CONTAINER */}
-        <Grid item xs={7} 
+        <Grid item xs={4} 
           sx={{
             height: '100%',
             // border:'1px solid black',
@@ -46,22 +48,29 @@ const ProfilePage = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'space-evenly',
+                justifyContent: 'flex-start',
                 border: '1px solid rgba(0, 0, 0, 0.25)',
                 position: 'relative',
                 padding: '1rem',
             }}
             >
-            <Typography variant="h4" component="h2">
-                Profile Page
+            <Typography variant="h4" component="h2" mt={3} mb={3} >
+            Профиль суреті
             </Typography>
 
-            {imageURL && (
-            <>
-                <Avatar src={imageURL} />
-            </>
-            )}
+
+              {imageURL && (
+                <Avatar src={imageURL} sx={{width: 200, height: 200}} />
+              )}
+            <Box mt={10} sx={{display:"flex", flexDirection:'column', alignItems:"center", height:'50%'}}>      
+            <Typography variant="h4" component="h2" mt={3}>
+              Профиль Суретін өзгерту
+            </Typography>
+
+
             <ImageUploadForm/>
+
+            </Box>
             
         </Box>
         </Grid>
@@ -165,7 +174,15 @@ const ProfilePage = () => {
                     </Typography>
                     
                 </Box>
-                    <Button variant="contained" size="large" color="error" sx={{alignSelf: 'center'}}>Delete</Button>
+                    <Button
+                      onClick={(e)=> deleteProfile(e, dispatch, navigate)}
+                      variant="contained"
+                      size="large"
+                      color="error"
+                      sx={{alignSelf: 'center'}}
+                    >
+                      Delete
+                    </Button>
               
         
           </Box>

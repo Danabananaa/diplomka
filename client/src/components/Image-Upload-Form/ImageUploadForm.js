@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { uploadImage } from '../../api/Avatar/Avatar';
-
-const ImageUploadForm = () => { // IMAGE Upload form on profile page
+import { deleteImage, uploadImage } from '../../api/Avatar/Avatar';
+import { Box, Button, FormControl, FormHelperText, Input, InputLabel } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { delay } from '../../api/API';
+const ImageUploadForm = () => {
+  const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const imageURL = useSelector((state) => state.image.imageURL);
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -21,19 +27,41 @@ const ImageUploadForm = () => { // IMAGE Upload form on profile page
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (imageURL){
+      await deleteImage(dispatch);
+      // await delay(500);
+    }
+    
     if (file) {
-      await uploadImage(file);
+      const image = await uploadImage(file);
+      // await delay(500);
+      navigate(0);
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="file" onChange={handleImageChange} />
-        <button type="submit">Submit</button>
-      </form>
-      {errorMessage && <p>{errorMessage}</p>}
-    </div>
+    <Box mt={8}
+      sx={{
+        display:"flex",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+      }}
+    >
+        <FormControl>
+          <Input
+            id="image-upload"
+            type="file"
+            inputProps={{ accept: 'image/jpeg, image/png, image/jpg' }}
+            onChange={handleImageChange}
+          />
+          {errorMessage && <FormHelperText error>{errorMessage}</FormHelperText>}
+        </FormControl>
+        <Button onClick={handleSubmit} variant="contained" color="success">
+          Өзгерту
+        </Button>
+     
+    </Box>
   );
 };
 

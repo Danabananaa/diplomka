@@ -19,3 +19,5 @@ export function formatDateCalendar(dateStr) { // Formats the given date into yea
 
   return `${year}-${month}-${day}`;
 }
+
+export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

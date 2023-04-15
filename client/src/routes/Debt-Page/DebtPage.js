@@ -252,13 +252,15 @@ const DebtPage = () => {
                   id="outlined-select-spending"
                   variant="filled"
                   select
+                  required={true}
+                  inputProps={{ maxLength: 15 }}
                   onChange={(e) => setDebtLoan(e.target.value)}
                   label="Таңдау"
                   value={debtLoan}
                   sx={{ width: '80%' }}
                 >
-                  <MenuItem value="Debt">Debt</MenuItem>
-                  <MenuItem value="Loan">Loan</MenuItem>
+                  <MenuItem value="Debt">Қарыз</MenuItem>
+                  <MenuItem value="Loan">Несие</MenuItem>
                 </TextField>
 
                 <TextField
@@ -268,6 +270,7 @@ const DebtPage = () => {
                     onChange={(e)=>setDebtType(e.target.value)}
                     value={debtType}
                     label="Таңдау"
+                    required={true}
                     sx={{width: '80%'}}
                 >
                     {debtTypesData && (debtTypesData.map((option) => (
@@ -282,7 +285,7 @@ const DebtPage = () => {
                 <AddCircleOutlineIcon 
                     onClick={() => {
                       // Check if the amount variable contains only numbers without spaces
-                      if (/^\d+$/.test(amount)) {
+                      if (/^\d+$/.test(amount) && debtLoan && debtType) {
                         sendDebt(date, debtLoan, debtType, amount, debtDescription, navigate);
                       } else {
                         handleClickOpen();

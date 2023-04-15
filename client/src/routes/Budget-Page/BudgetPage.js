@@ -6,6 +6,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { sendSpending } from "../../api/Budget/SendSpending";
 import BudgetTable from "../../components/Budget-Table/BudgetTable";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 // Sorting data from the server and returning a single array
 const mergeAndSortByDate = (incomeArray, spendingArray) => {
@@ -66,6 +71,16 @@ const BudgetPage = () => {
         navigate({ search: newQuery.toString() }); // navigate to update state values with useEffect
       } 
     };
+     //ALERT WINDOWS
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+
+    const handleClose = () => {
+      setOpen(false);
+    };
     return (
         <Grid 
             container 
@@ -74,6 +89,27 @@ const BudgetPage = () => {
             height: '100%'
             }}
         >
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Деректер қатесі"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          Дұрыс емес деректер. Қайта толтырып көріңіз
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={handleClose} autoFocus sx={{border: "1px solid black"}}>
+            Түсіндім
+          </Button>
+        </DialogActions>
+      </Dialog>
       {/* BUDGET MAIN CONTAINER */}
         <Grid item xs={7} 
           sx={{
@@ -172,6 +208,7 @@ const BudgetPage = () => {
                     <FilledInput
                         id="filled-adornment-amount"
                         onChange={(e)=>setIncome(e.target.value)}
+                        inputProps={{ maxLength: 15 }}
                         startAdornment={<InputAdornment position="start">₸</InputAdornment>}
                     />
                 </FormControl>
@@ -196,7 +233,8 @@ const BudgetPage = () => {
                 <TextField 
                     id="filled-basic" 
                     label="Анықтама"
-                    variant="filled" 
+                    variant="filled"
+                    inputProps={{ maxLength: 15 }}
                     onChange={(e)=> setIncomeDescription(e.target.value)}
                     sx={{
                         width: '80%'
@@ -204,7 +242,13 @@ const BudgetPage = () => {
                 />
             {/* TOP BUTTON */}
                 <AddCircleOutlineIcon 
-                    onClick={(e) => sendIncome(e, incomeType, income, incomeDescription, navigate)}
+                    onClick={(e) =>{
+                        if (/^\d+$/.test(income)) {
+                          sendIncome(e, incomeType, income, incomeDescription, navigate)
+                        } else{
+                          handleClickOpen();
+                        }  
+                      }} 
                     sx={{
                         fontSize:'50px',
                         '&:hover':{
@@ -239,7 +283,7 @@ const BudgetPage = () => {
                     <InputLabel htmlFor="filled-adornment-amount">Сумма</InputLabel>
                     <FilledInput
                         id="filled-adornment-amount"
-
+                        inputProps={{ maxLength: 15 }}
                         onChange={(e)=>setSpending(e.target.value)}
                         startAdornment={<InputAdornment position="start">₸</InputAdornment>}
                     />
@@ -267,7 +311,8 @@ const BudgetPage = () => {
                 <TextField 
                     id="filled-basic" 
                     label="Анықтама" 
-                    variant="filled" 
+                    variant="filled"
+                    inputProps={{ maxLength: 15 }} 
                     onChange={(e)=> setSpendingDescription(e.target.value)}
                     sx={{
                         width: '80%'
@@ -275,7 +320,15 @@ const BudgetPage = () => {
                 />
             {/* BOTTOM BUTTON */}
                 <AddCircleOutlineIcon 
-                    onClick={(e)=>sendSpending(e, spendingType, spending, spendingDescription, navigate)}
+                    
+                    onClick={(e) =>{
+                      if (/^\d+$/.test(spending)) {
+                        sendSpending(e, spendingType, spending, spendingDescription, navigate)
+                        
+                      } else{
+                        handleClickOpen();
+                      }  
+                    }}
                     sx={{
                         fontSize:'50px',
                         '&:hover':{

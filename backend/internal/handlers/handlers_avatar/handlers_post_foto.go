@@ -69,5 +69,10 @@ func (a *avatar) UploadFoto(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Image uploaded successfully"))
+	err = json.NewEncoder(w).Encode(imagename)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	// w.Write([]byte(imagename))
 }

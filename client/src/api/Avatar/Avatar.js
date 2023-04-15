@@ -1,3 +1,4 @@
+import { setImageURL } from "../../utils/reducers/avatar";
 
 export const uploadImage = async (file) => {
     const base64Image = await toBase64(file);
@@ -20,6 +21,8 @@ export const uploadImage = async (file) => {
       }
   
       const data = await response.json();
+      
+      console.log(data);
       return data;
     } catch (error) {
       console.error('Error:', error);
@@ -59,3 +62,24 @@ export async function fetchImage(avatarName) {
   
     return objectURL;
   }
+
+ export const deleteImage = async (dispatch) => {
+    const token = localStorage.getItem("token");
+    
+    try {
+      const response = await fetch('/images', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      dispatch(setImageURL(null));
+    } catch (error) {
+      console.error('Error deleting image:', error);
+    }
+  };
