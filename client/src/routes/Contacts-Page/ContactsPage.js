@@ -15,10 +15,10 @@ const ContactsPage = () => {
         {/* Full width grid item */}
         <Grid item xs={12} sx={{ height: '20%' }} display="flex" flexDirection="column" alignItems="center" justifyContent="center">
             <Typography variant="h2" textAlign="center">
-                We'd Love yo Hear From You
+                Кері әрдайым байланысқа ашықпыз
             </Typography>
             <Typography variant="p" textAlign="center">
-                Whether you are curious about our new features or upcoming features
+                Кез-келген уақытта өз усынысыңызды ыңғайлы әдіспен білдіре аласыз
             </Typography>
         </Grid>
   
@@ -58,7 +58,7 @@ const ContactsPage = () => {
                     flexDirection: "column",
                     alignItems: 'center'
                 }}>
-                    <Typography variant="h4">Address</Typography>
+                    <Typography variant="h4">Мекен-жайымыз</Typography>
                 </Box>
                 
                 <Box 
@@ -127,7 +127,7 @@ const ContactsPage = () => {
                 }}
             >
                 <Typography variant="h4" sx={{flexGrow:1}}>
-                    Call-Center
+                    Қолдау көрсету қызметі
                 </Typography>
             </Box>
             {/* MIDDLEBOX DATA */}
@@ -186,20 +186,20 @@ const ContactsPage = () => {
             }}
           >
         <Box
-        sx={{
-            height: '95%',
-            width: '95%',
-            backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
-            boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.25)',
-            borderRadius: '16px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-evenly',
-            border: '1px solid rgba(0, 0, 0, 0.25)',
-            position: 'relative',
-            padding: '1rem',
-        }}
+            sx={{
+                height: '95%',
+                width: '95%',
+                backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
+                boxShadow: '0px 8px 10px rgba(0, 0, 0, 0.25)',
+                borderRadius: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+                border: '1px solid rgba(0, 0, 0, 0.25)',
+                position: 'relative',
+                padding: '1rem',
+            }}
         >
             <Box 
                 sx={{
@@ -210,17 +210,18 @@ const ContactsPage = () => {
                     alignItems: 'center'
                 }}>
 
-                <Typography variant="h4">Contacts</Typography>
+                <Typography variant="h4">Байланысу әдістері</Typography>
             </Box>
             
             
             <Box 
+            ml={7}
             sx={{
                 height: '85%',
                 width: '100%',
                 display: "flex",
                 flexDirection: "column",
-                alignItems: 'center',
+                alignItems: 'flex-start',
                 justifyContent: 'space-evenly',
             }}>
                 <Box
@@ -239,7 +240,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa</Link>
+                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>Git Hub</Link>
             </Box>
 
             <Box
@@ -258,7 +259,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
+                <Link variant="h6" color="black" href="https://linkedin.com/in/uldana-manas-40a073224" underline="hover" sx={{"&:hover": {color:"white"}}}>Linked In </Link>
             </Box>
             <Box
                 sx={{
@@ -313,7 +314,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
+                <Link variant="h6" color="black" href="https://instagram.com/__danatella_" underline="hover" sx={{"&:hover": {color:"white"}}}>INSTAGRAM </Link>
             </Box>
             </Box>
 

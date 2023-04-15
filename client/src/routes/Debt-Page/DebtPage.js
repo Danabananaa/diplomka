@@ -8,7 +8,11 @@ import '../../components/Calendar/Calendar.css'
 import { useLoaderData, useNavigate } from "react-router";
 import { sendDebt } from "../../api/Debt/SendDebt";
 import DebtTable from "../../components/Debt-Table/DebtTable";
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 const mergeAndSortDebtsLoansByDate = (debtArray, loanArray) => {
   const debtData = debtArray.length > 0 ? debtArray.map((item) => ({
     ID: 'debt_'+item.id,
@@ -37,6 +41,7 @@ const mergeAndSortDebtsLoansByDate = (debtArray, loanArray) => {
 
 const DebtPage = () => {
     const navigate = useNavigate();
+    // DATA
     const {debtData, debtTypesData} = useLoaderData();
     const [date, setDate] = useState(new Date());
     const [debtLoan, setDebtLoan] = useState('');
@@ -44,9 +49,16 @@ const DebtPage = () => {
     const [amount, setAmount] = useState();
     const [debtDescription, setDebtDescription] = useState('');
     const mergedData = mergeAndSortDebtsLoansByDate(debtData.DebtArr, debtData.LoanArr);
+    
+    //FILTERS
+    const periods = [
+      { kazakh: 'Жыл', english: 'year' },
+      { kazakh: 'Ай', english: 'month' },
+      { kazakh: 'Апта', english: 'week' },
+      { kazakh: 'Күн', english: 'day' },
+    ];
     const query = new URLSearchParams(location.search);
-
-  //FILTERS
+    //FILTER buttons
   const handleButtonClick = (e, value) => {
     // e.preventDefault();
     if (value) {
@@ -55,7 +67,18 @@ const DebtPage = () => {
       newQuery.set('filter', value);
       navigate({ search: newQuery.toString() }); // navigate to update state values with useEffect
     } 
-  };    
+  };
+  //ALERT WINDOWS
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
     return (
         
         <Grid 
@@ -65,6 +88,28 @@ const DebtPage = () => {
             height: '100%'
             }}
         >
+{/* Диалог отвечает за всплывающее окно при ошибке или неверных введеных данных */}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Деректер қатесі"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          Дұрыс емес деректер. Қайта толтырып көріңіз
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={handleClose} autoFocus sx={{border: "1px solid black"}}>
+            Түсіндім
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       {/* DEBT MAIN CONTAINER */}
         <Grid item xs={7} 
           sx={{
@@ -92,15 +137,15 @@ const DebtPage = () => {
           }}
         >
         <Stack direction="row" spacing={5}>
-          {['Year', 'Month', 'Week', 'Day'].map((period) => (
+          {periods.map((period) => (
             <Button
-              key={period}
+              key={period.english}
               variant="contained"
               color="secondary"
-              onClick={(e) => handleButtonClick(e, period.toLowerCase())}
+              onClick={(e) => handleButtonClick(e, period.english)}
               sx={{ border: '1px solid black', fontWeight: '600', color: '#0C1017', width: '100px' }}
             >
-              {period}
+              {period.kazakh}
             </Button>
           ))}
         </Stack>
@@ -140,9 +185,8 @@ const DebtPage = () => {
           {/* CALENDAR BOX */}
           <Box
               sx={{
-                height: '35%',
+                height: '40%',
                 width: '80%',
-                
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -150,12 +194,12 @@ const DebtPage = () => {
               }}
             >
             {/* CALENDAR */}
-            <Calendar onChange={setDate} value={date} />
+            <Calendar onChange={setDate} value={date} locale="kk"/>
 
           </Box>
           <Box
               sx={{
-                height: '60%',
+                height: '55%',
                 width: '80%',
                 backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)',
                 boxShadow: "0px 8px 10px rgba(0, 0, 0, 0.25)",
@@ -174,8 +218,8 @@ const DebtPage = () => {
                </Typography>
                <TextField 
                     id="filled-basic" 
-                    label="Description"
-                   
+                    label="Аңықтама"
+                    inputProps={{ maxLength: 20 }}
                     variant="filled"
                     onChange={(e)=> setDebtDescription(e.target.value)}
                     sx={{
@@ -193,9 +237,11 @@ const DebtPage = () => {
                 /> */}
 
                 <FormControl sx={{ width: '80%' }} variant="filled">
-                    <InputLabel  required={true} htmlFor="filled-adornment-amount">Amount</InputLabel>
+                    <InputLabel  required={true} htmlFor="filled-adornment-amount">Сумма</InputLabel>
                     <FilledInput
                         id="filled-adornment-amount"
+                        inputProps={{ maxLength: 15 }}
+
                         onChange={(e)=>setAmount(e.target.value)}
                         startAdornment={<InputAdornment position="start">₸</InputAdornment>}
                     />
@@ -207,7 +253,7 @@ const DebtPage = () => {
                   variant="filled"
                   select
                   onChange={(e) => setDebtLoan(e.target.value)}
-                  label="Select"
+                  label="Таңдау"
                   value={debtLoan}
                   sx={{ width: '80%' }}
                 >
@@ -221,7 +267,7 @@ const DebtPage = () => {
                     select
                     onChange={(e)=>setDebtType(e.target.value)}
                     value={debtType}
-                    label="Select"
+                    label="Таңдау"
                     sx={{width: '80%'}}
                 >
                     {debtTypesData && (debtTypesData.map((option) => (
@@ -234,7 +280,14 @@ const DebtPage = () => {
                 </TextField>
 
                 <AddCircleOutlineIcon 
-                    onClick={()=>sendDebt(date, debtLoan, debtType, amount, debtDescription, navigate)}
+                    onClick={() => {
+                      // Check if the amount variable contains only numbers without spaces
+                      if (/^\d+$/.test(amount)) {
+                        sendDebt(date, debtLoan, debtType, amount, debtDescription, navigate);
+                      } else {
+                        handleClickOpen();
+                      }
+                    }}
                     sx={{
                         fontSize:'50px',
                         '&:hover':{

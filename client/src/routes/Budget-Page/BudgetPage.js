@@ -51,6 +51,12 @@ const BudgetPage = () => {
     const [spendingDescription, setSpendingDescription] = useState();
 
   //FILTERS
+  const periods = [
+    { kazakh: 'Жыл', english: 'year' },
+    { kazakh: 'Ай', english: 'month' },
+    { kazakh: 'Апта', english: 'week' },
+    { kazakh: 'Күн', english: 'day' },
+  ];
     const handleButtonClick = (e, value) => {
       // e.preventDefault();
       if (value) {
@@ -96,18 +102,18 @@ const BudgetPage = () => {
           }}
         >
         <Stack direction="row" spacing={5}>
-      {['Year', 'Month', 'Week', 'Day'].map((period) => (
-        <Button
-          key={period}
-          variant="contained"
-          color="secondary"
-          onClick={(e) => handleButtonClick(e, period.toLowerCase())}
-          sx={{ border: '1px solid black', fontWeight: '600', color: '#0C1017', width: '100px' }}
-        >
-          {period}
-        </Button>
-      ))}
-    </Stack>
+          {periods.map((period) => (
+            <Button
+              key={period.english}
+              variant="contained"
+              color="secondary"
+              onClick={(e) => handleButtonClick(e, period.english)}
+              sx={{ border: '1px solid black', fontWeight: '600', color: '#0C1017', width: '100px' }}
+            >
+              {period.kazakh}
+            </Button>
+          ))}
+        </Stack>
 
       </Box>
           
@@ -162,7 +168,7 @@ const BudgetPage = () => {
                 </Typography>
                 {/* TOP AMOUNT */}
                 <FormControl sx={{ width: '80%' }} variant="filled">
-                    <InputLabel htmlFor="filled-adornment-amount">Amount</InputLabel>
+                    <InputLabel htmlFor="filled-adornment-amount">Сумма</InputLabel>
                     <FilledInput
                         id="filled-adornment-amount"
                         onChange={(e)=>setIncome(e.target.value)}
@@ -174,7 +180,7 @@ const BudgetPage = () => {
                     id="outlined-select-currency"
                     variant="filled"
                     select
-                    label="Select"
+                    label="Таңдау"
                     onChange={(e)=>setIncomeType(e.target.value)}
                     value={incomeType}
                     
@@ -189,7 +195,8 @@ const BudgetPage = () => {
                 {/* Description */}
                 <TextField 
                     id="filled-basic" 
-                    label="Description" variant="filled" 
+                    label="Анықтама"
+                    variant="filled" 
                     onChange={(e)=> setIncomeDescription(e.target.value)}
                     sx={{
                         width: '80%'
@@ -229,7 +236,7 @@ const BudgetPage = () => {
                 </Typography>
                 {/* BOTTOM AMOUNT */}
                 <FormControl sx={{ width: '80%' }} variant="filled">
-                    <InputLabel htmlFor="filled-adornment-amount">Amount</InputLabel>
+                    <InputLabel htmlFor="filled-adornment-amount">Сумма</InputLabel>
                     <FilledInput
                         id="filled-adornment-amount"
 
@@ -245,7 +252,7 @@ const BudgetPage = () => {
                     onChange={(e)=>setSpendingType(e.target.value)}
                     value={spendingType}
                     // defaultValue={Types && Types.Type_spending && Types.Type_spending[0].ID ? Types.Type_spending[0].ID: 1}
-                    label="Select"
+                    label="Таңдау"
                     sx={{width: '80%'}}
                 >
                     {Types.Type_spending && (Types.Type_spending.map((option) => (
@@ -259,7 +266,7 @@ const BudgetPage = () => {
                 {/* Description */}
                 <TextField 
                     id="filled-basic" 
-                    label="Description" 
+                    label="Анықтама" 
                     variant="filled" 
                     onChange={(e)=> setSpendingDescription(e.target.value)}
                     sx={{

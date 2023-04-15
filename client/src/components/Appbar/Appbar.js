@@ -74,7 +74,7 @@ export default function MenuAppBar({drawerWidth}) {
           alignItems:'center',
           justifyContent: 'flex-end'
         }}>
-              <Typography variant="h6" mr={3}>  {userName}'s profile</Typography>
+              <Typography variant="h6" fontWeight={700} mr={3}>  {userName}</Typography>
               <Avatar 
                 src={imageURL}
                 onClick={handleMenu}   

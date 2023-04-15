@@ -10,13 +10,23 @@ import { useDispatch } from 'react-redux';
 import Amiyan from '../../assets/images/Amiyan.png'
 
 export const MainDrawer = ({path}) =>{
-  
+  const menuItems = [
+    { text: 'Statistics', textKz: 'Статистика' },
+    { text: 'Budget', textKz: 'Бюджет' },
+    { text: 'Planner', textKz: 'Жоспарлау' },
+    { text: 'Debt', textKz: 'Қарыздар' },
+  ];
+  const lowerMenuItems = [
+    
+    { text: 'About Us', textKz: 'Қосымша туралы' },
+    { text: 'Contacts', textKz: 'Байланысу' },
+  ];
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleNav = (text) => {
-    const newPath = text.replace(/\s/g, ''); // Removing spaces from a button text
+  const handleNav = (item) => {
+    const newPath = item.text.replace(/\s/g, ''); // Removing spaces from a button text
     navigate(`/${newPath.toLowerCase()}`); // changing the url to the specified nav button text
-  }
+  };
   return (
     <Box
       sx={{
@@ -58,14 +68,14 @@ export const MainDrawer = ({path}) =>{
         {/* <Toolbar /> */}
         {/* <Divider /> */}
         <List >
-          {['Statistics', 'Budget', 'Planner', 'Debt'].map((text, index) => (
-            <ListItem key={text} disablePadding>
+          {menuItems.map((item, index) => (
+            <ListItem key={item.text} disablePadding>
                 <ListItemButton
-                  onClick={() => handleNav(text)}
+                  onClick={() => handleNav(item)}
                   sx={{
-                    backgroundColor: (text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) && "primary.light",
+                    backgroundColor: (item.text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) && "primary.light",
                     border: "1px solid transparent",
-                    borderColor: (text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) ? "black transparent black black" : "none",
+                    borderColor: (item.text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) ? "black transparent black black" : "none",
                     // my: 1,
                     py: 2,
                     borderTopLeftRadius: 20,
@@ -78,21 +88,21 @@ export const MainDrawer = ({path}) =>{
                   <ListItemIcon>
                   {index % 2 === 0 ? <InfoIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={item.textKz} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {['Settings', 'About Us', 'Contacts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
+          {lowerMenuItems.map((item, index) => (
+            <ListItem key={item.text} disablePadding>
               <ListItemButton
-                onClick={() => handleNav(text)}
+                onClick={() => handleNav(item)}
                 sx={{
-                  backgroundColor: (text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) && "primary.light",
+                  backgroundColor: (item.text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) && "primary.light",
                   border: "1px solid transparent",
-                  borderColor: (text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) ? "black transparent black black" : "none",
+                  borderColor: (item.text.toLowerCase().replace(/\s/g, '') === path.toLowerCase().replace(/\s/g, '')) ? "black transparent black black" : "none",
                     // marginY: 1,
                   py: 2,
                   borderTopLeftRadius: 20,
@@ -105,7 +115,7 @@ export const MainDrawer = ({path}) =>{
                   <ListItemIcon>
                   {index % 2 === 0 ? <InfoIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={item.textKz} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -130,7 +140,7 @@ export const MainDrawer = ({path}) =>{
         }}
         >
         
-        <LogoutIcon fontSize='large'/><Typography>Sign Out</Typography>
+        <LogoutIcon fontSize='large'/><Typography variant="h6" > Шығу</Typography>
         
         </Box>
       </Box>

@@ -72,10 +72,10 @@ return (
   <Table sx={{ minWidth: 800, outline: '2px solid #06c'}} aria-label="simple table">
     <TableHead>
       <TableRow sx={{ height: theme => `${theme.spacing(8)}px`, backgroundImage: 'linear-gradient(0deg, #c2b6df 10%, #cdb2bd 90%)' }}>
-        <TableCell sx={{ color: 'primary.contrastText', fontSize: '1rem' }}>ID</TableCell>
-        <TableCell align="right" sx={{ color: 'primary.contrastText',  fontSize: '1rem' }}>Date</TableCell>
-        <TableCell align="right" sx={{ color: 'primary.contrastText',  fontSize: '1rem' }}>Description</TableCell>
-        <TableCell align="right" sx={{ color: 'primary.contrastText',  fontSize: '1rem' }}>Amount</TableCell>
+        <TableCell sx={{ color: 'primary.contrastText', fontSize: '1.2rem', fontWeight: "800" }}>Түрі</TableCell>
+        <TableCell align="right" sx={{ color: 'primary.contrastText', fontSize: '1.2rem', fontWeight: "800" }}>Күн</TableCell>
+        <TableCell align="right" sx={{ color: 'primary.contrastText', fontSize: '1.2rem', fontWeight: "800" }}>Анықтама</TableCell>
+        <TableCell align="right" sx={{ color: 'primary.contrastText', fontSize: '1.2rem', fontWeight: "800" }}>Сумма</TableCell>
         {/* <TableCell align="right" sx={{ color: 'primary.contrastText',  fontSize: '1rem' }}>Type ID</TableCell> */}
       </TableRow>
     </TableHead>
@@ -103,6 +103,7 @@ return (
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
+        rowsPerPageOptions={[]}
       />
 </Paper>
 

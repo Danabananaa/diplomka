@@ -15,6 +15,13 @@ const HomePage = () => {
   const incomePercentage = (incomeTotal / total) * 100;
   const spendingPercentage = (spendingTotal / total) * 100;
 
+  //FILTERS
+  const periods = [
+    { kazakh: 'Жыл', english: 'year' },
+    { kazakh: 'Ай', english: 'month' },
+    { kazakh: 'Апта', english: 'week' },
+    { kazakh: 'Күн', english: 'day' },
+  ];
   const query = new URLSearchParams(location.search);
   const handleButtonClick = (e, value) => {
     // e.preventDefault();
@@ -59,7 +66,7 @@ const HomePage = () => {
             position: 'relative'
           }}
         >
-          <Typography variant="h4">Overall Statistics</Typography>
+          <Typography variant="h4">Жалпы Статистика</Typography>
 
       </Box>
       <Box
@@ -77,18 +84,18 @@ const HomePage = () => {
           }}
         >
         <Stack direction="row" spacing={5}>
-      {['Year', 'Month', 'Week', 'Day'].map((period) => (
-        <Button
-          key={period}
-          variant="contained"
-          color="secondary"
-          onClick={(e) => handleButtonClick(e, period.toLowerCase())}
-          sx={{ border: '1px solid black', fontWeight: '600', color: '#0C1017', width: '100px' }}
-        >
-          {period}
-        </Button>
-      ))}
-    </Stack>
+          {periods.map((period) => (
+            <Button
+              key={period.english}
+              variant="contained"
+              color="secondary"
+              onClick={(e) => handleButtonClick(e, period.english)}
+              sx={{ border: '1px solid black', fontWeight: '600', color: '#0C1017', width: '100px' }}
+            >
+              {period.kazakh}
+            </Button>
+          ))}
+        </Stack>
 
       </Box>
         {/* PIE BOX */}
@@ -156,15 +163,15 @@ const HomePage = () => {
           >
             {period && period.durationInDays !== 0 && (
               <>
-              <Typography variant="h4" fontWeight={700}>Period of Time</Typography>
-              <Typography variant="h5" >From: {period.startDate}</Typography>
-              <Typography variant="h5">Untill: {period.endDate}</Typography>
-              <Typography variant="h5">Overall: {period.durationInDays} days</Typography>
+              <Typography variant="h4" fontWeight={700}>Уақыт Аралығы</Typography>
+              <Typography variant="h5" >Басы: {period.startDate}</Typography>
+              <Typography variant="h5">Соңы: {period.endDate}</Typography>
+              <Typography variant="h5">Жалпы мерзім: {period.durationInDays} күн</Typography>
               </>
             )}
             {period && period.durationInDays === 0 && (
               <>
-              <Typography variant="h5" fontWeight={700}>Statistics for today</Typography>
+              <Typography variant="h5" fontWeight={700}>Бүгінгі Статистика</Typography>
               </>
             )}
         </Box>
@@ -183,7 +190,7 @@ const HomePage = () => {
               border: '1px solid rgba(0, 0, 0, 0.25)'
             }}
           >
-            <Typography variant="h5">Income Total: {incomeTotal}</Typography>
+            <Typography variant="h5">Жалпы кіріс: {incomeTotal}</Typography>
             <Box
               display="flex"
               alignItems="center"
@@ -202,7 +209,7 @@ const HomePage = () => {
                 flexGrow={spendingPercentage}
               ></Box>
             </Box>
-            <Typography variant="h5">Spending Total: {spendingTotal}</Typography>
+            <Typography variant="h5">Жалпы шығыс: {spendingTotal}</Typography>
         </Box>
       </Grid>
     </Grid>
