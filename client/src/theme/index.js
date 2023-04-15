@@ -19,6 +19,7 @@ const themeOptions = {
   },
   typography: {
     fontFamily: [
+      'RUS ModernH-Bold',
       'DejaVuSans',
       'Roboto',
       '"Segoe UI"',

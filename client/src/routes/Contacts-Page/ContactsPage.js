@@ -17,7 +17,7 @@ const ContactsPage = () => {
             <Typography variant="h2" textAlign="center">
                 Кері әрдайым байланысқа ашықпыз
             </Typography>
-            <Typography variant="p" textAlign="center">
+            <Typography variant="h6" textAlign="center">
                 Кез-келген уақытта өз усынысыңызды ыңғайлы әдіспен білдіре аласыз
             </Typography>
         </Grid>
