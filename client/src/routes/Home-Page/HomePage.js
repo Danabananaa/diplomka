@@ -190,7 +190,7 @@ const HomePage = () => {
               border: '1px solid rgba(0, 0, 0, 0.25)'
             }}
           >
-            <Typography variant="h5">Жалпы кіріс: {incomeTotal}</Typography>
+            <Typography variant="h5" fontWeight={800}>Жалпы кіріс: {incomeTotal}</Typography>
             <Box
               display="flex"
               alignItems="center"
@@ -209,7 +209,7 @@ const HomePage = () => {
                 flexGrow={spendingPercentage}
               ></Box>
             </Box>
-            <Typography variant="h5">Жалпы шығыс: {spendingTotal}</Typography>
+            <Typography variant="h5" fontWeight={800}>Жалпы шығыс: {spendingTotal}</Typography>
         </Box>
       </Grid>
     </Grid>
