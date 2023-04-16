@@ -1,6 +1,7 @@
 import { redirect } from "react-router";
 import { loginSuccess, logout } from "../../utils/reducers/auth";
 import { baseURL } from "../API";
+import { setImageURL } from "../../utils/reducers/avatar";
 //SIGN UP
 function validateName(name) {
   const regex = /^[A-Z][a-z]*$/;
@@ -150,7 +151,7 @@ export const signOutHandler = (dispatch, navigate) =>{
   
   // Dispatch the logout action to update the Redux state
   dispatch(logout());
-
+  dispatch(setImageURL(null));
   navigate("/signin");  
 }
 export const signOutOnError = async () =>{ // Very unlikely to happen
@@ -191,6 +192,7 @@ export const deleteProfile =( async (e,dispatch, navigate) => {
           localStorage.removeItem("token");
           localStorage.removeItem("user_name");
           dispatch(logout());
+          dispatch(setImageURL(null));
           navigate("/signin");
         } catch (error) {
           console.log(error);
