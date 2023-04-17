@@ -1,13 +1,14 @@
 package handlers_financial
 
 import (
+	"diplomka/internal/model"
 	"encoding/json"
 	"net/http"
 
 	middleware "diplomka/internal/handlers/handlers_middleware"
-	"diplomka/internal/model"
 )
 
+// This function handles the HTTP POST request for adding a new spending record to the database. Here's a breakdown of what it does:
 func (s *financial) PostSpending(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	spen := model.Spending{}

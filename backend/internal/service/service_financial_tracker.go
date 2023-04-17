@@ -9,6 +9,7 @@ import (
 	"diplomka/internal/service/service_statistics"
 )
 
+// The financialTracker struct represents an implementation of the model.FinancialTrackerService interface that combines various financial services. It includes the IncomeService, SpendingService, StatisticsService, FinancialTypeService, and FinancialLiabilityService services, which are each implementations of their respective interfaces.
 type financialTracker struct {
 	model.IncomeService
 	model.SpendingService
@@ -17,6 +18,7 @@ type financialTracker struct {
 	model.FinancialLiabilityService
 }
 
+// The NewFinancialTrackerService function is a constructor function that returns an instance of financialTracker with the provided model.FinancialRepo repository. The returned financialTracker instance will have all its service fields initialized with their respective implementation services created with the provided repository.
 func NewFinancialTrackerService(f model.FinancialRepo) model.FinancialTrackerService {
 	return &financialTracker{
 		IncomeService:             service_income.NewIncomeService(f),

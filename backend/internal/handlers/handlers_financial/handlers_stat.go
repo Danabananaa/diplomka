@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// this function get statats from GetStatistics service
 func (s *financial) GetStat(w http.ResponseWriter, r *http.Request) {
 	b, err := getFilter(r)
 	if err != nil {

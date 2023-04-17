@@ -2,6 +2,7 @@ package handlers_avatar
 
 import (
 	"bytes"
+	"diplomka/internal/model"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -12,10 +13,11 @@ import (
 	"strings"
 
 	middleware "diplomka/internal/handlers/handlers_middleware"
-	"diplomka/internal/model"
 
 	"github.com/google/uuid"
 )
+
+// UploadFoto handles the upload of an avatar image for a user
 
 func (a *avatar) UploadFoto(w http.ResponseWriter, r *http.Request) {
 	var imageData model.ImageData
@@ -24,7 +26,6 @@ func (a *avatar) UploadFoto(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
 	// Remove the Data URL prefix
 	dataURLPrefixIndex := strings.Index(imageData.Data, ",")
 	if dataURLPrefixIndex < 0 {
@@ -33,18 +34,12 @@ func (a *avatar) UploadFoto(w http.ResponseWriter, r *http.Request) {
 	}
 	base64Data := imageData.Data[dataURLPrefixIndex+1:]
 
-	decoded, err := base64.StdEncoding.DecodeString(base64Data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	user_id := middleware.GetUserID(r)
+	userID := middleware.GetUserID(r)
 
 	imagename := uuid.New().String() + ".jpg"
 
 	info := model.UserImage{
-		UserID:    user_id,
+		UserID:    userID,
 		ImageName: imagename,
 	}
 
@@ -62,12 +57,21 @@ func (a *avatar) UploadFoto(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
+	// Decode the image data
+	decoded, err := base64.StdEncoding.DecodeString(base64Data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	// Write the decoded image data to the file
 	_, err = io.Copy(file, bytes.NewReader(decoded))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	// Set response status and write the image name as response body
 	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(imagename)
 	if err != nil {

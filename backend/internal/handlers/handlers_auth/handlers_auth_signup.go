@@ -1,12 +1,16 @@
 package handlers_auth
 
 import (
-	"encoding/json"
-	"net/http"
-
 	"diplomka/internal/model"
 	"diplomka/pkg/log"
+	"encoding/json"
+	"net/http"
 )
+
+// SignUp registers a new user.
+// It expects a JSON object representing the user in the request body.
+// It returns an HTTP 400 error if the request body is malformed or the user is invalid.
+// It returns an HTTP 500 error if the registration process fails.
 
 func (a *auth) SignUp(w http.ResponseWriter, r *http.Request) {
 	// w.Header().Set("Content-Type", "application/json")

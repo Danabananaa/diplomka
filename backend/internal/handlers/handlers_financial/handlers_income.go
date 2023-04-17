@@ -1,14 +1,15 @@
 package handlers_financial
 
 import (
+	"diplomka/internal/model"
+	"diplomka/pkg/log"
 	"encoding/json"
 	"net/http"
 
 	middleware "diplomka/internal/handlers/handlers_middleware"
-	"diplomka/internal/model"
-	"diplomka/pkg/log"
 )
 
+// PostIncome is a HTTP handler function for adding a new income record
 func (a *financial) PostIncome(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	inc := model.Income{}

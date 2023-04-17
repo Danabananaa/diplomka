@@ -2,10 +2,13 @@ package service_liability
 
 import (
 	"context"
-	"fmt"
-
 	"diplomka/internal/model"
+	"fmt"
 )
+
+// AddLoanDebtService is a function that adds a new loan or debt entry to the database based on the 'Status' value.
+// If Status is true, it adds the entry to the asset table, and if it is false, it adds it to the liability table.
+// It returns the newly created object and an error if any occurred.
 
 func (l *liability) AddLoanDebtService(ctx context.Context, asl model.Loan_Debt) (*model.Loan_Debt, error) {
 	var obj *model.Loan_Debt
@@ -26,6 +29,8 @@ func (l *liability) AddLoanDebtService(ctx context.Context, asl model.Loan_Debt)
 	return obj, nil
 }
 
+// GetLoanDebtService is a function that retrieves loan and debt entries from the database based on the given date range.
+// It returns two slices, one containing assets and the other containing liabilities, and an error if any occurred.
 func (l *liability) GetLoanDebtService(ctx context.Context, bet model.Between) ([]*model.Loan_Debt, []*model.Loan_Debt, error) {
 	obj, err := l.GetAssets(ctx, bet)
 	if err != nil {

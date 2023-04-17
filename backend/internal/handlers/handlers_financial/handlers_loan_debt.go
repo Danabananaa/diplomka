@@ -9,6 +9,8 @@ import (
 	middleware "diplomka/internal/handlers/handlers_middleware"
 )
 
+// This is a function to handle HTTP POST requests to add a new loan or debt record to the database
+
 func (f *financial) AddLoanDebt(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	ast := model.Loan_Debt{}
@@ -31,6 +33,10 @@ func (f *financial) AddLoanDebt(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
+
+// This function retrieves loan and debt data based on a filter, and then merges them into a single response struct.
+// It sets the content type header to application/json, extracts the filter from the request using the getFilter helper function,
+// and calls the GetLoanDebtService method to retrieve the loan and debt data.
 
 func (f *financial) GetLoanDebt(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
