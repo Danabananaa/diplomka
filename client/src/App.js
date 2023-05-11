@@ -21,7 +21,7 @@ import RootLayout from './layouts/RootLayout/RootLayout';
 // errorElement
 import { ErrorPage } from './routes/Error-Page/ErrorPage';
 import { PageNotFound } from './routes/Page-Not-Found/PageNotFound';
-import { budgetData, debtData, homeLoader, profileData, statisticsData } from './api/loaders';
+import { budgetData, debtData, homeLoader, plannerData, profileData, statisticsData } from './api/loaders';
 
 
 //App is our main router of our App. It listens to the path and renders specific pages. 
@@ -38,7 +38,7 @@ const router = createBrowserRouter(
           <Route index loader={()=>redirect("/statistics")}/>
           <Route path="statistics" loader={statisticsData} element={<HomePage/>}/>
           <Route path="budget" loader={budgetData} element={<BudgetPage/>}/>
-          <Route path="planner" element={<PlannerPage/>}/>
+          <Route path="planner" loader={plannerData} element={<PlannerPage/>}/>
           <Route path="debt" loader={debtData} element={<DebtPage/>}/>
           <Route path="settings" element={<SettingsPage/>}/>
           <Route path="aboutus" element={<AboutUsPage/>}/>

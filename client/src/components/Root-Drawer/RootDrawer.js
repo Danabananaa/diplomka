@@ -13,7 +13,7 @@ export const MainDrawer = ({path}) =>{
   const menuItems = [
     { text: 'Statistics', textKz: 'Статистика' },
     { text: 'Budget', textKz: 'Бюджет' },
-    // { text: 'Planner', textKz: 'Жоспарлау' },
+    { text: 'Planner', textKz: 'Жоспарлау' },
     { text: 'Debt', textKz: 'Қарыздар' },
   ];
   const lowerMenuItems = [
