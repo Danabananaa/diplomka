@@ -1,5 +1,5 @@
 import { Grid, Box, Typography, Button, FormControl, InputLabel, FilledInput, InputAdornment, TextField, MenuItem } from "@mui/material";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import PlannerTable from "../../components/Planner-Table/PlannerTable";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from "react";
@@ -16,6 +16,7 @@ const PlannerPage = () => {
     const {Types, Stats} = useLoaderData();
     const [spendingType, setSpendingType] = useState(Types[0].ID);
     const [spendingAmount, setSpendingAmount] = useState();
+    const navigate = useNavigate();
      //ALERT WINDOWS
      const [open, setOpen] = useState(false);
 
@@ -113,14 +114,14 @@ return (
         onSubmit={(e) => {
           e.preventDefault();
           if (/^[1-9]\d{0,20}$/.test(spendingAmount) && spendingType) { //CHECK DATA VALIDITY
-            sendAmount(e, spendingType, spendingAmount); // SEND DATA TO BACKEND
+            sendAmount(spendingType, spendingAmount, navigate); // SEND DATA TO BACKEND
           } else {
             handleClickOpen(); // Open Alert Window
           }
         }}
       >
   {/* TOP HEADER */}
-  <Typography variant="h4">Кірісті қосу</Typography>
+  <Typography variant="h4">Жаңа шектеме</Typography>
   {/* TOP SELECT TYPE */}
   <TextField
     id="outlined-select-currency"
@@ -129,6 +130,7 @@ return (
     label="Таңдау"
     onChange={(e) => {
       setSpendingType(e.target.value);
+      console.log(spendingType);
     }}
     value={spendingType}
     required={true}
@@ -203,10 +205,8 @@ return (
           </Typography>
 
           <Typography variant="h6" textAlign="center" sx={{px:"50px"}}>
-          Айлықтық шоттардың және әртүрлі мән-мәндердің үшін планшетті пайдаланып, 
-          тәртіпті қаржылық мүмкіндіктеріңізді басқарыңыз. 
-          Планшетті пайдалану арқылы сіз қаржылық мүмкіндіктеріңізді дұрыс басқаруға көмектеседі.
-
+          Жоспарлау бетін әртүрлі шығындарыңыздың айлық мөлшерін шектеп отыру үшін қолданыңыз. 
+          Жоспарлау сізге өзіңіздің қаржыңызды сауатты жұмсауға көмектеседі
           </Typography>
     </Box>
   </Grid>
