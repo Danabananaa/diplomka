@@ -3,7 +3,6 @@ package service_planner
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"diplomka/internal/model"
 )
@@ -19,8 +18,6 @@ func New(r model.PlannerRepo) *planner {
 }
 
 func (p *planner) AddSpendingPlanner(ctx context.Context, planner model.SpendingPlanner) error {
-	log.Println("yes")
-
 	err := p.PlannerRepo.AddPlannerSpending(ctx, planner)
 	if err != nil {
 		return fmt.Errorf("planner repo: %v", err)
