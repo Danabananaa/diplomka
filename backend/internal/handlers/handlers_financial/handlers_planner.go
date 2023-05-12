@@ -11,6 +11,31 @@ import (
 
 func (f *financial) GetPlanner(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+
+	userID := middleware.GetUserID(r)
+
+	if userID <= 0 {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	b, err := getFilter(r)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+
+	planers, err := f.FinancialTrackerService.GetPlanner(r.Context(), b)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(planers)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
 }
 
 func (f *financial) PostPlanner(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +57,7 @@ func (f *financial) PostPlanner(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = f.AddSpendingPLanner(r.Context(), planner)
+	err = f.AddSpendingPlanner(r.Context(), planner)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

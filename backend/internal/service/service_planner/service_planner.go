@@ -18,7 +18,7 @@ func New(r model.PlannerRepo) *planner {
 	}
 }
 
-func (p *planner) AddSpendingPLanner(ctx context.Context, planner model.SpendingPlanner) error {
+func (p *planner) AddSpendingPlanner(ctx context.Context, planner model.SpendingPlanner) error {
 	log.Println("yes")
 
 	err := p.PlannerRepo.AddPlannerSpending(ctx, planner)
@@ -27,4 +27,12 @@ func (p *planner) AddSpendingPLanner(ctx context.Context, planner model.Spending
 	}
 
 	return nil
+}
+
+func (p *planner) GetPlanner(ctx context.Context, bet model.Between) (map[int]model.Planner, error) {
+	planner, err := p.PlannerRepo.GetPlanner(ctx, bet)
+	if err != nil {
+		return nil, fmt.Errorf("planner repo: %v", err)
+	}
+	return planner, nil
 }

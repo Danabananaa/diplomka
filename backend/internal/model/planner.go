@@ -24,4 +24,8 @@ func (s *SpendingPlanner) Validate() error {
 	return nil
 }
 
-type Planner struct{}
+type Planner struct {
+	Amount     int64 `json:"amount"`
+	Spending   int64 `json:"spending"`
+	Difference int64 `json:"difference"`
+}

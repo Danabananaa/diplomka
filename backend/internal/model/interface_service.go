@@ -63,5 +63,6 @@ type FinancialLiabilityService interface {
 }
 
 type FinancialPlannerService interface {
-	AddSpendingPLanner(ctx context.Context, planner SpendingPlanner) error
+	AddSpendingPlanner(ctx context.Context, planner SpendingPlanner) error
+	GetPlanner(ctx context.Context, bet Between) (map[int]Planner, error)
 }

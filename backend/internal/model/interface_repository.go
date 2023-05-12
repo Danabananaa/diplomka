@@ -25,6 +25,7 @@ type FinancialRepo interface {
 
 type PlannerRepo interface {
 	AddPlannerSpending(ctx context.Context, planner SpendingPlanner) error
+	GetPlanner(ctx context.Context, bet Between) (map[int]Planner, error)
 }
 
 type SpendingRepo interface {
