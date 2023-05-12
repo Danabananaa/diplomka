@@ -4,7 +4,7 @@ import "errors"
 
 type SpendingPlanner struct {
 	UserID         int64 `db:"user_id"`
-	SpendingTypeID int64 `json:"type_id" db:"type_id"`
+	SpendingTypeID int64 `json:"type_id" db:"spending_type_id"`
 	Amount         int64 `json:"amount" db:"amount"`
 }
 
