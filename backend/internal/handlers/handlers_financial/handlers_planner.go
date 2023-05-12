@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	middleware "diplomka/internal/handlers/handlers_middleware"
 	"diplomka/internal/model"
@@ -19,11 +20,20 @@ func (f *financial) GetPlanner(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	b, err := getFilter(r)
-	if err != nil {
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
+	b := model.Between{}
+
+	b.UserID = middleware.GetUserID(r)
+	now := model.CustomTime{
+		Time: time.Now(),
 	}
+	b.EndDate = now
+	b.StartDate = now.FirstDayOfMonth()
+
+	// b, err := getFilter(r)
+	// if err != nil {
+	// 	http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+	// 	return
+	// }
 
 	planers, err := f.FinancialTrackerService.GetPlanner(r.Context(), b)
 	if err != nil {
