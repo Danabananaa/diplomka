@@ -35,6 +35,7 @@ type FinancialTrackerService interface {
 	StatisticsService
 	FinancialTypeService
 	FinancialLiabilityService
+	FinancialPlannerService
 }
 
 type FinancialTypeService interface {
@@ -59,4 +60,8 @@ type FinancialLiabilityService interface {
 	GetAllLoanDebtTypeService(ctx context.Context) ([]*LoanDebtType, error)
 	AddLoanDebtService(ctx context.Context, asl Loan_Debt) (*Loan_Debt, error)
 	GetLoanDebtService(ctx context.Context, bet Between) ([]*Loan_Debt, []*Loan_Debt, error)
+}
+
+type FinancialPlannerService interface {
+	AddSpendingPLanner(ctx context.Context, planner SpendingPlanner) error
 }

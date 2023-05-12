@@ -6,7 +6,7 @@ type liability struct {
 	model.DebtorRepo
 }
 
-func NewLoanDebtTypeService(dr model.DebtorRepo) *liability {
+func New(dr model.DebtorRepo) *liability {
 	return &liability{
 		DebtorRepo: dr,
 	}

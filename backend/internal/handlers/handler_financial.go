@@ -30,5 +30,9 @@ func InitFinancialHandlers(r *mux.Router, m middleware, fs model.FinancialTracke
 	s.HandleFunc("/budget/stats", handlers.GetIncomeSpending).Methods(http.MethodGet)
 
 	s.HandleFunc("/statistics", handlers.GetStat).Methods(http.MethodGet)
+
+	s.HandleFunc("/planner", handlers.GetPlanner).Methods(http.MethodGet)
+	s.HandleFunc("/planner", handlers.PostPlanner).Methods(http.MethodPost)
+
 	s.Use(m.RequireAuthentication)
 }

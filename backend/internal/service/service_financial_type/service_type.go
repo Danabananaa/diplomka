@@ -2,15 +2,16 @@ package service_financial_type
 
 import (
 	"context"
-	"diplomka/internal/model"
 	"fmt"
+
+	"diplomka/internal/model"
 )
 
 type financialType struct {
 	model.FinancialRepo
 }
 
-func NewFinancialTypeService(f model.FinancialRepo) *financialType {
+func New(f model.FinancialRepo) *financialType {
 	return &financialType{
 		FinancialRepo: f,
 	}

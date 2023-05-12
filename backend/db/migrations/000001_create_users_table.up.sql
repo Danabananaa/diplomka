@@ -72,6 +72,15 @@ CREATE TABLE IF NOT EXISTS debt(
   FOREIGN key(type) REFERENCES loandebttype(id) 
 );
 
+CREATE TABLE IF NOT EXISTS planner(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+  	user_id integer not NULL,
+	spending_type_id integer not NULL,
+	amount integer NOT NULL,
+  	FOREIGN KEY(user_id) REFERENCES users(id),
+  	FOREIGN KEY(spending_type_id) REFERENCES spendingtype(id)
+);
+
 
 INSERT INTO spendingtype (spending_type) VALUES ("Денсаулық"),("Ойын-сауық"),("Транспорт"),("Сыйлықтар"),("Тамақ"),("Спорт"),("Шоппинг"),("Несие"),("Байланыс"),("Ком.Қызметтер"),("Басқа");
 

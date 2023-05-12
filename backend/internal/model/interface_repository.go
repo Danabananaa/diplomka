@@ -20,6 +20,11 @@ type FinancialRepo interface {
 	IncomeTypeRepo
 	StatisticsRepo
 	DebtorRepo
+	PlannerRepo
+}
+
+type PlannerRepo interface {
+	AddPlannerSpending(ctx context.Context, planner SpendingPlanner) error
 }
 
 type SpendingRepo interface {

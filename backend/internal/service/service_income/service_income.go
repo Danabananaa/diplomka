@@ -2,15 +2,16 @@ package service_income
 
 import (
 	"context"
-	"diplomka/internal/model"
 	"fmt"
+
+	"diplomka/internal/model"
 )
 
 type income struct {
 	model.IncomeRepo
 }
 
-func NewIncomeService(inc model.FinancialRepo) *income {
+func New(inc model.FinancialRepo) *income {
 	return &income{
 		IncomeRepo: inc,
 	}

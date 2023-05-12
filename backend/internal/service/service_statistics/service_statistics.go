@@ -2,15 +2,16 @@ package service_statistics
 
 import (
 	"context"
-	"diplomka/internal/model"
 	"fmt"
+
+	"diplomka/internal/model"
 )
 
 type stat struct {
 	model.StatisticsRepo
 }
 
-func NewStatisticsService(s model.StatisticsRepo) *stat {
+func New(s model.StatisticsRepo) *stat {
 	return &stat{
 		StatisticsRepo: s,
 	}

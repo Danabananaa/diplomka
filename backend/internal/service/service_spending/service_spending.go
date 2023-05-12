@@ -2,15 +2,16 @@ package service_spending
 
 import (
 	"context"
-	"diplomka/internal/model"
 	"fmt"
+
+	"diplomka/internal/model"
 )
 
 type spending struct {
 	model.SpendingRepo
 }
 
-func NewSpendingService(spn model.FinancialRepo) *spending {
+func New(spn model.FinancialRepo) *spending {
 	return &spending{
 		SpendingRepo: spn,
 	}
