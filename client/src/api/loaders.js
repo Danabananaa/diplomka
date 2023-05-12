@@ -361,15 +361,13 @@ export const plannerData = (async () => {
         method: "GET",
         
       }),
-      fetch(`/budget/stats?filter=year`, {
+      fetch(`/planner`, {
         headers: {
           Accept: "application/json",
           Authorization: `${token}`,
         },
         method: "GET",
-        
       })   
-
     ]);
     
     if (typesResponse.status === 401 || statsResponse.status === 401){ // Check if status is unauthorized
@@ -377,26 +375,19 @@ export const plannerData = (async () => {
     }
     
     if (!typesResponse.ok) {
-      // if (budgetTypeResponse.status===401){
-      //   return redirect('/signin')
-      // }
       const error = new Error(`Could not fetch types of spendings and incomes. Status: ${typesResponse.statusText}`);
       error.status = typesResponse.status;
       throw error;
     }
     if (!statsResponse.ok) {
-      // if (budgetTypeResponse.status===401){
-      //   return redirect('/signin')
-      // }
       const error = new Error(`Could not fetch types of spendings and incomes. Status: ${statsResponse.statusText}`);
       error.status = statsResponse.status;
       throw error;
     }
-    const FullTypes = await typesResponse.json();
+    const FullTypes = await typesResponse.json(); // Gets both Income and Spending
     const Stats = await statsResponse.json();
-    const Types = FullTypes.Type_spending;
+    const Types = FullTypes.Type_spending; // Take only Spending for Planner
     return { Types, Stats };    
-
   } catch(error){
     console.log(error);
     throw error;
