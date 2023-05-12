@@ -8,7 +8,11 @@ import (
 )
 
 func (r *repo) AddPlannerSpending(ctx context.Context, planner model.SpendingPlanner) error {
-	query := `INSERT OR REPLACE INTO planner (user_id,spending_type_id,amount) VALUES (:user_id, :spending_type_id, :amount);`
+	query := `INSERT INTO planner (user_id, spending_type_id, amount)
+	VALUES (:user_id, :spending_type_id, :amount)
+	ON CONFLICT (user_id, spending_type_id)
+	DO UPDATE SET amount = EXCLUDED.amount;`
+
 	res, err := r.DB.NamedExecContext(ctx, query, planner)
 	if err != nil {
 		return err
