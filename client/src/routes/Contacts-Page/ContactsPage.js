@@ -240,7 +240,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>Git Hub</Link>
+                <Link color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}, paddingLeft: "20px", fontSize:"25px"}}>Git Hub</Link>
             </Box>
 
             <Box
@@ -259,7 +259,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Link variant="h6" color="black" href="https://linkedin.com/in/uldana-manas-40a073224" underline="hover" sx={{"&:hover": {color:"white"}}}>Linked In </Link>
+                <Link color="black" href="https://linkedin.com/in/uldana-manas-40a073224" underline="hover" sx={{"&:hover": {color:"white"}, paddingLeft: "20px", fontSize:"25px"}}>Linked In </Link>
             </Box>
             <Box
                 sx={{
@@ -277,7 +277,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
+                <Link color="black" href="#" underline="hover" sx={{"&:hover": {color:"white"}, paddingLeft: "20px", fontSize:"25px"}}>Facebook </Link>
             </Box>
             
             <Box
@@ -296,7 +296,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Link variant="h6" color="black" href="https://github.com/Danabananaa" underline="hover" sx={{"&:hover": {color:"white"}}}>https://github.com/Danabananaa </Link>
+                <Link color="black" href="#" underline="hover" sx={{"&:hover": {color:"white"}, paddingLeft: "20px", fontSize:"25px"}}> Twitter </Link>
             </Box>
             <Box
                 sx={{
@@ -314,7 +314,7 @@ const ContactsPage = () => {
                     marginRight: '8px',
                 }}
                 />
-                <Link variant="h6" color="black" href="https://instagram.com/__danatella_" underline="hover" sx={{"&:hover": {color:"white"}}}>INSTAGRAM </Link>
+                <Link color="black" href="https://instagram.com/__danatella_" underline="hover" sx={{"&:hover": {color:"white"}, paddingLeft: "20px", fontSize:"25px"}}>Instagram </Link>
             </Box>
             </Box>
 
