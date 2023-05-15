@@ -166,11 +166,11 @@ const ProfilePage = () => {
                 <Box sx={{pl:2}}>
 
                     <Typography variant="h5" mb={3} mt={3} textAlign="center">
-                        Delete Profile
+                        Парақшаны жүйеден өшіру
                     </Typography>
                     <Divider/>
                     <Typography variant="h6">
-                        Warning: Deleting an account will permanently delete all the personal data
+                        Ескерту: Парақшаңызды өшірсеңіз, барлық ақпаратыңыз қайтарымсыз өшетін болады!
                     </Typography>
                     
                 </Box>
