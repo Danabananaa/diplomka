@@ -64,7 +64,7 @@ const ProfilePage = () => {
               )}
             <Box mt={10} sx={{display:"flex", flexDirection:'column', alignItems:"center", height:'50%'}}>      
             <Typography variant="h4" component="h2" mt={3}>
-              Профиль Суретін өзгерту
+              Профиль суретін өзгерту
             </Typography>
 
 
@@ -103,7 +103,7 @@ const ProfilePage = () => {
           }}
           >
               <Typography variant="h5" fontWeight={800} component="h2" mt={3}>
-                  Personal information
+                  Жеке ақпаратыңыз
               </Typography>
 
             <Box 
@@ -128,12 +128,12 @@ const ProfilePage = () => {
               >
                 <li>
                   <Typography variant="h6" component="h2">
-                    Name: {profileData.name}
+                    Аты: {profileData.name}
                   </Typography>
                 </li>
                 <li>
                   <Typography variant="h6" component="h2">
-                    Surname: {profileData.surname}
+                    Жөні: {profileData.surname}
                   </Typography>
                 </li>
                 <li>
@@ -181,7 +181,7 @@ const ProfilePage = () => {
                       color="error"
                       sx={{alignSelf: 'center'}}
                     >
-                      Delete
+                      Жою
                     </Button>
               
         
