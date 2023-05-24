@@ -128,7 +128,7 @@ func (u *repo) GetUserforAuth(ctx context.Context, auth model.Authentication) (*
 
 // AddUserImage adds an image to the database for a specific user.
 func (u *repo) AddUserImage(ctx context.Context, info model.UserImage) (*model.UserImage, error) {
-	query := `INSERT INTO images (user_id, image_name) VALUES (?,?)`
+	query := `INSERT OR REPLACE INTO images (user_id, image_name) VALUES (?,?)`
 
 	// Execute the query and return any errors
 	res, err := u.DB.ExecContext(ctx, query, info.UserID, info.ImageName)
